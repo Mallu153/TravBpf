@@ -1,0 +1,50 @@
+<section id="ngx-datatable-inline-editing">
+  <div class="row">
+    <div class="col-12 col-md-12 col-lg-12">
+        <div class="card-content">
+          <div class="card-body">
+            <fieldset class="form-group">
+              <label for="ngx-filter-ref">Search:
+                <input id="ngx-filter-ref" (keyup)="filterUpdate($event)"
+                  class="form-control form-control-sm d-inline-block width-200" type="text"
+                  placeholder="Enter Route Name" />
+              </label>
+            <!--   <span for="ngx-filter-ref" class="float-right btn btn-outline-primary" (click)="closeModalWindow()">Add Route</span> -->
+            </fieldset>
+            <ngx-datatable #table class="bootstrap core-bootstrap" (select)='onSelect($event)'
+              [rowIdentity]="rowIdentity" [selected]="selected" [selectionType]="SelectionType.checkbox"
+              [selectAllRowsOnPage]="false" [headerHeight]="50" [limit]="10" [columnMode]="ColumnMode.force"
+              [footerHeight]="50" rowHeight="auto" [rows]="rows" [scrollbarH]="false">
+              <ngx-datatable-column  [width]="30" [sortable]="false" [canAutoResize]="false"
+                [draggable]="false" [resizeable]="false" [headerCheckboxable]="false" [checkboxable]="true">
+              </ngx-datatable-column>
+              <ngx-datatable-column name="S No.">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row">
+                  {{rowIndex+1}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column [width]="100" name="RouteName" prop="routeName">
+                <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column [width]="100" name="RouteType" prop="routeType">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+                  {{ value }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column [width]="50" name="RouteDetails" prop="routeDetails">
+                <ng-template ngx-datatable-cell-template let-value="value">
+                  {{ value }}
+                </ng-template>
+              </ngx-datatable-column>
+
+            </ngx-datatable>
+
+          </div>
+        </div>
+
+    </div>
+  </div>
+</section>
+

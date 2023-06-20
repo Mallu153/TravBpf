@@ -1,0 +1,69 @@
+<section id="basic-hidden-label-form-layouts">
+  <div class="row match-height">
+    <div class="col-lg-12 col-md-12 col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{{pageTitle}}</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <form [formGroup]="submoduleForm">
+              <div class="form-row">
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" class="form-control square" name="name" placeholder="Name"
+                      formControlName="name"
+                      [ngClass]="{ 'is-invalid': (submitted || f.name.touched) && f.name.errors }">
+                    <div *ngIf="(submitted || f.name.touched)&&f.name.errors" class="invalid-feedback">
+                      <div *ngIf="f.name.errors.required">
+                        Please enter your module name
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-7 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Description">Description</label>
+                    <input type="text" id="Description" class="form-control square" name="Description"
+                      placeholder="Description" formControlName="description"
+                      [ngClass]="{ 'is-invalid': (submitted || f.description.touched) && f.description.errors }">
+                    <div *ngIf="(submitted || f.description.touched)&&f.description.errors" class="invalid-feedback">
+                      <div *ngIf="f.description.errors.required">
+                        Please enter your description
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Status">Status</label>
+                    <select id="Status" name="Status" class="form-control square" formControlName="status"
+                      [ngClass]="{ 'is-invalid': (submitted || f.status.touched) && f.status.errors }">
+                      <option value="">Choose</option>
+                      <option value="Active">Active</option>
+                      <option value="InActive">InActive</option>
+                    </select>
+                    <div *ngIf="(submitted || f.status.touched)&&f.status.errors" class="invalid-feedback">
+                      <div *ngIf="f.status.errors.required">
+                        Please select your status
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <button type="button" *ngIf="!isEdit" (click)="onSubmitSubModuleForm()" class="btn btn-primary mr-2">
+              <i class="ft-check-square mr-1"></i>
+              Save
+            </button>
+            <button type="button" *ngIf="isEdit" (click)="onEditSubModuleForm()" class="btn btn-primary mr-2">
+              <i class="ft-check-square mr-1"></i>
+              Update
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

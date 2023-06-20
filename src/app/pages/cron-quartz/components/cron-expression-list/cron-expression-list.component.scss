@@ -1,0 +1,18 @@
+.hightlight_class {
+  cursor: pointer;
+}
+.pointer {
+  cursor: pointer;
+}
+.ft-pause-circle:before {
+  content: '\e8a2';
+  color: rgb(29, 219, 61);
+}
+.ft-play-circle:before {
+  content: '\e8ad';
+  color: #2f8be6;
+}
+.icon-settings:before {
+  content: '\e09a';
+  color: blueviolet;
+}

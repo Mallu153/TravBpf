@@ -1,0 +1,73 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title text-center">Register List</h4>
+    </div>
+    <div class="card-body">
+      <form>
+        <div class="form-group form-inline col-3 col-12">
+          <label>Search:
+            <input class="form-control square" placeholder="Search " type="text" name="searchTerm"
+              [(ngModel)]="searchText" /></label>
+        </div>
+      </form>
+      <div class="table-responsive table">
+        <div class="outer">
+          <div class="inner">
+            <table class="table  m-0">
+              <thead>
+                <tr>
+                  <th scope="col" class="listtr col1 ">S.No</th>
+                  <th scope="col" class="listtr">First Name</th>
+                  <th scope="col" class="listtr"> Last Name</th>
+                  <th scope="col" class="listtr"> Email</th>
+                  <th scope="col" class="listtr"> User Name</th>
+                  <th scope="col" class="listtr"> Password</th>
+                  <th scope="col" class="listtr"> Phone Number</th>
+                  <th scope="col" class="listtr">Status</th>
+                  <th scope="col" class="pointer listtr" (click)="gotoform()">
+                    <i class="ft-plus font-medium-3 mr-2"></i>
+                  </th>
+                </tr>
+
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let j of registerList | filter:searchText | slice: (page-1) * pageSize : page * pageSize; index as i;">
+                  <td scope="row" class="pt-3 wrap-text col1">{{ (page -1) * pageSize + i + 1 }}</td>
+                  <td class="pt-3 wrap-text col1">{{j.FirstName}}</td>
+                  <td class="pt-3 wrap-text">{{j.LastName }}</td>
+                  <td class="pt-3 wrap-text">{{j.EmailID }}</td>
+                  <td class="pt-3 wrap-text">{{j.UserName }}</td>
+                  <td class="pt-3 wrap-text">{{j.Password}}</td>
+                  <td class="pt-3 wrap-text">{{j.PhoneNumber}}</td>
+
+                  <td class="pt-3 wrap-text">
+                    <div class="badge badge-pill"
+                      [ngClass]="{ 'bg-light-success':j.Status == 'Active', 'bg-light-danger':j.Status == 'InActive',  'bg-light-danger':j.Status == 'Block' }">
+                      {{ j.Status}}
+                    </div>
+                  </td>
+
+                  <td class="pointer"><i class="ft-edit-2 font-medium-3 mr-2" (click)="findById(j.SNO)"></i></td>
+                </tr>
+                <tr *ngIf="show">
+                  <td class="pt-3 wrap-text col1">
+                    No data found
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+            <div class="d-flex justify-content-between p-2" *ngIf="registerList?.length >0">
+              <ngb-pagination [collectionSize]="registerList?.length" [(page)]="page" [maxSize]="4"
+                [boundaryLinks]="true" [pageSize]="pageSize" class="d-flex justify-content-center">
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

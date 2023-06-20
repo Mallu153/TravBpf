@@ -1,0 +1,299 @@
+<section id="basic-hidden-label-form-layouts">
+  <div class="row match-height">
+    <div class="col-lg-12 col-md-12 col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{{ pageTitle }}</h4>
+        </div>
+
+        <div class="card-content">
+          <div class="card-body">
+            <form [formGroup]="bpcForm">
+              <div class="form-row border shadow-sm">
+                <div class="col-md-2 col-12">
+                  <div class="form-group mb-2">
+                    <label for="name"> Name</label>
+                    <input
+                      type="text"
+                      id="name"
+                      placeholder="Name"
+                      class="form-control square"
+                      name="name"
+                      formControlName="configName"
+                      [ngClass]="{ 'is-invalid': (submitted || f.configName.touched) && f.configName.errors }"
+                    />
+                    <div *ngIf="(submitted || f.configName.touched) && f.configName.errors" class="invalid-feedback">
+                      <div *ngIf="f.configName.errors.required">Please enter your name</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 col-12">
+                  <div class="form-group mb-2">
+                    <label for="module">Module</label>
+                    <select
+                      id="module"
+                      name="module"
+                      class="form-control square"
+                      formControlName="module"
+                      [ngClass]="{ 'is-invalid': (submitted || f.module.touched) && f.module.errors }"
+                    >
+                      <option value="">Choose</option>
+                      <option [value]="module.moduleId" *ngFor="let module of moduleList">
+                        {{ module.moduleName }}
+                      </option>
+                    </select>
+                    <div *ngIf="(submitted || f.module.touched) && f.module.errors" class="invalid-feedback">
+                      <div *ngIf="f.module.errors.required">Please select your module</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 col-12">
+                  <div class="form-group mb-2">
+                    <label for="submodule">Sub Module</label>
+                    <select id="submodule" name="submodule" class="form-control square" formControlName="subModule">
+                      <option value="">Choose</option>
+                      <option [value]="submodule.id" *ngFor="let submodule of submoduleList">
+                        {{ submodule.name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Transitions">Transitions</label>
+                    <ng-select
+                      [searchable]="true"
+                      formControlName="transitionID"
+                      placeholder="Enter Transition"
+                      [ngClass]="{ 'is-invalid': (submitted || f.transitionID.touched) && f.transitionID.errors }"
+                    >
+                      <ng-option *ngFor="let t of bpftransitionsList" [value]="t">{{ t.transition }} </ng-option>
+                    </ng-select>
+                    <div
+                      *ngIf="(submitted || f.transitionID.touched) && f.transitionID.errors"
+                      class="invalid-feedback"
+                    >
+                      <div *ngIf="f.transitionID.errors.required">Please select your transitions</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Status">Status</label>
+                    <select
+                      id="Status"
+                      name="Status"
+                      class="form-control square"
+                      formControlName="status"
+                      [ngClass]="{ 'is-invalid': (submitted || f.status.touched) && f.status.errors }"
+                    >
+                      <option value="Active">Active</option>
+                      <option value="InActive">InActive</option>
+                    </select>
+                    <div *ngIf="(submitted || f.status.touched) && f.status.errors" class="invalid-feedback">
+                      <div *ngIf="f.status.errors.required">Please select your status</div>
+                    </div>
+                  </div>
+                </div>
+                <ul class="list-unstyled mb-0 mt-4">
+                  <li class="d-inline-block mr-2 mb-2">
+                    <div class="checkbox checkbox-primary">
+                      <input type="checkbox" id="color-checkbox-1" formControlName="actionType" />
+                      <label for="color-checkbox-1"><span>Before ?</span></label>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              <div formArrayName="bpcline">
+                <div *ngFor="let p of bpcline.controls; let i = index" [formGroupName]="i">
+                  <div class="form-row border shadow-sm mt-2">
+                    <div class="col-md-3 col-12">
+                      <div class="form-group mb-2">
+                        <label for="Action">Action</label>
+                        <select
+                          id="Action"
+                          name="Action"
+                          class="form-control square"
+                          formControlName="event"
+                          [ngClass]="{
+                            'is-invalid':
+                              bpcline.controls[i].get('event').errors &&
+                              ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                                bpcline.controls[i].get('event').touched)
+                          }"
+                        >
+                          <option value="">Choose</option>
+                          <option value="EMAIL">Email</option>
+                          <option value="NOTIFICATION">Notification</option>
+                          <option value="SERVICECALL">Service Call</option>
+                        </select>
+                        <div
+                          class="invalid-feedback"
+                          *ngIf="
+                            bpcline.controls[i].get('event').errors?.required &&
+                            ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                              bpcline.controls[i].get('event').touched)
+                          "
+                        >
+                          Please select your Action
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-12" *ngIf="p.value.event === 'EMAIL'">
+                      <div class="form-group mb-2">
+                        <label for="Email">Email Template</label>
+                        <ng-select
+                          [searchable]="true"
+                          formControlName="emailTemplate"
+                          placeholder="Enter Email Template"
+                        >
+                          <ng-option *ngFor="let mail of mailTemplateList" [value]="mail.id">
+                            {{ mail.templateName }}
+                          </ng-option>
+                        </ng-select>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3 col-12" *ngIf="p.value.event === 'EMAIL'">
+                      <div class="form-group mb-2">
+                        <label for="Emailto">Email To</label>
+                        <select id="Emailto" name="Emailto" class="form-control square" formControlName="email">
+                          <option value="">Choose</option>
+                          <option value="EMAIL">Email</option>
+                          <option value="NOTIFICATION">Notification</option>
+                          <option value="SERVICECALL">Service Call</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-12" *ngIf="p.value.event === 'EMAIL'">
+                      <div class="form-group mb-2">
+                        <label for="Emailcc">Email CC</label>
+                        <select id="Emailcc" name="Emailcc" class="form-control square" formControlName="emailcc">
+                          <option value="">Choose</option>
+                          <option value="EMAIL">Email</option>
+                          <option value="NOTIFICATION">Notification</option>
+                          <option value="SERVICECALL">Service Call</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-12" *ngIf="p.value.event === 'EMAIL'">
+                      <div class="form-group mb-2">
+                        <label for="Emailbcc">Email BCC</label>
+                        <select id="Emailbcc" name="Emailbcc" class="form-control square" formControlName="emailbcc">
+                          <option value="">Choose</option>
+                          <option value="EMAIL">Email</option>
+                          <option value="NOTIFICATION">Notification</option>
+                          <option value="SERVICECALL">Service Call</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-12" *ngIf="p.value.event === 'NOTIFICATION'">
+                      <div class="form-group mb-2">
+                        <label for="Notification">Notification</label>
+                        <select
+                          id="Notification"
+                          name="Notification"
+                          class="form-control square"
+                          formControlName="notification"
+                        >
+                          <option value="">Choose</option>
+                          <option value="EMAIL">Email</option>
+                          <option value="NOTIFICATION">Notification</option>
+                          <option value="SERVICECALL">Service Call</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-12" *ngIf="p.value.event === 'SERVICECALL'">
+                      <div class="form-group mb-2">
+                        <label for="Service">Service</label>
+                        <ng-select
+                          [searchable]="true"
+                          formControlName="serviceCallURL"
+                          placeholder="Enter Service Name"
+                        >
+                          <ng-option *ngFor="let serviceRegister of serviceRegisterList" [value]="serviceRegister.id">
+                            {{ serviceRegister.serviceName }}
+                          </ng-option>
+                        </ng-select>
+                      </div>
+                    </div>
+                    <div class="form-group col-12 col-md-2">
+                      <label for="Status">Status</label>
+                      <select
+                        class="form-control square"
+                        id="Status"
+                        formControlName="Status"
+                        formControlName="status"
+                        [ngClass]="{
+                          'is-invalid':
+                            bpcline.controls[i].get('status').errors &&
+                            ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                              bpcline.controls[i].get('status').touched)
+                        }"
+                      >
+                        <option value="Active">Active</option>
+                        <option value="InActive">InActive</option>
+                      </select>
+                      <div
+                        class="invalid-feedback"
+                        *ngIf="
+                          bpcline.controls[i].get('status').errors?.required &&
+                          ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                            bpcline.controls[i].get('status').touched)
+                        "
+                      >
+                        Please select your status
+                      </div>
+                    </div>
+                    <ul class="list-unstyled mb-0 mt-4" *ngIf="p.value.Event !== 'NOTIFICATION'">
+                      <li class="d-inline-block mr-2 mb-2">
+                        <div class="checkbox checkbox-primary">
+                          <input type="checkbox" id="{{ 'color-checkbox-2' + i }}" />
+                          <label for="{{ 'color-checkbox-2' + i }}"><span>Queue ?</span></label>
+                        </div>
+                      </li>
+                      <li class="d-inline-block mr-2 mb-2">
+                        <div class="checkbox checkbox-primary">
+                          <input type="checkbox" id="{{ 'color-checkbox-3' + i }}" />
+                          <label for="{{ 'color-checkbox-3' + i }}"><span>Headers ?</span></label>
+                        </div>
+                      </li>
+                    </ul>
+                    <div class="col-12 col-md-2 mt-4">
+                      <button (click)="add()" type="button" class="btn p-0 mb-2">
+                        <i class="ft-plus-circle" aria-hidden="true" style="font-size: 28px"></i>
+                      </button>
+
+                      <button (click)="delete()" *ngIf="!isEdit" type="button" class="btn p-0 mb-2 ml-1">
+                        <i class="ft-minus-circle" aria-hidden="true" style="font-size: 28px"></i>
+                      </button>
+                      <button
+                        (click)="editdelete(i, p.value.lineID)"
+                        *ngIf="isEdit"
+                        type="button"
+                        class="btn p-0 mb-2 ml-1"
+                      >
+                        <i class="ft-minus-circle" aria-hidden="true" style="font-size: 28px"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="tex-left mt-1">
+              <button type="button" *ngIf="!isEdit" (click)="onSubmitBPCForm()" class="btn btn-primary mr-2">
+                <i class="ft-check-square mr-1"></i>
+                Save
+              </button>
+              <button type="button" *ngIf="isEdit" (click)="onEditBPCForm()" class="btn btn-primary mr-2">
+                <i class="ft-check-square mr-1"></i>
+                Update
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

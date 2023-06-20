@@ -1,0 +1,107 @@
+.manadatoryfield {
+  color: red;
+  font-weight: bold;
+  margin-left: 3px;
+  font-size: 1.2em;
+}
+/* /input type=number increment hiddeen css/ */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+input[type='number']:hover {
+  -moz-appearance: textfield; /* Firefox */
+}
+:host ::ng-deep .ng-select .ng-select-container {
+  border-radius: 1px;
+}
+:host
+  ::ng-deep.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-selected,
+.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-selected.ng-option-marked {
+  color: #fff;
+  background-color: #975aff;
+}
+
+:host
+  ::ng-deep.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+  color: #fff;
+  background-color: #975aff;
+}
+:host
+  ::ng-deep.ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-value {
+  font-size: 0.9em;
+  margin-bottom: 5px;
+  background-color: #975aff;
+  border-radius: 2px;
+  margin-right: 5px;
+  color: #fff;
+}
+.effect-3 {
+  position: relative;
+}
+
+.effect-3::before {
+  z-index: -1;
+  position: absolute;
+  content: '';
+  bottom: 15px;
+  left: 10px;
+  width: 50%;
+  top: 80%;
+  max-width: 300px;
+  background: #aaa;
+  box-shadow: 0 15px 10px #aaa;
+  transform: rotate(-3deg);
+}
+
+.rankcolor {
+  color: #3399ff;
+}
+
+@import 'src/assets/sass/core/variables/_variables.scss';
+
+/* ------------------------------------------------------------ *\
+	markup Form
+\* ------------------------------------------------------------ */
+
+/* .form-markup {
+    & {
+        padding: $spacer 0;
+    }
+} */
+
+.fsize {
+  font-size: 25px;
+  letter-spacing: 1px;
+}
+
+.invalidcolor {
+  color: red;
+  border-color: red;
+}
+
+.validcolor {
+  color: green;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+:host ::ng-deep .accordion > .card {
+  overflow: visible;
+}
+
+.high-late{
+  cursor: pointer;
+}
+

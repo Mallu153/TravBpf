@@ -1,0 +1,176 @@
+<section id="basic-hidden-label-form-layouts">
+  <div class="row match-height">
+    <div class="col-lg-12 col-md-12 col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{{ pageTitle }}</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <form [formGroup]="addmembersForm">
+              <div class="form-row">
+                <h4 class="card-title" *ngIf="isEdit">
+                  Team Name: <strong>{{ teamName }}</strong>
+                </h4>
+                <h4 class="card-title" *ngIf="isEdit">
+                  <strong>{{ eteamName }}</strong>
+                </h4>
+              </div>
+              <div formArrayName="addmembers">
+                <div *ngFor="let s of addmembers.controls; let i = index" [formGroupName]="i">
+                  <div class="form-row">
+                    <!-- <div class="col-md-3 col-12">
+                      <div class="form-group mb-2">
+                        <label for="team">Team</label>
+                        <select id="team" name="team" class="form-control square" formControlName="teamId"
+                          [ngClass]="{ 'is-invalid': addmembers.controls[i].get('teamId').errors && (isValidFormSubmitted != null && !isValidFormSubmitted ||addmembers.controls[i].get('teamId').touched) }">
+                          <option value="">Choose</option>
+                          <option [value]="team.teamId" *ngFor="let team of teamList">
+                            {{team.teamName}}
+                          </option>
+                        </select>
+                        <div class="invalid-feedback"
+                          *ngIf="addmembers.controls[i].get('teamId').errors?.required && (isValidFormSubmitted != null && !isValidFormSubmitted ||addmembers.controls[i].get('teamId').touched)">
+                          Please select your team
+                        </div>
+                      </div>
+                    </div> -->
+                    <div class="col-md-3 col-12">
+                      <div class="form-group mb-2">
+                        <label for="user">User</label>
+                        <select
+                          id="user"
+                          name="user"
+                          class="form-control square"
+                          formControlName="userName"
+                          [ngClass]="{
+                            'is-invalid':
+                              addmembers.controls[i].get('userName').errors &&
+                              ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                                addmembers.controls[i].get('userName').touched)
+                          }"
+                        >
+                          <option value="">Choose</option>
+                          <option [value]="user.userId" *ngFor="let user of userList">
+                            {{ user.userName }}
+                          </option>
+                        </select>
+                        <div
+                          class="invalid-feedback"
+                          *ngIf="
+                            addmembers.controls[i].get('userName').errors?.required &&
+                            ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                              addmembers.controls[i].get('userName').touched)
+                          "
+                        >
+                          Please select your user
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-2 col-12">
+                      <div class="form-group mb-2">
+                        <label for="StartDate">StartDate</label>
+                        <input
+                          type="date"
+                          id="StartDate"
+                          class="form-control square"
+                          name="StartDate"
+                          formControlName="startDate"
+                          (change)="onChangeDateValidations(i)"
+                          [ngClass]="{
+                            'is-invalid':
+                              addmembers.controls[i].get('startDate').errors &&
+                              ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                                addmembers.controls[i].get('startDate').touched)
+                          }"
+                        />
+                        <div
+                          class="invalid-feedback"
+                          *ngIf="
+                            addmembers.controls[i].get('startDate').errors?.required &&
+                            ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                              addmembers.controls[i].get('startDate').touched)
+                          "
+                        >
+                          Please enter your start date
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-2 col-12">
+                      <div class="form-group mb-2">
+                        <label for="EndDate">EndDate</label>
+                        <input
+                          type="date"
+                          id="EndDate"
+                          (change)="onChangeDateValidations(i)"
+                          class="form-control square"
+                          name="EndDate"
+                          formControlName="endDate"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-2 col-12">
+                      <div class="form-group mb-2">
+                        <label for="Status">Status</label>
+                        <select
+                          id="Status"
+                          name="Status"
+                          class="form-control square"
+                          formControlName="status"
+                          [ngClass]="{
+                            'is-invalid':
+                              addmembers.controls[i].get('status').errors &&
+                              ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                                addmembers.controls[i].get('status').touched)
+                          }"
+                        >
+                          <option value="">Choose</option>
+                          <option value="Active">Active</option>
+                          <option value="InActive">InActive</option>
+                        </select>
+                        <div
+                          class="invalid-feedback"
+                          *ngIf="
+                            addmembers.controls[i].get('status').errors?.required &&
+                            ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                              addmembers.controls[i].get('status').touched)
+                          "
+                        >
+                          Please select your start status
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group col-12 col-md-2 mt-3">
+                      <button (click)="add()" type="button" class="btn mt-1 p-0 ml-2">
+                        <i class="ft-plus-circle" aria-hidden="true" style="font-size: 28px"></i>
+                      </button>
+                      <button (click)="delete(i)" *ngIf="!isEdit" type="button" class="btn mt-1 p-0 ml-1">
+                        <i class="ft-minus-circle" aria-hidden="true" style="font-size: 28px"></i>
+                      </button>
+                      <button
+                        (click)="editdelete(i, s.value.mtoTId)"
+                        *ngIf="isEdit"
+                        type="button"
+                        class="btn mt-1 p-0 ml-1"
+                      >
+                        <i class="ft-minus-circle" aria-hidden="true" style="font-size: 28px"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <button type="button" *ngIf="!isEdit" class="btn btn-primary mr-2" (click)="onSubmitAddmembersForm()">
+              <i class="ft-check-square mr-1"></i>
+              Save
+            </button>
+            <button type="button" *ngIf="isEdit" class="btn btn-primary mr-2" (click)="onEditAddmembersForm()">
+              <i class="ft-check-square mr-1"></i>
+              Update
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

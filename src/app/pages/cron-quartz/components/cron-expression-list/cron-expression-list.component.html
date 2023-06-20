@@ -1,0 +1,123 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title text-center">Schedule List</h4>
+      <!-- <div>
+        Quartz Status: <span *ngIf="enableStatus; else disabled">Enabled</span>
+        <ng-template #disabled>Disabled</ng-template>
+      </div> -->
+    </div>
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <form>
+            <div class="form-group form-inline">
+              <label
+                >Search:
+                <input
+                  class="form-control square"
+                  placeholder="Search"
+                  type="text"
+                  name="searchTerm"
+                  [(ngModel)]="searchText"
+              /></label>
+            </div>
+          </form>
+        </div>
+
+        <div>
+          <span
+            class="hightlight_class text-primary btn"
+            data-toggle="toggle"
+            (click)="enableStatus ? disableListers() : enableListers()"
+          >
+            {{ enableStatus ? 'Disable Quartz' : 'Enable Quartz' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="table-responsive table" *ngIf="(enableStatus && isEdit) || !isEdit">
+        <div class="outer">
+          <div class="inner">
+            <table class="table m-0">
+              <thead>
+                <tr class="refresh">
+                  <th scope="col" class="col1">S.No</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">CronExpression</th>
+                  <th scope="col">Status</th>
+                  <th scope="col" class="pointer" (click)="gotoCronExpressionform()">
+                    <i class="ft-plus font-medium-3 ml-1 btn" ngbTooltip="Go To Quartz"></i>
+                  </th>
+                  <th scope="col" class="mr-1">Action</th>
+                  <th scope="col" class="mr-2">Run</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="
+                    let j of CronExpressionList | filter: searchText | slice: (page - 1) * pageSize:page * pageSize;
+                    index as i
+                  "
+                >
+                  <td scope="row" class="col1">{{ (page - 1) * pageSize + i + 1 }}</td>
+                  <td class="pt-3 wrap-text">{{ j.cronTitle }}</td>
+                  <td class="pt-3 wrap-text">{{ j.cronDescription }}</td>
+                  <td class="pt-3 wrap-text">{{ j.cronExpression }}</td>
+                  <td class="pt-3 wrap-text">
+                    <div
+                      class="badge badge-pill"
+                      [ngClass]="{
+                        'bg-light-success': j.recordStatus == 'Active',
+                        'bg-light-danger': j.recordStatus == 'InActive'
+                      }"
+                    >
+                      {{ j.recordStatus }}
+                    </div>
+                  </td>
+                  <td class="pointer">
+                    <i
+                      class="ft-edit-2 font-medium-3 mr-2 btn"
+                      ngbTooltip="Edit"
+                      (click)="findCronExpressionById(j.id)"
+                    ></i>
+                  </td>
+                  <td class="pointer">
+                    <i
+                      class="font-medium-3 mr-2 btn"
+                      [ngClass]="j.scheduledJobStatus === 'PAUSED' ? 'ft-pause-circle' : 'ft-play-circle'"
+                      (click)="j.scheduledJobStatus === 'PAUSED' ? resumeQuartzJob(j.id) : pauseQuartzJob(j.id)"
+                    ></i>
+                  </td>
+                  <!-- fa-running -->
+                  <td class="pointer" *ngIf="j.triggeredUrl">
+                    <i
+                      class="icon-settings font-medium-3 mr-2 btn"
+                      ngbTooltip="Run"
+                      (click)="onClickRunButton(j.triggeredUrl)"
+                    ></i>
+                  </td>
+                </tr>
+                <tr *ngIf="show">
+                  <td class="pt-3 wrap-text">No data found</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="d-flex justify-content-between p-2" *ngIf="CronExpressionList?.length > 0">
+              <ngb-pagination
+                [collectionSize]="CronExpressionList?.length"
+                [(page)]="page"
+                [maxSize]="10"
+                [boundaryLinks]="true"
+                [pageSize]="pageSize"
+                class="d-flex justify-content-center"
+              >
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

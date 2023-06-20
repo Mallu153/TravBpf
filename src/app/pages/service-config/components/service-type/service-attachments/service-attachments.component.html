@@ -1,0 +1,305 @@
+<form [formGroup]="serviceTypeForm" *ngIf="headerData">
+  <div formArrayName="attachments">
+    <div
+      *ngFor="let d of attachments().controls; let i = index"
+      [formGroupName]="i"
+      class="border-bottom border-primary"
+    >
+      <div class="form-row">
+        <div class="offset-md-9 col-md-3">
+          <p class="float-right font-small-3">attach {{ i + 1 }}</p>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-12 col-md-3 form-group mb-2">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            id="name"
+            class="form-control square"
+            name="name"
+            placeholder="Enter Name"
+            formControlName="name"
+            [ngClass]="{
+              'is-invalid':
+                attachments().controls[i].get('name').errors &&
+                ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                  attachments().controls[i].get('name').touched)
+            }"
+          />
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              attachments().controls[i].get('name').errors?.required &&
+              ((isValidFormSubmitted != null && !isValidFormSubmitted) || attachments().controls[i].get('name').touched)
+            "
+          >
+            Please enter name
+          </div>
+        </div>
+        <div class="col-12 col-md-9 form-group mb-2">
+          <label for="description">Description</label>
+          <input
+            type="text"
+            id="description"
+            class="form-control square"
+            name="description"
+            placeholder="Enter description"
+            formControlName="description"
+            [ngClass]="{
+              'is-invalid':
+                attachments().controls[i].get('description').errors &&
+                ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                  attachments().controls[i].get('description').touched)
+            }"
+          />
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              attachments().controls[i].get('description').errors?.required &&
+              ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                attachments().controls[i].get('description').touched)
+            "
+          >
+            Please enter description
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-6 col-md-3 form-group mb-2">
+          <label for="allowedExtensions">Allowed Extensions</label>
+          <select
+            id="status"
+            name="allowedExtensions"
+            class="form-control square"
+            formControlName="allowedExtensions"
+            [ngClass]="{
+              'is-invalid':
+                attachments().controls[i].get('allowedExtensions').errors &&
+                ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                  attachments().controls[i].get('allowedExtensions').touched)
+            }"
+          >
+            <option value="">Choose</option>
+            <option [value]="parent.id" *ngFor="let parent of documentFormats">
+              {{ parent.name }}
+            </option>
+          </select>
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              attachments().controls[i].get('allowedExtensions').errors?.required &&
+              ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                attachments().controls[i].get('allowedExtensions').touched)
+            "
+          >
+            Please select allowed Extensions
+          </div>
+        </div>
+        <div class="col-6 col-md-3 form-group mb-2">
+          <label for="language">language</label>
+          <select
+            id="status"
+            name="language"
+            class="form-control square"
+            formControlName="language"
+            [ngClass]="{
+              'is-invalid':
+                attachments().controls[i].get('language').errors &&
+                ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                  attachments().controls[i].get('language').touched)
+            }"
+          >
+            <option value="">Choose</option>
+            <option [value]="parent.id" *ngFor="let parent of languages">
+              {{ parent.name }}
+            </option>
+          </select>
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              attachments().controls[i].get('language').errors?.required &&
+              ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                attachments().controls[i].get('language').touched)
+            "
+          >
+            Please select language
+          </div>
+        </div>
+        <div class="col-6 col-md-3 form-group mb-2 mt-4">
+          <div class="checkbox">
+            <input type="checkbox" id="conditional" formControlName="conditional" />
+            <label for="conditional">Conditional</label>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 form-group mb-2 mt-4">
+          <div class="checkbox">
+            <input type="checkbox" id="mandatory" formControlName="mandatory" />
+            <label for="mandatory">Mandatory</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-6 col-md-3 form-group mb-2">
+          <label for="field">Field</label>
+          <select
+            id="field"
+            name="field"
+            class="form-control square"
+            formControlName="field"
+            (change)="onFieldChange($event, i)"
+            [ngClass]="{
+              'is-invalid':
+                attachments().controls[i].get('field').errors &&
+                ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                  attachments().controls[i].get('field').touched)
+            }"
+          >
+            <option value="">Choose</option>
+            <option [value]="parent.id" *ngFor="let parent of fields">
+              {{ parent.field.name }}
+            </option>
+          </select>
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              attachments().controls[i].get('field').errors?.required &&
+              ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                attachments().controls[i].get('field').touched)
+            "
+          >
+            Please select field
+          </div>
+        </div>
+        <div class="col-6 col-md-3 form-group mb-2">
+          <label for="operator">Operator</label>
+          <select
+            id="operator"
+            name="operator"
+            class="form-control square"
+            formControlName="operator"
+            [ngClass]="{
+              'is-invalid':
+                attachments().controls[i].get('operator').errors &&
+                ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                  attachments().controls[i].get('operator').touched)
+            }"
+          >
+            <option value="">Choose</option>
+            <option [value]="operator" *ngFor="let operator of operators">
+              {{ operator }}
+            </option>
+          </select>
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              attachments().controls[i].get('operator').errors?.required &&
+              ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                attachments().controls[i].get('operator').touched)
+            "
+          >
+            Please select operator
+          </div>
+        </div>
+        <!-- <div class="col-6 col-md-3 form-group mb-2">
+          <label for="value">Value</label>
+          <input
+            type="text"
+            id="value"
+            class="form-control square"
+            name="value"
+            placeholder="Enter Name"
+            formControlName="value"
+            [ngClass]="{
+              'is-invalid':
+                attachments().controls[i].get('value').errors &&
+                ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                  attachments().controls[i].get('value').touched)
+            }"
+          />
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              attachments().controls[i].get('value').errors?.required &&
+              ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                attachments().controls[i].get('value').touched)
+            "
+          >
+            Please enter value
+          </div>
+        </div> -->
+        <div class="col-6 col-md-3 form-group mb-2" *ngIf="!d.value.field">
+          <label for="value">Value</label>
+          <input
+            type="number"
+            formControlName="value"
+            placeholder="Value"
+            id="value"
+            class="form-control square"
+            name="value"
+            [ngClass]="{
+              'is-invalid':
+                attachments().controls[i].get('value').errors &&
+                ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                  attachments().controls[i].get('value').touched)
+            }"
+          />
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              attachments().controls[i].get('value').errors?.required &&
+              ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                attachments().controls[i].get('value').touched)
+            "
+          >
+            required
+          </div>
+        </div>
+        <!-- *ngIf="(s.value.field) && (s.value.field?.type === 'checkbox' || s.value.field?.type === 'radio'||s.value.field?.type === 'select')" -->
+        <div class="col-6 col-md-3 form-group mb-2" *ngIf="d.value.field">
+          <label for="operator">Value</label>
+          <select
+            formControlName="value"
+            *ngIf="d.value.field"
+            class="form-control square"
+            [ngClass]="{
+              'is-invalid':
+                attachments().controls[i].get('value').errors &&
+                ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                  attachments().controls[i].get('value').touched)
+            }"
+          >
+            <option value="">Choose</option>
+            <option [value]="source.value" *ngFor="let source of fieldData[i]">{{ source.value }}</option>
+          </select>
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              attachments().controls[i].get('value').errors?.required &&
+              ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                attachments().controls[i].get('value').touched)
+            "
+          >
+            required
+          </div>
+        </div>
+        <div class="form-group col-2 col-md-2 mt-3">
+          <button (click)="add()" type="button" class="btn mt-1 p-0 float-right">
+            <i class="ft-plus-circle" aria-hidden="true" style="font-size: 28px"></i>
+          </button>
+          <button (click)="delete(i)" type="button" class="btn p-0 mx-3 mt-1 float-right">
+            <i class="ft-minus-circle" aria-hidden="true" style="font-size: 28px"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="offset-md-9 col-md-3 mb-2">
+      <button type="button" (click)="onSubmit()" class="btn btn-primary square mr-2 float-right">
+        <i class="ft-check-square mr-1"></i>
+        Submit
+      </button>
+    </div>
+  </div>
+</form>

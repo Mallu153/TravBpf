@@ -1,0 +1,27 @@
+image: gitlab/dind
+services:
+  - docker:dind
+
+variables:
+  DOCKER_DRIVER: overlay
+  
+build:
+  stage: build
+  script:
+    - docker info
+    - docker build -f Dockerfile -t trav_bpf_services:$CI_PIPELINE_ID . 
+    - docker tag trav_bpf_services:$CI_PIPELINE_ID trav_bpf_services:latest
+    
+docker-deploy:
+  stage: deploy
+  script:
+    - export IMGID=`docker ps | grep trav_bpf_services | awk '{print $1}'`
+    - |
+        if [ -n "$IMGID" ]
+        then
+          docker stop $IMGID
+          docker run -d -p 6400:80 --restart always trav_bpf_services:$CI_PIPELINE_ID  
+        else
+          echo "No relevant image avaliable"
+          docker run -d -p 6400:80 --restart always trav_bpf_services:$CI_PIPELINE_ID 
+        fi

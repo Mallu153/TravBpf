@@ -1,0 +1,97 @@
+<section id="service-type-group-form">
+  <div class="row match-height">
+    <div class="col-lg-12 col-md-12 col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{{ PageTitle }}</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <form [formGroup]="form">
+              <div class="form-row">
+                <div class="col-md-3 col-6 form-group mb-2">
+                  <label for="department">Department</label>
+                  <select
+                    id="department"
+                    name="department"
+                    class="form-control square"
+                    formControlName="department"
+                    [ngClass]="{
+                      'is-invalid': (submitted || f.department.touched) && f.department.errors
+                    }"
+                  >
+                    <option value="">Choose</option>
+                    <option [value]="org.departmentId" *ngFor="let org of departmentList">
+                      {{ org.name }}
+                    </option>
+                  </select>
+                  <div *ngIf="(submitted || f.department.touched) && f.department.errors" class="invalid-feedback">
+                    <div *ngIf="f.department.errors.required">Please select your Department</div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-6 form-group mb-2">
+                  <label for="name">Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    class="form-control square"
+                    name="name"
+                    placeholder="Enter Name"
+                    formControlName="name"
+                    [ngClass]="{ 'is-invalid': (submitted || f.name.touched) && f.name.errors }"
+                  />
+                  <div *ngIf="(submitted || f.name.touched) && f.name.errors" class="invalid-feedback">
+                    <div *ngIf="f.name.errors.required">Please enter name</div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-6 form-group mb-2">
+                  <label for="status">Status</label>
+                  <select
+                    id="status"
+                    name="status"
+                    class="form-control square"
+                    formControlName="status"
+                    [ngClass]="{ 'is-invalid': (submitted || f.status.touched) && f.status.errors }"
+                  >
+                    <option value="">Choose</option>
+                    <option value="Active">Active</option>
+                    <option value="InActive">InActive</option>
+                  </select>
+                  <div *ngIf="(submitted || f.status.touched) && f.status.errors" class="invalid-feedback">
+                    <div *ngIf="f.status.errors.required">Please select your status</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-md-12 col-12 form-group mb-2">
+                  <label for="description">Description</label>
+                  <textarea
+                    id="description"
+                    name="description"
+                    placeholder="Enter Your Description"
+                    class="form-control square"
+                    formControlName="description"
+                    [ngClass]="{ 'is-invalid': (submitted || f.description.touched) && f.description.errors }"
+                  ></textarea>
+                  <div *ngIf="(submitted || f.description.touched) && f.description.errors" class="invalid-feedback">
+                    <div *ngIf="f.description.errors.required">Please enter your Description</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <button type="submit" *ngIf="!isEdit" (click)="submit()" class="btn btn-primary square mr-2">
+                  <i class="ft-check-square mr-1"></i>
+                  Save
+                </button>
+                <button type="submit" *ngIf="isEdit" (click)="update()" class="btn btn-primary square mr-2">
+                  <i class="ft-check-square mr-1"></i>
+                  Update
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

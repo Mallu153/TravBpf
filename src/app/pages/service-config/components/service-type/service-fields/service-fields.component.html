@@ -1,0 +1,467 @@
+<form [formGroup]="serviceTypeForm" *ngIf="headerData">
+  <div formArrayName="lines">
+    <ngb-accordion
+      #acc="ngbAccordion"
+      [closeOthers]="false"
+      (panelChange)="toggleAccordian($event)"
+      [activeIds]="activeIds"
+      dragula="fieldsDragula"
+      [dragulaModel]="lines().controls"
+    >
+      <ngb-panel
+        *ngFor="let d of lines().controls; let i = index"
+        [formGroupName]="i"
+        id="panel-{{ i }}"
+        class="border -bottom border-primary rounded shadow p-2 mb-3 bg-white rounded"
+      >
+        <ng-template ngbPanelTitle>
+          <span *ngIf="activeIds === 'panel-' + i && !d.value.id; else ngPanelTitle">
+            {{ 'Field ' + d.value.fieldOrder }}
+
+            <!--  <i
+          class="ft-trash-2 pull-right"
+          *ngIf="!isEdit"
+          (click)="delete(i)"
+          aria-hidden="true"
+          style="font-size: 18px"
+        ></i>
+        <i
+          class="ft-trash-2 pull-right"
+          (click)="removeLine(i, s.value.id)"
+          *ngIf="isEdit"
+          aria-hidden="true"
+          style="font-size: 18px"
+        ></i> -->
+          </span>
+          <ng-template #ngPanelTitle>
+            {{ 'Field ' + d.value.fieldOrder }}
+            <span class="text-info"> : {{ d.value.field.name }}</span>
+            , Pricing :
+            <span class="text-info"> {{ d.value.isPricing ? 'Yes' : 'No' }}</span>
+            , End Row :
+            <span class="text-info">{{ d.value.newRow ? 'Yes' : 'No' }}</span>
+          </ng-template>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <div class="form-row">
+            <div class="offset-md-9 col-md-3">
+              <p class="float-right font-small-3">fld {{ d.value.fieldOrder }}</p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-12 col-md-3">
+              <div class="form-group mb-2" *ngIf="fields && fields.length > 0">
+                <label for="field">Field</label>
+                <ng-select
+                  [items]="fields"
+                  bindLabel="name"
+                  [searchable]="true"
+                  formControlName="field"
+                  (change)="onFieldChange($event, i)"
+                  [ngClass]="{
+                    'is-invalid':
+                      lines().controls[i].get('field').errors &&
+                      ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                        lines().controls[i].get('field').touched)
+                  }"
+                >
+                </ng-select>
+
+                <div
+                  class="invalid-feedback"
+                  *ngIf="
+                    lines().controls[i].get('field').errors?.required &&
+                    ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                      lines().controls[i].get('field').touched)
+                  "
+                >
+                  Please select your field
+                </div>
+              </div>
+            </div>
+            <div class="col-md-9 col-12">
+              <div class="form-group mb-2">
+                <label for="description">Description</label>
+                <input
+                  type="text"
+                  id="description"
+                  class="form-control square"
+                  name="description"
+                  placeholder="Enter Description"
+                  formControlName="description"
+                  [ngClass]="{
+                    'is-invalid':
+                      lines().controls[i].get('description').errors &&
+                      ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                        lines().controls[i].get('description').touched)
+                  }"
+                />
+                <div
+                  class="invalid-feedback"
+                  *ngIf="
+                    lines().controls[i].get('description').errors?.required &&
+                    ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                      lines().controls[i].get('description').touched)
+                  "
+                >
+                  Please enter description
+                </div>
+              </div>
+            </div>
+            <div class="row"></div>
+          </div>
+          <div class="form-row">
+            <div class="col-3 col-md-1 border border-primary border-right-0">
+              <div class="form-group mb-2">
+                <label for="desktopColumn" triggers="mouseenter:mouseleave" ngbPopover="Desktop Column size">DC</label>
+                <input
+                  type="tel"
+                  (keypress)="keyPressNumbers($event)"
+                  maxlength="2"
+                  id="desktopColumn"
+                  class="form-control square"
+                  name="row"
+                  placeholder="Enter DC"
+                  formControlName="desktopColumn"
+                  [ngClass]="{
+                    'is-invalid':
+                      lines().controls[i].get('desktopColumn').errors &&
+                      ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                        lines().controls[i].get('desktopColumn').touched)
+                  }"
+                />
+                <div
+                  class="invalid-feedback"
+                  *ngIf="
+                    lines().controls[i].get('desktopColumn').errors?.required &&
+                    ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                      lines().controls[i].get('desktopColumn').touched)
+                  "
+                >
+                  Required
+                </div>
+              </div>
+            </div>
+            <div class="col-3 col-md-1 border border-primary border-left-0">
+              <div class="form-group mb-2">
+                <label for="desktopOffset" triggers="mouseenter:mouseleave" ngbPopover="Desktop Offset size">DO</label>
+                <input
+                  type="tel"
+                  (keypress)="keyPressNumbers($event)"
+                  maxlength="2"
+                  id="desktopOffset"
+                  class="form-control square"
+                  name="Column"
+                  placeholder="Enter Do"
+                  formControlName="desktopOffset"
+                />
+              </div>
+            </div>
+            <div class="col-3 col-md-1 border border-primary border-right-0">
+              <div class="form-group mb-2">
+                <label for="mobileColumn" triggers="mouseenter:mouseleave" ngbPopover="Mobile Column size">MC</label>
+                <input
+                  type="tel"
+                  (keypress)="keyPressNumbers($event)"
+                  maxlength="2"
+                  id="mobileColumn"
+                  class="form-control square"
+                  name="row"
+                  placeholder="Enter MC"
+                  formControlName="mobileColumn"
+                  [ngClass]="{
+                    'is-invalid':
+                      lines().controls[i].get('mobileColumn').errors &&
+                      ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                        lines().controls[i].get('mobileColumn').touched)
+                  }"
+                />
+                <div
+                  class="invalid-feedback"
+                  *ngIf="
+                    lines().controls[i].get('mobileColumn').errors?.required &&
+                    ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                      lines().controls[i].get('mobileColumn').touched)
+                  "
+                >
+                  Required
+                </div>
+              </div>
+            </div>
+            <div class="col-3 col-md-1 border border-primary border-left-0">
+              <div class="form-group mb-2">
+                <label for="mobileOffset" triggers="mouseenter:mouseleave" ngbPopover="Mobile Offset size">MO</label>
+                <input
+                  type="tel"
+                  (keypress)="keyPressNumbers($event)"
+                  maxlength="2"
+                  id="mobileOffset"
+                  class="form-control square"
+                  name="Column"
+                  placeholder="Enter Mo"
+                  formControlName="mobileOffset"
+                />
+              </div>
+            </div>
+            <div class="col-3 col-md-1">
+              <div class="form-group mb-2">
+                <label for="backendColumn" triggers="mouseenter:mouseleave" ngbPopover="Backend Column size">BC</label>
+                <input
+                  type="tel"
+                  (keypress)="keyPressNumbers($event)"
+                  maxlength="2"
+                  id="backendColumn"
+                  class="form-control square"
+                  name="Column"
+                  placeholder="Enter BC"
+                  formControlName="backendColumn"
+                />
+              </div>
+            </div>
+            <div class="col-3 col-md-1">
+              <div class="form-group mb-2">
+                <label for="backendOffset" triggers="mouseenter:mouseleave" ngbPopover="Backend Offset size">BO</label>
+                <input
+                  type="tel"
+                  (keypress)="keyPressNumbers($event)"
+                  maxlength="2"
+                  id="backendOffset"
+                  class="form-control square"
+                  name="Column"
+                  placeholder="Enter BO"
+                  formControlName="backendOffset"
+                />
+              </div>
+            </div>
+            <div class="col-6 col-md-1 mt-4">
+              <!--   <ul class="list-unstyled mb-0">
+            <li class="d-inline-block mr-2 mb-2"> -->
+              <div class="checkbox checkbox-primary">
+                <input
+                  type="checkbox"
+                  id="{{ 'color-checkbox-2' + i }}"
+                  formControlName="required"
+                  (change)="onRequiredChange($event, i)"
+                />
+                <label for="{{ 'color-checkbox-2' + i }}"> <span>Required</span></label>
+              </div>
+              <!--     </li>
+          </ul> -->
+            </div>
+            <div class="col-6 mt-4 col-md-1">
+              <div class="checkbox checkbox-primary">
+                <input type="checkbox" id="{{ 'color-checkbox-3' + i }}" formControlName="newRow" />
+                <label for="{{ 'color-checkbox-3' + i }}" triggers="mouseenter:mouseleave" ngbPopover="End Row">
+                  <span>ER</span></label
+                >
+              </div>
+            </div>
+            <div class="col-6 mt-4 col-md-1">
+              <div class="checkbox checkbox-primary">
+                <input type="checkbox" id="{{ 'color-isPricing-3' + i }}" formControlName="isPricing" />
+                <label
+                  for="{{ 'color-isPricing-3' + i }}"
+                  triggers="mouseenter:mouseleave"
+                  ngbPopover="Is this Pricing Qualifier"
+                >
+                  <span>P</span></label
+                >
+              </div>
+            </div>
+            <div
+              class="col-6 mt-4 col-md-1"
+              *ngIf="d.value.field?.type === 'text' || d.value.field?.type === 'password'"
+            >
+              <!-- <ul class="list-unstyled mb-0">
+            <li class="d-inline-block mr-2 mb-2"> -->
+              <div class="checkbox checkbox-primary">
+                <input type="checkbox" id="{{ 'color-checkbox-4' + i }}" formControlName="isSpecialCharacters" />
+                <label
+                  for="{{ 'color-checkbox-4' + i }}"
+                  triggers="mouseenter:mouseleave"
+                  ngbPopover="Special Characters"
+                >
+                  <span>SC</span></label
+                >
+              </div>
+              <!--   </li>
+          </ul> -->
+            </div>
+            <div class="col-md-1 col-6" *ngIf="d.value.field?.type === 'number'">
+              <div class="form-group mb-2">
+                <label for="row">MIN</label>
+                <input
+                  type="number"
+                  id="row"
+                  class="form-control square"
+                  name="row"
+                  placeholder="Enter Min"
+                  formControlName="min"
+                />
+              </div>
+            </div>
+            <div class="col-md-1 col-6" *ngIf="d.value.field?.type === 'number'">
+              <div class="form-group mb-2">
+                <label for="max">MAX</label>
+                <input
+                  type="number"
+                  id="max"
+                  class="form-control square"
+                  name="Column"
+                  placeholder="Enter Max"
+                  formControlName="max"
+                />
+              </div>
+            </div>
+            <div
+              class="col-md-1 col-6"
+              *ngIf="
+                d.value.field?.type !== 'date' &&
+                d.value.field?.type !== 'select' &&
+                d.value.field?.type !== 'checkbox' &&
+                d.value.field?.type !== 'radio' &&
+                d.value.field?.type !== 'number'
+              "
+            >
+              <div class="form-group mb-2">
+                <label for="minLength">Min Length</label>
+                <input
+                  type="number"
+                  id="minLength"
+                  class="form-control square"
+                  name="Column"
+                  placeholder="Enter Min length"
+                  formControlName="minLength"
+                />
+              </div>
+            </div>
+            <div
+              class="col-md-1 col-6"
+              *ngIf="
+                d.value.field?.type !== 'date' &&
+                d.value.field?.type !== 'select' &&
+                d.value.field?.type !== 'checkbox' &&
+                d.value.field?.type !== 'radio' &&
+                d.value.field?.type !== 'number'
+              "
+            >
+              <div class="form-group mb-2">
+                <label for="maxLength">Max Length</label>
+                <input
+                  type="number"
+                  id="maxLength"
+                  class="form-control square"
+                  name="Column"
+                  placeholder="Enter Max length"
+                  formControlName="maxLength"
+                />
+              </div>
+            </div>
+            <!--   {{d.value.field| json}} -->
+            <div class="col-md-2 col-6" *ngIf="d.value.field?.type === 'date'">
+              <div class="form-group mb-2">
+                <label for="minDate">Min Date</label>
+                <input
+                  type="date"
+                  id="minDate"
+                  class="form-control square"
+                  name="Column"
+                  placeholder="Enter Min date"
+                  formControlName="minDate"
+                />
+              </div>
+            </div>
+            <div class="col-md-2 col-6" *ngIf="d.value.field?.type === 'date'">
+              <div class="form-group mb-2">
+                <label for="maxDate">Max Date</label>
+                <input
+                  type="date"
+                  id="maxDate"
+                  class="form-control square"
+                  name="Column"
+                  placeholder="Enter Max date"
+                  formControlName="maxDate"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6 col-md-4">
+              <label for="description">Hint</label>
+              <input
+                type="text"
+                id="hint"
+                class="form-control square"
+                name="hint"
+                placeholder="Enter hint"
+                formControlName="hint"
+              />
+            </div>
+            <div class="form-group col-6 col-md-4">
+              <label for="info">Info</label>
+              <input
+                type="text"
+                id="info"
+                class="form-control square"
+                name="info"
+                placeholder="Enter info"
+                formControlName="info"
+              />
+            </div>
+            <div class="col-6 col-md-1">
+              <div class="form-group mb-2">
+                <label for="backendOffset" triggers="mouseenter:mouseleave" ngbPopover="State Number">State No</label>
+                <input
+                  type="tel"
+                  (keypress)="keyPressNumbers($event)"
+                  maxlength="2"
+                  id="stageNumber"
+                  class="form-control square"
+                  name="Column"
+                  placeholder="stage no"
+                  formControlName="stageNumber"
+                />
+              </div>
+            </div>
+            <div class="col-6 mt-4 col-md-1">
+              <div class="checkbox checkbox-primary">
+                <input type="checkbox" id="{{ 'color-endStage-3' + i }}" formControlName="endStage" />
+                <label for="{{ 'color-endStage-3' + i }}" triggers="mouseenter:mouseleave" ngbPopover="End Stage">
+                  <span>End Stage</span></label
+                >
+              </div>
+            </div>
+            <div class="d-flex col-12 col-md-2 mt-2 justify-content-md-end align-items-center">
+              <button (click)="add(i)" *ngIf="!isEdit" type="button" style="margin-top: 2px" class="btn p-0">
+                <i class="ft-plus-circle fa-lg" aria-hidden="true"></i>
+                <!--  <i class="icon-plus fa-lg"></i> -->
+              </button>
+              <button (click)="delete(i)" *ngIf="!isEdit" type="button" class="btn p-0 mx-3">
+                <!--  <i
+              class="ft-minus-circle"
+              aria-hidden="true"
+              style="font-size: 28px"
+            ></i> -->
+                <i class="fa fa-trash-o fa-lg"></i>
+              </button>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
+  <div class="form-row">
+    <div class="offset-md-6 col-md-3 mb-2">
+      <button type="button" (click)="previewDynamicForm()" class="btn btn-secondary square mr-2 float-right">
+        <i class="ft-codepen mr-1"></i>
+        Preview
+      </button>
+    </div>
+    <div class="col-md-3 mb-2">
+      <button type="button" (click)="onSubmit()" class="btn btn-primary square mr-2 float-right">
+        <i class="ft-check-square mr-1"></i>
+        Submit
+      </button>
+    </div>
+  </div>
+</form>

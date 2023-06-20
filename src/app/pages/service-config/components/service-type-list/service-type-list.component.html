@@ -1,0 +1,203 @@
+<section id="ngx-datatables-server-side">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header pb-2 border-bottom">
+          <h4 class="card-title">{{ pageTitle }}</h4>
+        </div>
+
+        <div class="card-content">
+          <div class="card-body">
+            <!-- ngx-datatable-multi-purpose -->
+            <form [formGroup]="searchForm">
+              <div class="form-row">
+                <div class="col-md-3 col-6 form-group">
+                  <label for="status">Organization</label>
+                  <select
+                    id="status"
+                    name="status"
+                    (change)="OnChangeOrg($event.target.value)"
+                    class="form-control form-control-sm"
+                    formControlName="organizationId"
+                  >
+                    <option value="">Choose</option>
+                    <option [value]="org.organizationId" *ngFor="let org of organizations">
+                      {{ org.name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-md-3 col-6 form-group">
+                  <label for="status">Department</label>
+                  <select id="status" name="status" class="form-control form-control-sm" formControlName="departmentId">
+                    <option value="">Choose</option>
+                    <option [value]="dept.id" *ngFor="let dept of departments">
+                      {{ dept.name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-md-3 col-4 form-group">
+                  <label for="status">Parent</label>
+                  <select id="status" name="status" class="form-control form-control-sm" formControlName="parentId">
+                    <option value="">Choose</option>
+                    <option [value]="parent.id" *ngFor="let parent of parents">
+                      {{ parent.name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-md-2 col-4 form-group">
+                  <label for="status">Status</label>
+                  <select id="status" name="status" class="form-control form-control-sm" formControlName="status">
+                    <option value="">Choose</option>
+                    <option [value]="s" *ngFor="let s of status">
+                      {{ s }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-md-1 col-4 form-group mt-3">
+                  <button type="button" class="btn btn-primary btn-sm square" (click)="setPage({ offset: 0 })">
+                    <i class="ft-search mr-1"></i>
+                    SEARCH
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <ngx-datatable
+              #tableResponsive
+              class="bootstrap core-bootstrap"
+              [rows]="rows"
+              [columns]="columns"
+              [columnMode]="ColumnMode.force"
+              [headerHeight]="50"
+              [footerHeight]="50"
+              rowHeight="auto"
+              [externalPaging]="true"
+              [count]="page.totalElements"
+              [offset]="page.pageNumber"
+              [limit]="page.size"
+              (page)="setPage($event)"
+              (sort)="onSort($event)"
+            >
+              <ngx-datatable-column name="Id" prop="id" [width]="50"></ngx-datatable-column>
+              <ngx-datatable-column name="Name" prop="name" [width]="150"></ngx-datatable-column>
+              <ngx-datatable-column name="Status" prop="status" [width]="100">
+                <ng-template let-status="value" ngx-datatable-cell-template>
+                  <div
+                    class="badge badge-pill"
+                    [ngClass]="{
+                      'bg-light-primary': status == 'Active',
+                      'bg-light-success': status == 'InActive',
+                      'bg-light-danger': status == '3',
+                      'bg-light-warning': status == '4',
+                      'bg-light-info': status == '5'
+                    }"
+                  >
+                    {{ status }}
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column [sortable]="false" name="Actions" [width]="50">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <!--  <i class="ft-more-vertical text-primary cursor-pointer mr-2"></i> -->
+                  <a (click)="findById(row)"> <i class="ft-edit text-primary cursor-pointer"></i></a>
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- <section id="simple-table">
+  <div class="col-12 col-md-12 col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title text-center">Service Type List</h4>
+      </div>
+      <div class="card-body">
+
+        <form>
+          <div class="form-group form-inline col-3 col-12">
+            <label
+              >Search:
+              <input
+                class="form-control square"
+                placeholder="Search "
+                type="text"
+                name="searchTerm"
+                [(ngModel)]="searchText"
+            /></label>
+          </div>
+        </form>
+        <div class="table-responsive table">
+          <div class="outer">
+            <div class="inner">
+              <table class="table m-0">
+                <thead>
+                  <tr>
+                    <th scope="col" class="listtr col1">S.No</th>
+
+                    <th scope="col" class="listtr pointer">Name</th>
+                    <th scope="col" class="listtr">Status</th>
+                    <th scope="col" (click)="goToForm()" class="pointer listtr">
+                      <i class="ft-plus font-medium-3 mr-2"></i>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="
+                      let j of serviceTypeList
+                        | filter: searchText
+                        | slice: (page - 1) * pageSize:page * pageSize;
+                      index as i
+                    "
+                  >
+                    <td scope="row" class="pt-3 wrap-text col1">
+                      {{ (page - 1) * pageSize + i + 1 }}
+                    </td>
+
+                    <td class="pt-3 wrap-text">{{ j.name }}</td>
+                    <td class="pt-3 wrap-text">
+                      <div
+                        class="badge badge-pill"
+                        [ngClass]="{
+                          'bg-light-success': j.status == 'Active',
+                          'bg-light-danger': j.status == 'InActive'
+                        }"
+                      >
+                        {{ j.status }}
+                      </div>
+                    </td>
+                    <td class="pointer">
+                      <i
+                        class="ft-edit-2 font-medium-3 mr-2"
+                        (click)="findById(j.id)"
+                      ></i>
+                    </td>
+                  </tr>
+                  <tr *ngIf="show">
+                    <td class="pt-3 wrap-text col1">No data found</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="d-flex justify-content-between p-2">
+                <ngb-pagination
+                  [collectionSize]="serviceTypeList?.length"
+                  [(page)]="page"
+                  [maxSize]="4"
+                  [boundaryLinks]="true"
+                  [pageSize]="pageSize"
+                  class="d-flex justify-content-center"
+                >
+                </ngb-pagination>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+<!-- <a class="btn btn-link text-primary" (click)="viewDynamicForm(j)"> </a> -->

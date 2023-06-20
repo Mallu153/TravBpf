@@ -1,0 +1,128 @@
+{
+  "/bpf": {
+    "target": "http://travbpf.dev.com/bpf/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/bpf": ""
+    }
+  },
+  "/systemMaster": {
+    "target": "http://travbpf.dev.com/system-master/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/systemMaster": ""
+    }
+  },
+  "/hr": {
+    "target": "http://travbpf.dev.com/hr/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/hr": ""
+    }
+  },
+  "/TravelApi": {
+    "target": "http://travbpf.dev.com:84/TravelApi/apis",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/TravelApi": ""
+    }
+  },
+  "/jdbcapi": {
+    "target": "http://travbpf.dev.com/jdbcapi/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/jdbcapi": ""
+    }
+  },
+  "/pax_api": {
+    "target": "http://travbpf.dev.com/paxdata/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/pax_api": ""
+    }
+  },
+  "/userManagement": {
+    "target": "http://travbpf.dev.com/usermanagement/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/userManagement": ""
+    }
+  },
+  "/api_agent": {
+    "target": "http://travbpf.dev.com/agent/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/api_agent": ""
+    }
+  },
+  "/markup_api": {
+    "target": "http://travbpf.dev.com/deals/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/markup_api": ""
+    }
+  },
+  "/resources-assignment": {
+    "target": "http://travbpf.dev.com/resources-assignment/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/resources-assignment": ""
+    }
+  },
+  "/service-request": {
+    "target": "http://travbpf.dev.com/servicerequest/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/service-request": ""
+    }
+  },
+  "/serviceConfig": {
+    "target": "http://travbpf.dev.com/travrconfig/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/serviceConfig": ""
+    }
+  },
+  "/domainName": {
+    "target": "https://travbpf.dev.com",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/domainName": ""
+    }
+  },
+  "/quartz": {
+    "target": "http://travbpf.dev.com/quartz/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/quartz": ""
+    }
+  }
+}

@@ -1,0 +1,103 @@
+<section id="basic-hidden-label-form-layouts">
+  <div class="row match-height">
+
+    <div class="col-lg-12 col-md-12 col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{{pageTitle}}</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <form [formGroup]="permissionsForm">
+              <div class="form-row">
+                <div class="col-md-6 col-12">
+                  <div class="form-group mb-2">
+                    <label for="name">Permission Name</label>
+                    <input type="text" id="name" class="form-control square" placeholder="Name" name="name"
+                      formControlName="PermissionName"
+                      [ngClass]="{ 'is-invalid': (submitted || f.PermissionName.touched) && f.PermissionName.errors }">
+                    <div *ngIf="(submitted || f.PermissionName.touched)&&f.PermissionName.errors"
+                      class="invalid-feedback">
+                      <div *ngIf="f.PermissionName.errors.required">
+                        Please enter your permission name
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <div class="form-group mb-2">
+                    <label for="key">Permission Key</label>
+                    <input type="text" id="key" placeholder="Key" class="form-control square" name="key"
+                      formControlName="PermissionKey"
+                      [ngClass]="{ 'is-invalid': (submitted || f.PermissionKey.touched) && f.PermissionKey.errors }">
+                    <div *ngIf="(submitted || f.PermissionKey.touched)&&f.PermissionKey.errors"
+                      class="invalid-feedback">
+                      <div *ngIf="f.PermissionKey.errors.required">
+                        Please enter your permission key
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-md-12 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Description">Description</label>
+                    <textarea id="Description" rows="2" placeholder="Description" class="form-control square"
+                      name="Description" formControlName="Description"
+                      [ngClass]="{ 'is-invalid': (submitted || f.Description.touched) && f.Description.errors }"></textarea>
+                    <div *ngIf="(submitted || f.Description.touched)&&f.Description.errors" class="invalid-feedback">
+                      <div *ngIf="f.Description.errors.required">
+                        Please enter your description
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-md-6 col-12">
+                  <div class="form-group mb-2">
+                    <label for="groupname">Group Name</label>
+                    <input type="text" id="groupname" class="form-control square" placeholder="Group Name"
+                      name="groupname" formControlName="PermissionGroupName"
+                      [ngClass]="{ 'is-invalid': (submitted || f.PermissionGroupName.touched) && f.PermissionGroupName.errors }">
+                    <div *ngIf="(submitted || f.PermissionGroupName.touched)&&f.PermissionGroupName.errors"
+                      class="invalid-feedback">
+                      <div *ngIf="f.PermissionGroupName.errors.required">
+                        Please enter your group name
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Order">Order</label>
+                    <input type="text" id="Order" placeholder="Order" class="form-control square" name="Order"
+                      formControlName="PermissionOrder"
+                      [ngClass]="{ 'is-invalid': (submitted || f.PermissionOrder.touched) && f.PermissionOrder.errors }">
+                    <div *ngIf="(submitted || f.PermissionOrder.touched)&&f.PermissionOrder.errors"
+                      class="invalid-feedback">
+                      <div *ngIf="f.PermissionOrder.errors.required">
+                        Please enter your order
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button type="button" *ngIf="!isEdit" (click)="onSubmitPermissionsForm()" class="btn btn-primary mr-2">
+                <i class="ft-check-square mr-1"></i>
+                Save
+              </button>
+              <button type="button" *ngIf="isEdit" (click)="onEditPermissionsForm()" class="btn btn-primary mr-2">
+                <i class="ft-check-square mr-1"></i>
+                Update
+              </button>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

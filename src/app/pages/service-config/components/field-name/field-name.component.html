@@ -1,0 +1,307 @@
+<section id="basic-hidden-label-form-layouts">
+  <div class="row match-height">
+    <div class="col-lg-12 col-md-12 col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{{ PageTitle }}</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <form [formGroup]="defineFieldForm">
+              <div formArrayName="defineFieldsArray">
+                <div *ngFor="let d of defineFieldsArray().controls; let i = index" [formGroupName]="i">
+                  <div class="form-row">
+                    <div class="col-md-2 col-12">
+                      <div class="form-group mb-2">
+                        <label for="name">Name</label>
+                        <input
+                          type="text"
+                          id="name"
+                          class="form-control square"
+                          name="name"
+                          placeholder="Enter Name"
+                          formControlName="name"
+                          [ngClass]="{
+                            'is-invalid':
+                              defineFieldsArray().controls[i].get('name').errors &&
+                              ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                                defineFieldsArray().controls[i].get('name').touched)
+                          }"
+                        />
+                        <div
+                          class="invalid-feedback"
+                          *ngIf="
+                            defineFieldsArray().controls[i].get('name').errors?.required &&
+                            ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                              defineFieldsArray().controls[i].get('name').touched)
+                          "
+                        >
+                          Please enter your field name
+                        </div>
+                      </div>
+                    </div>
+                    <div formGroupName="ui" class="child-age-column">
+                      <div class="form-group mb-2">
+                        <label for="label">Label</label>
+                        <input
+                          type="text"
+                          id="label"
+                          class="form-control square firstLetter_capital"
+                          name="label"
+                          placeholder="Enter label"
+                          formControlName="label"
+                          [ngClass]="{
+                            'is-invalid':
+                              defineFieldsArray().controls[i].get('ui').get('label').errors &&
+                              ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                                defineFieldsArray().controls[i].get('ui').get('label').touched)
+                          }"
+                        />
+                        <div
+                          class="invalid-feedback"
+                          *ngIf="
+                            defineFieldsArray().controls[i].get('ui').get('label').errors?.required &&
+                            ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                              defineFieldsArray().controls[i].get('ui').get('label').touched)
+                          "
+                        >
+                          Please enter your field label
+                        </div>
+                      </div>
+                      <div class="form-group mb-2">
+                        <label for="placeholder">Placeholder</label>
+                        <input
+                          type="text"
+                          id="placeholder"
+                          class="form-control square ml-1 firstLetter_capital"
+                          name="placeholder"
+                          placeholder="Enter placeholder"
+                          formControlName="placeholder"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-2 col-12">
+                      <div class="form-group mb-2">
+                        <label for="qtype">Field Type</label>
+                        <select
+                          id="qtype"
+                          name="status"
+                          (change)="onChange($event.target.value, i)"
+                          class="form-control square ml-1"
+                          formControlName="typeId"
+                          [ngClass]="{
+                            'is-invalid':
+                              defineFieldsArray().controls[i].get('typeId').errors &&
+                              ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                                defineFieldsArray().controls[i].get('typeId').touched)
+                          }"
+                        >
+                          <option value="">Choose</option>
+                          <option [value]="field.id" *ngFor="let field of fieldTypeLovList">
+                            {{ field.name }}
+                          </option>
+                        </select>
+                        <div
+                          class="invalid-feedback"
+                          *ngIf="
+                            defineFieldsArray().controls[i].get('typeId').errors?.required &&
+                            ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                              defineFieldsArray().controls[i].get('typeId').touched)
+                          "
+                        >
+                          Please select your field type
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="d-flex mt-4 ml-1">
+                      <ul class="list-unstyled mb-0">
+                        <li class="d-inline-block mr-2 mb-2">
+                          <div class="checkbox checkbox-primary" formGroupName="validators">
+                            <input
+                              type="checkbox"
+                              value="required"
+                              formControlName="required"
+                              id="{{ 'color-checkbox-2' + i }}"
+                            />
+                            <label for="{{ 'color-checkbox-2' + i }}"> <span>Required</span></label>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="d-flex mt-4" *ngIf="!rowsControlsForMultiCity[i]?.isCollapsed">
+                      <ul class="list-unstyled mb-0">
+                        <li class="d-inline-block mr-2 mb-2">
+                          <div class="checkbox checkbox-primary">
+                            <input
+                              type="checkbox"
+                              value="read"
+                              formControlName="multiselect"
+                              id="{{ 'color-checkbox-1' + i }}"
+                            />
+                            <label for="{{ 'color-checkbox-1' + i }}"> <span>Multiselect</span></label>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div
+                      class="form-group col-12 col-md-2"
+                      id="collapse_{{ i }}"
+                      *ngIf="!rowsControlsForService[i]?.isCollapsed"
+                    >
+                      <label for="master">SERVICE</label>
+                      <ng-select
+                        [searchable]="true"
+                        formControlName="service"
+                        (change)="onChangeServiceRegister($event, i)"
+                      >
+                        <ng-option *ngFor="let service of serviceRegisterList" [value]="service.serviceUrl">
+                          {{ service.serviceName }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                    <div class="d-flex mt-4" *ngIf="!rowsControlsForMultiCity[i]?.isCollapsed">
+                      <ul class="list-unstyled mb-0">
+                        <li class="d-inline-block mr-2 mb-2">
+                          <div class="checkbox checkbox-primary">
+                            <input
+                              type="checkbox"
+                              (change)="onChangeDefault($event, i)"
+                              formControlName="default"
+                              id="{{ 'color-checkbox-3' + i }}"
+                            />
+                            <label for="{{ 'color-checkbox-3' + i }}"> <span>Default</span></label>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-md-2 col-12" *ngIf="!rowsControlsDefaultValue[i]?.isCollapsedDefaultValue">
+                      <div class="form-group mb-2">
+                        <label for="defaultvalue">Default Value</label>
+                        <select
+                          id="defaultvalue"
+                          name="defaultvalue"
+                          class="form-control square ml-1"
+                          formControlName="defaultValue"
+                        >
+                          <option value="">Choose</option>
+                          <option [value]="defaultValues?.id" *ngFor="let defaultValues of defaultValuesList[i]">
+                            {{ defaultValues?.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="d-flex mt-4 ml-1" *ngIf="!rowsControlsForMultiCity[i]?.isCollapsed">
+                      <ul class="list-unstyled mb-0">
+                        <li class="d-inline-block mr-2 mb-2">
+                          <div class="checkbox checkbox-primary">
+                            <input
+                              type="checkbox"
+                              value="true"
+                              (change)="onChangeOCE($event, i)"
+                              formControlName="oce"
+                              id="{{ 'color-checkbox-4' + i }}"
+                            />
+                            <label for="{{ 'color-checkbox-4' + i }}"> <span>OCE</span></label>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-md-2 col-12" *ngIf="!rowsControlsOCE[i]?.isCollapsedOCE">
+                      <div class="form-group mb-2">
+                        <label for="dependentField">Dependent Field</label>
+                        <select
+                          id="dependentField"
+                          name="dependentField"
+                          class="form-control square ml-1"
+                          formControlName="dependentField"
+                        >
+                          <option value="">Choose</option>
+                          <option [value]="fieldName?.configId" *ngFor="let fieldName of fieldNamesList">
+                            {{ fieldName?.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div
+                      class="col-12 col-md-3 form-group mb-2"
+                      *ngIf="!rowsControlsForCheckBox[i]?.isCollapsedCheckbox"
+                    >
+                      <label for="options">Options</label>
+                      <input
+                        type="text"
+                        id="options"
+                        class="form-control square ml-1 firstLetter_capital"
+                        name="options"
+                        placeholder="Enter Comma Separated Options"
+                        formControlName="options"
+                        [ngClass]="{
+                          'is-invalid':
+                            defineFieldsArray().controls[i].get('options').errors &&
+                            ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                              defineFieldsArray().controls[i].get('options').touched)
+                        }"
+                      />
+                      <div
+                        class="invalid-feedback"
+                        *ngIf="
+                          defineFieldsArray().controls[i].get('options').errors?.required &&
+                          ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                            defineFieldsArray().controls[i].get('options').touched)
+                        "
+                      >
+                        Please enter your options
+                      </div>
+                    </div>
+                    <div class="form-group col-12 col-md-1 mt-3">
+                      <button (click)="add()" *ngIf="!isEdit" type="button" class="btn mt-1 p-0">
+                        <i class="ft-plus-circle" aria-hidden="true" style="font-size: 28px"></i>
+                      </button>
+                      <button (click)="delete(i)" *ngIf="!isEdit" type="button" class="btn p-0 ml-2 mt-1">
+                        <i class="ft-minus-circle" aria-hidden="true" style="font-size: 28px"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <!--  <div formArrayName="source" *ngIf="!rowsControlsForMultiCity[i]?.isCollapsed">
+                    <div *ngFor="let source  of source(i).controls; let j = index" [formGroupName]="j">
+                      <div class="form-row">
+                        <div class="col-12 col-md-3 form-group mb-2">
+                          <label for="text">Text</label>
+                          <input type="text" id="text" class="form-control square" name="text" placeholder="Enter Text"
+                            formControlName="text">
+                        </div>
+                        <div class="col-12 col-md-3 form-group mb-2">
+                          <label for="value">Value</label>
+                          <input type="text" id="value" class="form-control square" name="value"
+                            placeholder="Enter Value" formControlName="value">
+                        </div>
+                        <div class="form-group col-12 col-md-2 mt-3">
+                          <button (click)="addSourceLevel(i)" *ngIf="!isEdit" type="button" class="btn mt-1 p-0 ">
+                            <i class="ft-plus-circle" aria-hidden="true" style="font-size: 28px;"></i>
+                          </button>
+                          <button (click)="removeSourceLevel(i,j)" *ngIf="!isEdit" type="button"
+                            class="btn p-0 ml-2 mt-1">
+                            <i class="ft-minus-circle" aria-hidden="true" style="font-size: 28px;"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+            </form>
+            <button type="button" *ngIf="!isEdit" (click)="onSubmitForm()" class="btn btn-primary square mr-2">
+              <i class="ft-check-square mr-1"></i>
+              Save
+            </button>
+            <button type="button" (click)="onEditSubmitForm()" *ngIf="isEdit" class="btn btn-primary square mr-2">
+              <i class="ft-check-square mr-1"></i>
+              Update
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

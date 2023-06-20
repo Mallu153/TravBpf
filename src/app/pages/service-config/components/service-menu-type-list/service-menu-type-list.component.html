@@ -1,0 +1,71 @@
+<section id="service-menu-types">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header pb-2 border-bottom">
+          <h4 class="card-title">{{ pageTitle }}</h4>
+        </div>
+
+        <div class="card-content">
+          <div class="card-body">
+            <!-- ngx-datatable-filter -->
+            <fieldset class="form-group">
+              <label for="ngx-filter-ref"
+                >Search:
+                <input
+                  id="ngx-filter-ref"
+                  class="form-control form-control-sm d-inline-block width-200"
+                  type="text"
+                  placeholder="Filter the Name column..."
+                  (keyup)="filterUpdate($event)"
+                />
+              </label>
+            </fieldset>
+
+            <ngx-datatable
+              #tableResponsive
+              class="bootstrap core-bootstrap"
+              [rows]="rows"
+              [columns]="columns"
+              [columnMode]="ColumnMode.force"
+              [headerHeight]="50"
+              [footerHeight]="50"
+              rowHeight="auto"
+              [externalPaging]="true"
+              [count]="page.totalElements"
+              [offset]="page.pageNumber"
+              [limit]="page.size"
+              (page)="setPage($event)"
+              (sort)="onSort($event)"
+            >
+              <ngx-datatable-column name="Id" prop="id" [width]="50"></ngx-datatable-column>
+              <ngx-datatable-column name="Name" prop="name" [width]="150"></ngx-datatable-column>
+              <ngx-datatable-column name="Status" prop="status" [width]="100">
+                <ng-template let-status="value" ngx-datatable-cell-template>
+                  <div
+                    class="badge badge-pill"
+                    [ngClass]="{
+                      'bg-light-primary': status == 'Active',
+                      'bg-light-success': status == 'InActive',
+                      'bg-light-danger': status == '3',
+                      'bg-light-warning': status == '4',
+                      'bg-light-info': status == '5'
+                    }"
+                  >
+                    {{ status }}
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column [sortable]="false" name="Actions" [width]="50">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <!--  <i class="ft-more-vertical text-primary cursor-pointer mr-2"></i> -->
+                  <a (click)="findById(row)"> <i class="ft-edit text-primary cursor-pointer"></i></a>
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,63 @@
+<section id="bordered-table" *ngIf="selectedList.length > 0">
+  <div class="row">
+    <div class="col-12 col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <fieldset class="form-group" *ngIf="selectedList && selectedList?.length >0">
+              <label>Show
+                <select name="users-list-select"[(ngModel)]="pageSize"(ngModelChange)="selectedList" class="form-control form-control-sm d-inline-block width-100 p-right-25 ">
+                  <option [ngValue]="10">10</option>
+                  <option [ngValue]="15">15</option>
+                  <option [ngValue]="25">25</option>
+                  <option [ngValue]="50">50</option>
+                  <option [ngValue]="100">100</option>
+                </select>
+                entries</label>
+              <label for="ngx-filter-ref" class="float-right">Search:
+                <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200 "type="text" [(ngModel)]="searchText" id="search" placeholder="Search"/>
+              </label>
+            </fieldset>
+            <div class="table-responsive">
+              <table class="table m-0">
+                <thead>
+                  <tr class="refresh">
+                    <th scope="col">S.NO</th>
+                    <th scope="col">Route Id</th>
+                    <th scope="col">Route Name</th>
+                    <th scope="col">Route Type</th>
+                    <th scope="col">From</th>
+                    <th scope="col">To</th>
+                    <th scope="col" *ngIf="!isEdit">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let j of selectedList | filter:searchText | slice: (page-1) * pageSize : page * pageSize; index as i;">
+                    <td scope="row">{{ (page -1) * pageSize + i + 1 }}</td>
+                    <td scope="row">{{j.routeId}}</td>
+                    <td>{{j.routeName}}</td>
+                    <td>{{j.routeType}}</td>
+                    <td>{{j.routeDetails}}</td>
+                    <td>{{j.routeDetails}}</td>
+                    <td class="text-truncate" *ngIf="!isEdit">
+                      <a class="danger p-0">
+                        <i class="ft-x font-medium-3" (click)="delete(i,j.routeName)"></i>
+                      </a>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+              <div class="d-flex justify-content-between p-2">
+                <ngb-pagination [collectionSize]="selectedList?.length" [(page)]="page" [maxSize]="10"
+                  [boundaryLinks]="true" [pageSize]="pageSize" class="d-flex justify-content-center"></ngb-pagination>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
