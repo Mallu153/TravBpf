@@ -1,0 +1,635 @@
+<div class="col-lg-12 col-12 col-md-12 col-sm-12">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{{ PageTitle }}</h4>
+    </div>
+    <div class="card-body">
+      <ngb-accordion [closeOthers]="true" activeIds="static-1" #tacc="ngbAccordion">
+        <ngb-panel id="static-1">
+          <ng-template ngbPanelTitle>
+            <span>Header</span>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            <form [formGroup]="addmarkupForm" class="form-markup">
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="col-md-3 col-12">
+                    <div class="form-group mb-2">
+                      <label for="team">Team <span class="manadatoryfield">*</span></label>
+                      <select
+                      id="team"
+                      name="team"
+                      class="form-control square"
+                      formControlName="teamId"
+                      [ngClass]="{ 'is-invalid': (submitted || f.teamId.touched) && f.teamId.errors }"
+                      >
+                        <option value="">Choose</option>
+                        <option [value]="team.teamId" *ngFor="let team of teamList">
+                          {{ team.teamName }}
+                        </option>
+                      </select>
+                      <div *ngIf="(submitted || f.teamId.touched) && f.teamId.errors" class="invalid-feedback">
+                        <div *ngIf="f.teamId.errors.required">Please select your team</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-3">
+                    <div class="form-group">
+                      <label for="product">Product<span class="manadatoryfield">*</span></label>
+                      <select
+                        id="product"
+                        name="product"
+                        class="form-control square"
+                        formControlName="productId"
+                        [ngClass]="{ 'is-invalid': (submitted || f.productId.touched) && f.productId.errors }"
+                        (change)="changeProductByFields($event.target.value)"
+                      >
+                        <!-- <option value="">Choose</option> -->
+                        <option *ngFor="let v of productList" [value]="v.id">
+                          {{ v.name }}
+                        </option>
+                      </select>
+                      <div *ngIf="(submitted || f.productId.touched) && f.productId.errors" class="invalid-feedback">
+                        <div *ngIf="f.productId.errors.required">Please select your product</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <div class="form-group">
+                      <label for="markupname">Template Name <span class="manadatoryfield">*</span></label>
+                      <input
+                        type="text"
+                        id="markupname"
+                        placeholder="Template Name"
+                        name="markupname"
+                        class="form-control square"
+                        formControlName="templateName"
+                        [ngClass]="{ 'is-invalid': (submitted || f.templateName.touched) && f.templateName.errors }"
+                      />
+                      <div *ngIf="(submitted || f.templateName.touched) && f.templateName.errors" class="invalid-feedback">
+                        <div *ngIf="f.templateName.errors.required">Please enter your template name</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-2">
+                    <div class="form-group">
+                      <label for="rank">Rank<span class="manadatoryfield">*</span></label>
+                      <input
+                        type="number"
+                        name="rank"
+                        placeholder="Rank"
+                        id="rank"
+                        class="form-control square"
+                        formControlName="rank"
+                        [ngClass]="{ 'is-invalid': (submitted || f.rank.touched) && f.rank.errors }"
+                      />
+                      <div *ngIf="(submitted || f.rank.touched) && f.rank.errors" class="invalid-feedback">
+                        <div *ngIf="f.rank.errors.required">Please enter your rank</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-12 co-md-12">
+                    <label for="markupdescription"> Description</label>
+                    <textarea
+                      id="markupdescription"
+                      rows="4"
+                      placeholder="Enter Description"
+                      class="form-control square"
+                      name="markupdescription"
+                      formControlName="description"
+                    ></textarea>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="col-12 col-md-3">
+                    <div class="form-group">
+                      <label for="effectivefrom">Effective From Date<span class="manadatoryfield">*</span></label>
+                      <input
+                        type="date"
+                        id="effectivefrom"
+                        name="effectivefrom"
+                        class="form-control square"
+                        formControlName="effectFromDate"
+                        [ngClass]="{ 'is-invalid': (submitted || f.effectFromDate.touched) && f.effectFromDate.errors }"
+                      />
+                      <div
+                        *ngIf="(submitted || f.effectFromDate.touched) && f.effectFromDate.errors"
+                        class="invalid-feedback"
+                      >
+                        <div *ngIf="f.effectFromDate.errors.required">Please enter your effective from date</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-2">
+                    <div class="form-group">
+                      <label for="effectiveto">Effective To Date<span class="manadatoryfield">*</span></label>
+                      <input
+                        type="date"
+                        id="effectiveto"
+                        name="effectiveto"
+                        class="form-control square"
+                        formControlName="effectToDate"
+                        [ngClass]="{ 'is-invalid': (submitted || f.effectToDate.touched) && f.effectToDate.errors }"
+                      />
+                      <div
+                        *ngIf="(submitted || f.effectToDate.touched) && f.effectToDate.errors"
+                        class="invalid-feedback"
+                      >
+                        <div *ngIf="f.effectToDate.errors.required">Please enter your effective to date</div>
+
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-2 ">
+                    <div class="form-group">
+                        <label for="traveldate">Travel Date</label>
+                        <input
+                        type="date"
+                        name="traveldate"
+                         class="form-control square"
+                         id="traveldate"
+                         formControlName="travelDate"
+                         />
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-2">
+                    <div class="form-group">
+                      <label for="status">Status</label>
+                      <select id="status" name="status" formControlName="recordStatus" class="form-control square">
+                       <!--  <option value="">Choose</option> -->
+                        <option value="active">Active</option>
+                        <option value="inactive">InActive</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-3">
+                    <div class="form-group">
+                      <label for="product">Assignmnet Status</label>
+                      <!-- <select
+                        id="product"
+                        name="product"
+                        class="form-control square"
+                        formControlName="assignmentStatus"
+                      >
+                      <option value="">Choose</option>
+                        <option *ngFor="let v of assignmentStatusList" [value]="v.statusId">
+                          {{ v.NAME }}
+                        </option>
+                      </select> -->
+                      <ng-select [searchable]="true" placeholder="Enter Assignment Status" formControlName="assignmentStatus">
+                        <ng-option *ngFor="let v of assignmentStatusList" [value]="v.statusId">{{v.name }} </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-right mt-2">
+                  <button
+                    type="button"
+                    *ngIf="hotelFields"
+                    class="btn btn-primary round"
+                    (click)="tacc.toggle('static-2')"
+                  >
+                    Next
+                  </button>
+                  <button
+                    type="button"
+                    *ngIf="hotelFieldsShow"
+                    class="btn btn-primary round"
+                    (click)="tacc.toggle('static-3')"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            </form>
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel id="static-2" cardClass="open" *ngIf="hotelFields">
+          <ng-template ngbPanelTitle>
+            <span>SR - FL</span>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            <form [formGroup]="addmarkupForm" class="form-markup">
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="col-12 col-md-3">
+                    <div class="form-group">
+                      <label for="type">Booking Type</label>
+                      <ng-select [searchable]="true" placeholder="Enter Booking Type" formControlName="flightBookingTypeId">
+                        <ng-option *ngFor="let b of bookingList" [value]="b.id">{{ b.name }} </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-3">
+                    <div class="form-group">
+                      <label for="cabinClass">Cabin Class</label>
+                      <ng-select [searchable]="true" placeholder="Enter Cabin Class" formControlName="cabinClassId">
+                        <ng-option *ngFor="let cabin of cabinList" [value]="cabin.id">
+                          {{ cabin.name }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-2">
+                    <div class="form-group">
+                      <label for="countofPax">Count Of Pax</label>
+                      <input
+                        type="number"
+                        name="countofPax"
+                        placeholder="Enter Count of Pax"
+                        id="countofPax"
+                        class="form-control square"
+                        formControlName="paxCount"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-2">
+                    <div class="form-group">
+                      <label for="srfltypeofjourney">Type of Journey</label>
+                      <select id="srfltypeofjourney" name="srfltypeofjourney" formControlName="typeOfJourneyId" class="form-control square">
+                        <option value="">Choose</option>
+                        <!-- <option value="ALL">All</option> -->
+                        <option value="1">Oneway</option>
+                        <option value="69">Roundtrip</option>
+                        <option value="11">Multicity</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-2 ">
+                    <div class="custom-control custom-radio custom-control-inline mt-4">
+                      <input
+                        type="radio"
+                        id="customRadioInline1"
+                        name="ticketType"
+                        value="ticket"
+                        formControlName="ticketType"
+                        class="custom-control-input"
+                      />
+                      <label class="custom-control-label" for="customRadioInline1">Ticket</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline mt-4">
+                      <input
+                        type="radio"
+                        id="customRadioInline2"
+                        name="ticketType"
+                        value="emd"
+                        formControlName="ticketType"
+                        class="custom-control-input"
+                      />
+                      <label class="custom-control-label" for="customRadioInline2">EMD</label>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="form-row" >
+                  <div class="col-12 col-md-2 ">
+                    <div class="form-group">
+                      <div class="checkbox mt-4">
+                        <input
+                          type="checkbox"
+                          name="budgetRange"
+                          id="budgetRange"
+                          formControlName="budgetRange"
+                          (click)="budgetRangeCheck()"
+                        />
+                        <label for="budgetRange"><span>Budget Range</span></label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-12 col-md-2" *ngIf="budgetRangeFlag">
+                    <label>Minimum</label>
+                    <input
+                      type="number"
+                      placeholder="Minimum Number"
+                      class="form-control square"
+                      id="minnumber"
+                      name="minnumber"
+                      formControlName="budgetMinAmount"
+                    />
+                  </div>
+                  <div class="form-group col-12 col-md-2" *ngIf="budgetRangeFlag">
+                    <label>Maximum</label>
+                    <input
+                      type="number"
+                      placeholder="Maximum Number"
+                      class="form-control square"
+                      id="maxnumber"
+                      name="maxnumber"
+                      formControlName="budgetMaxAmount"
+                    />
+                  </div>
+                </div>
+                <div class="text-right mt-2">
+                  <button type="button" class="btn btn-primary round ml-2" (click)="tacc.toggle('static-4')">
+                    Next
+                  </button>
+                </div>
+              </div>
+            </form>
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel id="static-3" cardClass="open" *ngIf="hotelFieldsShow">
+          <ng-template ngbPanelTitle>
+            <span>SR - HTL </span>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            <form [formGroup]="addmarkupForm" class="form-markup">
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="col-md-3 col-12">
+                    <div class="form-group mb-2">
+                      <label for="hotelrating">Hotel Rating</label>
+                      <ng-select [searchable]="true" placeholder="Enter Hotel Rating">
+                        <ng-option *ngFor="let hotelsrating of hotelRatingList" [value]="hotelsrating.id">
+                          {{ hotelsrating.name }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-12">
+                    <div class="form-group mb-2">
+                      <label for="property-type">Property Type</label>
+                      <select id="property-type" name="property-type" class="form-control square">
+                        <option value="">Choose</option>
+                        <option *ngFor="let propertyType of propertyTypeList" [value]="propertyType.id">
+                          {{ propertyType.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-12">
+                    <div class="form-group mb-2">
+                      <label for="no-of-days">No Of Days</label>
+                      <input
+                        type="number"
+                        id="no-of-days"
+                        placeholder="Enter No Of Days"
+                        class="form-control square"
+                        name="no-of-days"
+                        formControlName="hotelNoOfDays"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-12">
+                    <div class="form-group mb-2">
+                      <label for="Destination">Destination </label>
+                      <input
+                        type="search"
+                        id="from1"
+                        class="form-control square"
+                        #typeaheadAirportInstance="ngbTypeahead"
+                        [inputFormatter]="airportFormatter"
+                        [ngbTypeahead]="onSearchAirport"
+                        [resultTemplate]="searchAirportResultTemplate"
+                        placeholder="Ex. PARIS , France(PAR)"
+                        formControlName="hotelDestination"
+                      />
+                      <ng-template #searchAirportResultTemplate let-r="result" let-t="term">
+                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                      </ng-template>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="col-md-2 col-12">
+                    <div class="form-group mb-2">
+                      <label for="count-of-rooms">Count Of Rooms</label>
+                      <input
+                        type="number"
+                        id="count-of-rooms"
+                        placeholder="Enter Count Of Rooms"
+                        class="form-control square"
+                        name="count-of-rooms"
+                        formControlName="hotelRoomsCount"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-12">
+                    <div class="form-group mb-2">
+                      <label for="count-of-nights">Count Of Nights</label>
+                      <input
+                        type="number"
+                        id="count-of-nights"
+                        placeholder="Enter Count Of Nights"
+                        class="form-control square"
+                        name="count-of-nights"
+                        formControlName="hotelNightsCount"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-2 mt-4">
+                    <div class="form-group">
+                      <div class="checkbox">
+                        <input
+                          type="checkbox"
+                          name="budgetRange"
+                          id="budgetRange"
+                          formControlName="budgetRange"
+                          (click)="budgetRangeCheck()"
+                        />
+                        <label for="budgetRange"><span>Budget Range</span></label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-12 col-md-2" *ngIf="budgetRangeFlag">
+                    <label>Minimum</label>
+                    <input
+                      type="number"
+                      placeholder="Minimum Number"
+                      class="form-control square"
+                      id="minnumber"
+                      name="minnumber"
+                      formControlName="budgetMinAmount"
+                    />
+                  </div>
+                  <div class="form-group col-12 col-md-2" *ngIf="budgetRangeFlag">
+                    <label>Maximum</label>
+                    <input
+                      type="number"
+                      placeholder="Maximum Number"
+                      class="form-control square"
+                      id="maxnumber"
+                      name="maxnumber"
+                      formControlName="budgetMaxAmount"
+                    />
+                  </div>
+                </div>
+                <div class="text-right mt-2">
+                  <button type="button" class="btn btn-primary round ml-2" (click)="tacc.toggle('static-4')">
+                    Next
+                  </button>
+                </div>
+              </div>
+            </form>
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel id="static-4" cardClass="open">
+          <ng-template ngbPanelTitle>
+            <span>ACC</span>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            <form [formGroup]="addmarkupForm" class="form-markup">
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="col-12 col-md-3">
+                    <div class="form-group">
+                      <label for="company">Company</label>
+                      <ng-select [searchable]="true" formControlName="companyId" placeholder="Company" formControlName="companyId">
+                        <ng-option *ngFor="let org of companyList" [value]="org.organizationId">{{ org.name }} </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-3">
+                    <div class="form-group">
+                      <label for="costcenter">Cost Center</label>
+                      <ng-select [searchable]="true"  (change)="changeCostCenter($event)" formControlName="costCenterId" placeholder="Cost Center" formControlName="costCenterId">
+                        <ng-option *ngFor="let ccl of costcenterList" [value]="ccl.CostcenterId"> {{ ccl.Name }}</ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-3">
+                    <div class="form-group">
+                      <label for="location">Location</label>
+                      <ng-select [searchable]="true" formControlName="locationId" placeholder="Location" formControlName="locationId">
+                        <ng-option *ngFor="let location of locationList" [value]="location.id"> {{ location.name }}</ng-option>
+                      </ng-select>
+                     <!--  <select id="Location" name="Location" class="form-control square" formControlName="locationId"
+                      >
+                      <option value=""> Choose</option>
+                      <option [value]="location.id" *ngFor="let location of locationList ">
+                        {{location.name}}
+                      </option>
+                    </select> -->
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-3">
+                    <div class="form-group">
+                      <label for="uname">User Name</label>
+                      <ng-select [searchable]="true" formControlName="userId" placeholder="Enter User Name">
+                        <ng-option *ngFor="let u of usernameList" [value]="u.userId"> {{ u.userName }}</ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-right mt-2">
+                  <button type="button" class="btn btn-primary round ml-2" (click)="tacc.toggle('static-5')">
+                    Next
+                  </button>
+                </div>
+              </div>
+            </form>
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel id="static-5">
+          <ng-template ngbPanelTitle>
+            <span>Customer</span>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            <form [formGroup]="addmarkupForm" class="form-markup">
+              <div class="form-row">
+                <div class="col-12 col-md-3">
+                  <div class="form-group">
+                    <label for="crating">Customer Rating</label>
+                    <ng-select [searchable]="true" formControlName="customerRatingId" placeholder="Customer Rating">
+                      <ng-option *ngFor="let r of ratingList" [value]="r.id">{{ r.name }} </ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="col-12 col-md-3">
+                  <div class="form-group">
+                    <label for="ctype">Customer Type</label>
+                    <ng-select [searchable]="true" formControlName="customerTypeId" placeholder="Customer Type">
+                      <ng-option *ngFor="let t of customertypeList" [value]="t.id">{{ t.name }} </ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="col-12 col-md-3">
+                  <div class="form-group">
+                    <label for="ccategory">Customer Category</label>
+                    <ng-select [searchable]="true" formControlName="customerCategoryId" placeholder="Customer Category">
+                      <ng-option *ngFor="let cat of categoryList" [value]="cat.id">{{ cat.name }} </ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="col-12 col-md-3">
+                  <div class="form-group">
+                    <label for="cname">Customer Name</label>
+                    <ng-select [searchable]="true" formControlName="customerId" placeholder="Customer Name">
+                      <ng-option *ngFor="let cname of customerNameList" [value]="cname.customerId">
+                        {{ cname.businessName }}</ng-option
+                      >
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <button type="button" *ngIf="hotelFields" class="btn btn-primary round float-right" (click)="tacc.toggle('static-6')">
+              Next
+            </button>
+          </ng-template>
+        </ngb-panel>
+
+        <ngb-panel id="static-6" *ngIf="hotelFields">
+          <ng-template ngbPanelTitle>
+            <span>Route</span>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            <button class="btn btn-outline-secondary round mr-1 mb-1" (click)="RoutePopup(content)">
+              Add / Update
+            </button>
+            <app-selected-routes [selectedRoute]="routes" [isEdit]="isEdit"></app-selected-routes>
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+    </div>
+    <hr />
+    <div class="d-flex justify-content-end mb-1">
+      <button type="submit" *ngIf="!isEdit" (click)="onSaveResourcesAssignmentForm('saved')" [disabled]="!addmarkupForm.valid" class="btn btn-primary round mr-1">
+        <i class="fa fa-floppy-o mr-1" aria-hidden="true"></i>Save
+      </button>
+      <button type="submit" *ngIf="!isEdit" (click)="onSaveResourcesAssignmentForm('approved')"  [disabled]="!addmarkupForm.valid" class="btn btn-primary round mr-1">
+        <i class="fa fa-thumbs-up mr-1" aria-hidden="true"></i>Approved
+      </button>
+      <button type="submit" *ngIf="!isEdit" (click)="onSaveResourcesAssignmentForm('rejected')"  [disabled]="!addmarkupForm.valid" class="btn btn-primary round mr-1">
+        <i class="ft-x mr-1" aria-hidden="true"></i>Reject
+      </button>
+
+
+      <button type="submit" *ngIf="isEdit" (click)="onEditSaveResourcesAssignmentForm('saved')" [disabled]="!addmarkupForm.valid" class="btn btn-primary round mr-1">
+        <i class="fa fa-floppy-o mr-1" aria-hidden="true"></i>Save
+      </button>
+      <button type="submit" *ngIf="isEdit" (click)="onEditSaveResourcesAssignmentForm('approved')"  [disabled]="!addmarkupForm.valid" class="btn btn-primary round mr-1">
+        <i class="fa fa-thumbs-up mr-1" aria-hidden="true"></i>Approved
+      </button>
+      <button type="submit" *ngIf="isEdit" (click)="onEditSaveResourcesAssignmentForm('rejected')"  [disabled]="!addmarkupForm.valid" class="btn btn-primary round mr-1">
+        <i class="ft-x mr-1" aria-hidden="true"></i>Reject
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Route List popup -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">
+      Route Update or &nbsp;&nbsp;
+      <span for="ngx-filter-ref" class="pull-right high-late btn btn-primary btn-sm" (click)="closeModalWindow()">Add Route</span>
+    </h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="col-12 col-md-12 col-xl-12 col-lg-12">
+      <app-routes-list
+        (checkedRoutes)="selectedRotes($event)"
+        [routesToUpdateSelectedRoute]="updatedata?.routeRefId"
+        [routesToSelectedRoute]="routes"
+      ></app-routes-list>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>

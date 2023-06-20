@@ -1,0 +1,9 @@
+:host ::ng-deep .ng-select .ng-select-container {
+  border-radius: 1px;
+}
+:host ::ng-deep.ng-select .ng-select-container {
+  background-color: transparent !important;
+  border-color: #e0e0e0;
+  /* border-radius: 20px; */
+  color: #342e49;
+}

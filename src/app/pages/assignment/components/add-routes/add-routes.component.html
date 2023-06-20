@@ -1,0 +1,248 @@
+
+
+<div class="conatiner-fluid">
+  <div class="col-lg-12 col-12 col-md-12">
+    <div class="form-row">
+      <span class="text-sm flight--back-button" style="font-size: 14px !important" (click)="backbutton()"><i class="ft-arrow-left "></i>Back </span>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{{ PageTitle}}
+        </h4>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <form class="form" [formGroup]="routeForm">
+            <div class="form-row ">
+              <div class="form-group col-12 col-md-4">
+                <label for="route_Name">Route Name</label>
+                <input type="text" class="form-control square" id="route_Name" name="route_Name"
+                  placeholder="Route Name" formControlName="routeName"
+                  [ngClass]="{ 'is-invalid': (submitted || f.routeName.touched) && f.routeName.errors }">
+                <div *ngIf="(submitted || f.routeName.touched) && f.routeName.errors" class="invalid-feedback">
+                  <div *ngIf="f.routeName.errors.required">Please enter your route name </div>
+                </div>
+              </div>
+              <div class="form-group d-flex">
+                <ul class="list-unstyled mb-0 mt-4">
+                  <li class="d-inline-block mr-2">
+                    <div class="radio">
+                      <input type="radio" value="OneWay" [(ngModel)]="routeType" (change)="changerouteType($event)"
+                        formControlName="routeType" name="routeType" id="radio1">
+                      <label for="radio1">One Way</label>
+                    </div>
+                  </li>
+                  <li class="d-inline-block mr-2">
+                    <div class="radio">
+                      <input type="radio" value="RoundTrip" (change)="changerouteType($event)"
+                        formControlName="routeType" name="routeType" id="radio2">
+                      <label for="radio2">Round way</label>
+                    </div>
+                  </li>
+                  <li class="d-inline-block mr-2">
+                    <div class="radio">
+                      <input type="radio" value="MultiCity" (change)="changerouteType($event)"
+                        formControlName="routeType" name="routeType" id="radio3">
+                      <label for="radio3">Multi City</label>
+                    </div>
+                  </li>
+                  <li class="d-inline-block mr-2">
+                    <div class="radio">
+                      <input type="radio" (change)="changerouteType($event)" value="Inbound" formControlName="routeType"
+                        name="routeType" id="radio4">
+                      <label for="radio4">Inbound</label>
+                    </div>
+                  </li>
+                  <li class="d-inline-block">
+                    <div class="radio">
+                      <input type="radio" (change)="changerouteType($event)" value="Outbound"
+                        formControlName="routeType" name="routeType" id="radio5">
+                      <label for="radio5">Outbound</label>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-12 col-md-2">
+                <div class="form-group">
+                  <label for="status">status</label>
+                  <select id="status" name="status" class="form-control square" formControlName="status"
+                    [ngClass]="{ 'is-invalid': (submitted || f.status.touched) && f.status.errors }">
+                    <option value="">Choose</option>
+                    <option value="Active">Active</option>
+                    <option value="InActive">InActive</option>
+                  </select>
+                  <div *ngIf="(submitted || f.status.touched) && f.status.errors" class="invalid-feedback">
+                    <div *ngIf="f.status.errors.required">Please select your status </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div formArrayName="routeDetails">
+              <div *ngFor="let r  of routeDetails.controls; let i = index" [formGroupName]="i">
+                <div class="form-row mt-2">
+                  <div class="form-group d-flex" *ngIf="rowsControlsRegionFrom[i]?.isRegionFormCollapsed">
+                    <ul class="list-unstyled mb-0 mt-4">
+                      <li class="d-inline-block mr-2 mb-2">
+                        <div class="checkbox">
+                          <input type="checkbox" data-md-icheck (change)="toggleVisibilityFrom($event,i)"
+                            id="{{'checkbox1' + i}}" formControlName="groupFrom">
+                          <label for="{{'checkbox1' + i}}"><span>Regions?</span></label>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="form-group col-12 col-md-2" *ngIf="rowsControlsAirlineForm[i]?.isAirlineFromCollapsed">
+                    <label for="{{'from' + i}}"> From</label>
+                    <input
+                    type="search"
+                    id="{{'from1' + i}}"
+                    class="form-control square "
+                    #typeaheadAirportInstance="ngbTypeahead"
+                      [inputFormatter]="airportFormatter"
+                      formControlName="fromName"
+                      [ngbTypeahead]="onSearchAirport"
+                      [resultTemplate]="searchAirportResultTemplate"
+                      placeholder="From"
+                      [ngClass]="{ 'is-invalid': routeDetails.controls[i].get('fromName').errors && (isValidFormSubmitted != null && !isValidFormSubmitted ||routeDetails.controls[i].get('fromName').touched) }" />
+                      <ng-template #searchAirportResultTemplate let-r="result" let-t="term">
+                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                      </ng-template>
+                    <p class="invalid-feedback"
+                      *ngIf="routeDetails.controls[i].get('fromName').errors?.required && (isValidFormSubmitted != null && !isValidFormSubmitted ||routeDetails.controls[i].get('fromName').touched)">
+                      Please select start place
+                    </p>
+                  </div>
+                  <div class="form-group col-12 col-md-2" *ngIf="rowsControlsFormarked[i]?.ismarkedCollapsed">
+                    <label for="{{'from' + i}}"> From</label>
+                    <input
+                    type="search"
+                    id="{{'from2' + i}}"
+                    class="form-control square "
+                    #typeaheadPaxInstance="ngbTypeahead"
+                    [inputFormatter]="regionsFormatter"
+                    formControlName="fromName"
+                    [ngbTypeahead]="onSearchRegions"
+                    [resultTemplate]="searchResultFromTemplate"
+                    placeholder="Region From"
+                    [ngClass]="{ 'is-invalid': routeDetails.controls[i].get('fromName').errors && (isValidFormSubmitted != null && !isValidFormSubmitted ||routeDetails.controls[i].get('fromName').touched) }" />
+                    <ng-template #searchResultFromTemplate let-r="result" let-t="term">
+                      <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                    </ng-template>
+                    <p class="invalid-feedback"
+                      *ngIf="routeDetails.controls[i].get('fromName').errors?.required && (isValidFormSubmitted != null && !isValidFormSubmitted ||routeDetails.controls[i].get('fromName').touched)">
+                      Please select start place
+                    </p>
+                  </div>
+                  <div class="form-group d-flex" *ngIf="rowsControlsRegionTo[i]?.isRegionToCollapsed">
+                    <ul class="list-unstyled mb-0  mt-4">
+                      <li class="d-inline-block mr-2 mb-2">
+                        <div class="checkbox" >
+                          <input type="checkbox" data-md-icheck (change)="toggleVisibilityTo($event, i)"
+                            id="{{'checkbox2' + i}}" formControlName="groupTo">
+                          <label for="{{'checkbox2' + i}}"><span>Regions?</span></label>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="form-group col-12 col-md-2" *ngIf="rowsControlsAirlineTo[i]?.isAirlineToCollapsed">
+                    <label for="{{'to' + i}}"> To</label>
+                    <input
+                    type="search"
+                    id="{{'to1' + i}}"
+                    class="form-control square "
+                    #typeaheadAirportInstance="ngbTypeahead"
+                      [inputFormatter]="airportFormatter"
+                      formControlName="toName"
+                      [ngbTypeahead]="onSearchAirport"
+                      placeholder="To"
+                      [resultTemplate]="searchAirportToResultTemplate"
+                      [ngClass]="{ 'is-invalid': routeDetails.controls[i].get('toName').errors && (isValidFormSubmitted != null && !isValidFormSubmitted ||routeDetails.controls[i].get('toName').touched) }" />
+                      <ng-template #searchAirportToResultTemplate let-r="result" let-t="term">
+                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                      </ng-template>
+                    <p class="invalid-feedback"
+                      *ngIf="routeDetails.controls[i].get('toName').errors?.required && (isValidFormSubmitted != null && !isValidFormSubmitted ||routeDetails.controls[i].get('toName').touched)">
+                      Please select end place
+                    </p>
+                  </div>
+                  <div class="form-group col-12 col-md-2"  *ngIf="rowsControlsFormarkedTo[i]?.ismarkedToCollapsed">
+                    <label for="{{'from' + i}}"> To</label>
+                    <input
+                    type="search"
+                    id="{{'to2' + i}}"
+                    class="form-control square "
+                    #typeaheadPaxInstance="ngbTypeahead"
+                      [inputFormatter]="regionsFormatter"
+                      formControlName="toName"
+                      [ngbTypeahead]="onSearchRegions"
+                      placeholder="Region To"
+                      [resultTemplate]="searchResultToTemplate"
+                      [ngClass]="{ 'is-invalid': routeDetails.controls[i].get('toName').errors && (isValidFormSubmitted != null && !isValidFormSubmitted ||routeDetails.controls[i].get('toName').touched) }" />
+                      <ng-template #searchResultToTemplate let-r="result" let-t="term">
+                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                      </ng-template>
+                    <p class="invalid-feedback"
+                      *ngIf="routeDetails.controls[i].get('toName').errors?.required && (isValidFormSubmitted != null && !isValidFormSubmitted ||routeDetails.controls[i].get('toName').touched)">
+                      Please select end place
+                    </p>
+                  </div>
+                  <div class="col-12 col-md-2">
+                    <div class="form-group">
+                      <label>Marketing Carrier</label>
+                      <input
+                      type="search"
+                      class="form-control square "
+                      #typeaheadAirlineInstance="ngbTypeahead"
+                      [resultTemplate]="searchResultAirlineMTemplate"
+                      [inputFormatter]="airlineFormatter"
+                      formControlName="marketingCarrier"
+                       [ngbTypeahead]="onSearchAirline"
+                      placeholder="Marketing Carrier"
+                       />
+                       <ng-template #searchResultAirlineMTemplate let-r="result" let-t="term">
+                        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                      </ng-template>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-2">
+                    <div class="form-group">
+                      <label>Operating Carrier</label>
+                      <input
+                      type="search"
+                      #typeaheadAirlineInstance="ngbTypeahead"
+                      class="form-control square "
+                      [inputFormatter]="airlineFormatter"
+                      [resultTemplate]="searchResultAirlineOTemplate"
+                       formControlName="opratingCarrier"
+                       [ngbTypeahead]="onSearchAirline"
+                        placeholder="Operating Carrier" />
+                        <ng-template #searchResultAirlineOTemplate let-r="result" let-t="term">
+                          <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                        </ng-template>
+                    </div>
+                  </div>
+
+                  <div class="form-group d-flex mt-3 ">
+                    <button (click)="add($event,i)"  *ngIf="rowsControlsForshow[i]?.isshowCollapsed " type="button" class="btn mt-1 p-0 ">
+                      <i class="ft-plus-circle" aria-hidden="true" style="font-size: 28px;"></i>
+                    </button>
+                    <button (click)="delete(i)" *ngIf="rowsControlsForshow[i]?.isshowCollapsed " type="button" class="btn p-0 ml-2 mt-1">
+                      <i class="ft-minus-circle" aria-hidden="true" style="font-size: 28px;"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="d-flex justify-content-end mt-3 mb-1">
+            <button type="submit" *ngIf="!isEdit" (click)="onSubmitRouteForm()" class="btn btn-primary  round mr-1">
+              <i class="fa fa-arrow-circle-right mr-1" aria-hidden="true"></i>
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

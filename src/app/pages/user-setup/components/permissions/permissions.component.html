@@ -1,0 +1,67 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title text-center">Permissions List</h4>
+    </div>
+    <div class="card-body">
+      <form>
+        <div class="form-group form-inline col-3 col-12">
+          <label>Search:
+            <input class="form-control square" placeholder="Search " type="text" name="searchTerm"
+              [(ngModel)]="searchText" /></label>
+        </div>
+      </form>
+      <div class="table-responsive table">
+        <div class="outer">
+          <div class="inner">
+            <table class="table  m-0">
+              <thead>
+                <tr>
+                  <th scope="col" class="listtr col1 ">S.No</th>
+                  <th scope="col" class="listtr"> Name</th>
+                  <th scope="col" class="listtr"> Key</th>
+                  <th scope="col" class="listtr"> Description</th>
+                  <th scope="col" class="listtr"> Group Name</th>
+
+                  <th scope="col" class="listtr"> Order</th>
+                  <th scope="col" class="listtr">Status</th>
+                  <th scope="col" class="pointer listtr" (click)="gotoform()">
+                    <i class="ft-plus font-medium-3 mr-2"></i>
+                  </th>
+                </tr>
+
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let j of permissionsList | filter:searchText | slice: (page-1) * pageSize : page * pageSize; index as i;">
+                  <td scope="row" class="pt-3 wrap-text col1">{{ (page -1) * pageSize + i + 1 }}</td>
+                  <td class="pt-3 wrap-text col1">{{j.PermissionName}}</td>
+                  <td class="pt-3 wrap-text">{{j.PermissionKey }}</td>
+                  <td class="pt-3 wrap-text">{{j.Description }}</td>
+                  <td class="pt-3 wrap-text">{{j.PermissionGroupName }}</td>
+                  <td class="pt-3 wrap-text">{{j.PermissionOrder }}</td>
+
+                  <td></td>
+
+                  <td class="pointer"><i class="ft-edit-2 font-medium-3 mr-2" (click)="findById(j.SNO)"></i></td>
+                </tr>
+                <tr *ngIf="show">
+                  <td class="pt-3 wrap-text col1">
+                    No data found
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+            <div class="d-flex justify-content-between p-2" *ngIf="permissionsList?.length >0">
+              <ngb-pagination [collectionSize]="permissionsList?.length" [(page)]="page" [maxSize]="4"
+                [boundaryLinks]="true" [pageSize]="pageSize" class="d-flex justify-content-center">
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

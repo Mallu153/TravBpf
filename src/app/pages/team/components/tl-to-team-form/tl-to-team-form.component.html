@@ -1,0 +1,137 @@
+<section id="basic-hidden-label-form-layouts">
+  <div class="row match-height">
+    <div class="col-lg-12 col-md-12  col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{{pageTitle}}</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <form [formGroup]="tltoTeamForm">
+              <div class="form-row">
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Organization">Organization</label>
+                    <select id="Organization" (change)="changeOrg($event.target.value)" name="Organization"
+                      class="form-control square" formControlName="organization"
+                      [ngClass]="{ 'is-invalid': (submitted || f.organization.touched) && f.organization.errors }">
+                      <option value="">Choose</option>
+                      <option [value]="orgs.organizationId" *ngFor="let orgs of orgListLov">
+                        {{orgs.name}}
+                      </option>
+                    </select>
+                    <div *ngIf="(submitted || f.organization.touched)&&f.organization.errors" class="invalid-feedback">
+                      <div *ngIf="f.organization.errors.required">
+                        Please select your organization
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Module">Module</label>
+                    <select id="Module" name="Module" class="form-control square" formControlName="module"
+                      [ngClass]="{ 'is-invalid': (submitted || f.module.touched) && f.module.errors }">
+                      <option value="">Choose</option>
+                      <option [value]="module.moduleId" *ngFor="let module of moduleList">
+                        {{module.moduleName}}
+                      </option>
+                    </select>
+                    <div *ngIf="(submitted || f.module.touched)&&f.module.errors" class="invalid-feedback">
+                      <div *ngIf="f.module.errors.required">
+                        Please select your module
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Teams">Team</label>
+                    <select id="Teams" (change)="onTeamIdChange($event.target.value)" name="Teams"
+                      class="form-control square" formControlName="team"
+                      [ngClass]="{ 'is-invalid': (submitted || f.team.touched) && f.team.errors }">
+                      <option value="">Choose</option>
+                      <option [value]="team.teamId" *ngFor="let team of teamList">
+                        {{team.teamName}}
+                      </option>
+                    </select>
+                    <div *ngIf="(submitted || f.team.touched)&&f.team.errors" class="invalid-feedback">
+                      <div *ngIf="f.team.errors.required">
+                        Please select your team
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="TeamLeader">Team Leader</label>
+                    <select id="TeamLeader" name="TeamLeader" class="form-control square" formControlName="teamLeader"
+                      [ngClass]="{ 'is-invalid': (submitted || f.teamLeader.touched) && f.teamLeader.errors }">
+                      <option value="">Choose</option>
+                      <option [value]="t.userId" *ngFor="let t of teamLeaderList">
+                        {{t.userNames}}
+                      </option>
+                    </select>
+                    <div *ngIf="(submitted || f.teamLeader.touched)&&f.teamLeader.errors" class="invalid-feedback">
+                      <div *ngIf="f.teamLeader.errors.required">
+                        Please select your team leader
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="startdate">Start Date</label>
+                    <input type="date" id="startdate" class="form-control square" name="startdate"
+                      formControlName="startDate"
+                      [ngClass]="{ 'is-invalid': (submitted || f.startDate.touched) && f.startDate.errors }">
+                    <div *ngIf="(submitted || f.startDate.touched)&&f.startDate.errors" class="invalid-feedback">
+                      <div *ngIf="f.startDate.errors.required">
+                        Please enter your start date
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="endDate">End Date</label>
+                    <input type="date" id="endDate" class="form-control square" name="endDate"
+                      formControlName="endDate">
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Status">Status</label>
+                    <select id="Status" name="Status" class="form-control square" formControlName="status"
+                      [ngClass]="{ 'is-invalid': (submitted || f.status.touched) && f.status.errors }">
+                      <option value="">Choose</option>
+                      <option value="Active">Active</option>
+                      <option value="InActive">InActive</option>
+                    </select>
+                    <div *ngIf="(submitted || f.status.touched)&&f.status.errors" class="invalid-feedback">
+                      <div *ngIf="f.status.errors.required">
+                        Please select your status
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button type="button" *ngIf="!isEdit" (click)="onSubmitTLToTeamForm()" class="btn btn-primary mr-2">
+                <i class="ft-check-square mr-1"></i>
+                Save
+              </button>
+              <button type="button" *ngIf="isEdit" (click)="onEditTLToTeamForm()" class="btn btn-primary mr-2">
+                <i class="ft-check-square mr-1"></i>
+                Update
+              </button>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

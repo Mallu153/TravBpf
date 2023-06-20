@@ -1,0 +1,71 @@
+<div class="container-fluid">
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title text-center">Mail Template List</h4>
+    </div>
+    <div class="card-body">
+      <form>
+        <div class="form-group form-inline col-3 col-12">
+          <label>Search:
+            <input class="form-control square" placeholder="Search " type="text" name="searchTerm"
+              [(ngModel)]="searchText" /></label>
+        </div>
+      </form>
+      <div class="table-responsive table">
+        <div class="outer">
+          <div class="inner">
+            <table class="table  m-0">
+              <thead>
+                <tr class="refresh">
+                  <th scope="col" class="col1 ">S.No</th>
+                  <th scope="col" >Template Name</th>
+                  <th scope="col" >View Name</th>
+                  <th scope="col" >Subject</th>
+                  <th scope="col" >Created Date</th>
+                  <th scope="col" >Status</th>
+                  <th scope="col" class="pointer" (click)="gotoMailTemplateform()">
+                    <i class="ft-plus font-medium-3 mr-2"></i>
+                  </th>
+                </tr>
+
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let j of mailTemplateList | filter:searchText | slice: (page-1) * pageSize : page * pageSize; index as i;">
+                  <td scope="row">{{ (page -1) * pageSize + i + 1 }}</td>
+                  <td class="pt-3 wrap-text col1">{{j.templateName}}</td>
+                  <td class="pt-3 wrap-text">{{j.viewName}}</td>
+                  <td class="pt-3 wrap-text">{{j.subject}}</td>
+                  <td class="pt-3 wrap-text">
+                    {{j.startDate| date: 'dd-MMM-yyyy'}}
+                  </td>
+
+                  <td class="pt-3 wrap-text">
+                    <div class="badge badge-pill"
+                      [ngClass]="{ 'bg-light-success':j.status == 'Active', 'bg-light-danger':j.status == 'InActive' }">
+                      {{ j.status}}
+                    </div>
+                  </td>
+                  <td class="pointer"><i class="ft-edit-2 font-medium-3 mr-2" (click)="findById(j.id)"></i></td>
+                </tr>
+                <tr *ngIf="show">
+                  <td class="pt-3 wrap-text col1">
+                    No data found
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+            <div class="d-flex justify-content-between p-2" *ngIf="mailTemplateList?.length > 0">
+              <ngb-pagination [collectionSize]="mailTemplateList?.length" [(page)]="page" [maxSize]="10"
+                [boundaryLinks]="true" [pageSize]="pageSize" class="d-flex justify-content-center">
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

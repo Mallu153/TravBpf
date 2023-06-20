@@ -1,0 +1,91 @@
+<section id="basic-hidden-label-form-layouts">
+  <div class="row match-height">
+    <div class="col-lg-12 col-md-12 col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{{pageTitle}}</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <form [formGroup]="rolePermissionsForm">
+              <div class="form-row">
+                <div class="col-md-4 col-12">
+                  <div class="form-group mb-2">
+                    <label for="roles">Role</label>
+
+                    <ng-select [searchable]="true" placeholder="Role" formControlName="roles"
+                      [ngClass]="{ 'is-invalid': (submitted || f.roles.touched) && f.roles.errors }">
+                      <ng-option *ngFor="let role of roleList" [value]="role.SNO">
+                        {{role.RoleName}}</ng-option>
+
+                    </ng-select>
+                    <div *ngIf="(submitted || f.roles.touched)&&f.roles.errors" class="invalid-feedback">
+                      <div *ngIf="f.roles.errors.required">
+                        Please select your role
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-5 col-12">
+                  <div class="form-group mb-2">
+                    <label for="permission">Permission</label>
+                    <ng-select [items]="permissionsList" bindValue="SNO" bindLabel="PermissionName" [multiple]="true"
+                      placeholder="Select Permissions" formControlName="permissions">
+                      <!--  <ng-option *ngFor="let mail of permissionsList" [value]="mail.id">
+                        {{mail.templateName}}
+                      </ng-option> -->
+                      <ng-template ng-header-tmp>
+                        <div>
+                          <button class="btn btn-link" (click)="onSelectAllSupplier()">Select
+                            All</button>
+                          <button class="btn btn-link" (click)="onClearAllSupplier()">Clear
+                            All</button>
+                        </div>
+                      </ng-template>
+                      <ng-template ng-multi-label-tmp let-items="items">
+                        <div class="ng-value" *ngFor="let item of items | slice:0:0">
+                          <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                        </div>
+                        <div class="ng-value" *ngIf="items?.length > 0">
+                          <span class="ng-value-label">{{items.length}} selected</span>
+                        </div>
+                      </ng-template>
+                    </ng-select>
+
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Status">Status</label>
+                    <select id="Status" name="Status" class="form-control square" formControlName="status"
+                      [ngClass]="{ 'is-invalid': (submitted || f.status.touched) && f.status.errors }">
+                      <option value="">Choose</option>
+                      <option value="Active">Active </option>
+                      <option value="InActive">InActive</option>
+                      <option value="Block">Block</option>
+                    </select>
+                    <div *ngIf="(submitted || f.status.touched)&&f.status.errors" class="invalid-feedback">
+                      <div *ngIf="f.status.errors.required">
+                        Please select your status
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button type="button" *ngIf="!isEdit" (click)="OnSubmitForm()" class="btn btn-primary mr-2">
+                <i class="ft-check-square mr-1"></i>
+                Save
+              </button>
+              <button type="button" *ngIf="isEdit" (click)="OnEditForm()" class="btn btn-primary mr-2">
+                <i class="ft-check-square mr-1"></i>
+                Update
+              </button>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

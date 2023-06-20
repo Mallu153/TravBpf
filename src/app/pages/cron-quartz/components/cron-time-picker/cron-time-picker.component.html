@@ -1,0 +1,28 @@
+<div class="form-group cron" [formGroup]="parent.control">
+  <ng-container *ngIf="!hideHours" class="mt-2 mr-2">
+    <label for="hours" class="mt-2 mr-2">Hour(s)</label>
+    <select id="hours" name="hours" formControlName="hours" class="form-control square cron-width">
+      <option *ngFor="let hour of hours" [value]="hour">{{ hour }}</option>
+    </select>
+  </ng-container>
+  <ng-container *ngIf="!hideMinutes">
+    <span *ngIf="!hideHours" class="mt-2 mr-2 ml-2">:</span>
+    <label for="minutes" class="mt-2 mr-2">Minute(s)</label>
+    <select formControlName="minutes" class="form-control square cron-width" id="minutes" name="minutes">
+      <option *ngFor="let minute of minutes" [value]="minute">{{ minute }}</option>
+    </select>
+  </ng-container>
+  <ng-container *ngIf="!hideSeconds">
+    <span *ngIf="!hideMinutes" class="mt-2 mr-2 ml-2">:</span>
+    <label for="seconds" class="mt-2 mr-2">Second(s)</label>
+    <select formControlName="seconds" class="form-control square cron-width" id="seconds" name="seconds">
+      <option *ngFor="let second of seconds" [value]="second">{{ second }}</option>
+    </select>
+  </ng-container>
+  <ng-container *ngIf="!use24HourTime">
+    <span></span>.
+    <select formControlName="hourType" class="form-control square cron-width" id="hourType" name="hourType">
+      <option *ngFor="let hourType of hourTypes" [value]="hourType">{{ hourType }}</option>
+    </select>
+  </ng-container>
+</div>

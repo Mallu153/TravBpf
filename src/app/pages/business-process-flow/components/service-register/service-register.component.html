@@ -1,0 +1,222 @@
+<section id="basic-hidden-label-form-layouts">
+  <div class="row match-height">
+    <div class="col-lg-12 col-md-12 col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{{ pageTitle }}</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <form [formGroup]="serviceRegisterForm">
+              <div class="form-row">
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="servicename">Service Name</label>
+                    <input
+                      type="text"
+                      id="servicename"
+                      class="form-control square"
+                      placeholder="Service Name"
+                      name="servicename"
+                      formControlName="serviceName"
+                      [ngClass]="{ 'is-invalid': (submitted || f.serviceName.touched) && f.serviceName.errors }"
+                    />
+                    <div *ngIf="(submitted || f.serviceName.touched) && f.serviceName.errors" class="invalid-feedback">
+                      <div *ngIf="f.serviceName.errors.required">Please enter your service name</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-9 col-12">
+                  <div class="form-group mb-2">
+                    <label for="serviceurl">Service Url</label>
+                    <input
+                      type="url"
+                      id="serviceurl"
+                      class="form-control square"
+                      placeholder="Service Url"
+                      name="serviceurl"
+                      formControlName="serviceUrl"
+                      [ngClass]="{ 'is-invalid': (submitted || f.serviceUrl.touched) && f.serviceUrl.errors }"
+                    />
+                    <div *ngIf="(submitted || f.serviceUrl.touched) && f.serviceUrl.errors" class="invalid-feedback">
+                      <div *ngIf="f.serviceUrl.errors.required">Please enter your service url</div>
+                      <div *ngIf="f.serviceUrl.errors.invalidURL">Please enter valid service url</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-12 col-md-2 mb-2">
+                  <div class="checkbox checkbox-primary">
+                    <input type="checkbox" id="isBpf" formControlName="isBpf" data-md-icheck />
+                    <div *ngIf="submitted && f.isBpf.errors" class="invalid-feedback"></div>
+                    <label for="isBpf">IsBpf</label>
+                  </div>
+                </div>
+                <div class="col-12 col-md-2 mb-2">
+                  <div class="checkbox checkbox-primary">
+                    <input type="checkbox" id="isSeviceUrl" formControlName="isSeviceUrl" data-md-icheck />
+                    <div *ngIf="submitted && f.isSeviceUrl.errors" class="invalid-feedback"></div>
+                    <label for="isSeviceUrl">IsServiceURL</label>
+                  </div>
+                </div>
+                <div class="col-6 col-md-2 mb-2">
+                  <div class="checkbox checkbox-primary">
+                    <input
+                      type="checkbox"
+                      id="isQuartz"
+                      formControlName="isQuartz"
+                      data-md-icheck
+                      (change)="onChangeQuartz($event)"
+                      [ngClass]="{
+                        'is-invalid': submitted && f.isQuartz.errors
+                      }"
+                    />
+                    <div *ngIf="submitted && f.isQuartz.errors" class="invalid-feedback"></div>
+                    <label for="isQuartz">isQuartz</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group mb-2 col-12 col-md-12">
+                  <label for="Description">Description</label>
+                  <textarea
+                    id="Description"
+                    rows="4"
+                    placeholder="Description"
+                    class="form-control square"
+                    name="Description"
+                    formControlName="description"
+                  ></textarea>
+                </div>
+              </div>
+              <div class="border mt-1 form-row" *ngIf="serviceRegisterForm.value.isQuartz">
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="outPut">OutPut</label>
+                    <select
+                      id="outPut"
+                      name="outPut"
+                      class="form-control square"
+                      formControlName="outPut"
+                      [ngClass]="{ 'is-invalid': (submitted || f.outPut.touched) && f.outPut.errors }"
+                    >
+                      <option value="">Choose</option>
+                      <option value="1">Email</option>
+                      <option value="1">Notification</option>
+                      <option value="1">ServiceCall</option>
+                    </select>
+                    <div *ngIf="(submitted || f.outPut.touched) && f.outPut.errors" class="invalid-feedback">
+                      <div *ngIf="f.outPut.errors.required">Please select your output</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="template">Template</label>
+                    <select
+                      id="template"
+                      name="template"
+                      class="form-control square"
+                      formControlName="template"
+                      [ngClass]="{ 'is-invalid': (submitted || f.template.touched) && f.template.errors }"
+                    >
+                      <option value="">Choose</option>
+                      <option value="1">Task</option>
+                    </select>
+                    <div *ngIf="(submitted || f.template.touched) && f.template.errors" class="invalid-feedback">
+                      <div *ngIf="f.template.errors.required">Please select your template</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row mt-2">
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Module">Module</label>
+                    <select
+                      id="Module"
+                      name="Module"
+                      class="form-control square"
+                      formControlName="moduleId"
+                      [ngClass]="{ 'is-invalid': (submitted || f.moduleId.touched) && f.moduleId.errors }"
+                    >
+                      <option value="">Choose</option>
+                      <option [value]="submodule.moduleId" *ngFor="let submodule of moduleList">
+                        {{ submodule.moduleName }}
+                      </option>
+                    </select>
+                    <div *ngIf="(submitted || f.moduleId.touched) && f.moduleId.errors" class="invalid-feedback">
+                      <div *ngIf="f.moduleId.errors.required">Please select your module</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="sdate">Start Date</label>
+                    <input
+                      type="date"
+                      id="sdate"
+                      class="form-control square"
+                      name="sdate"
+                      formControlName="startDate"
+                      [ngClass]="{ 'is-invalid': (submitted || f.startDate.touched) && f.startDate.errors }"
+                    />
+                    <div *ngIf="(submitted || f.startDate.touched) && f.startDate.errors" class="invalid-feedback">
+                      <div *ngIf="f.startDate.errors.required">Please enter your start date</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="enddate">End Date</label>
+                    <input
+                      type="date"
+                      id="enddate"
+                      class="form-control square"
+                      name="enddate"
+                      formControlName="endDate"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Status">Status</label>
+                    <select
+                      id="Status"
+                      name="Status"
+                      class="form-control square"
+                      formControlName="status"
+                      [ngClass]="{ 'is-invalid': (submitted || f.status.touched) && f.status.errors }"
+                    >
+                      <option value="">Choose</option>
+                      <option value="Active">Active</option>
+                      <option value="InActive">InActive</option>
+                    </select>
+                    <div *ngIf="(submitted || f.status.touched) && f.status.errors" class="invalid-feedback">
+                      <div *ngIf="f.status.errors.required">Please select your status</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button
+                type="button"
+                *ngIf="!isEdit"
+                (click)="onSubmitServiceRegisterForm()"
+                class="btn btn-primary mr-2"
+              >
+                <i class="ft-check-square mr-1"></i>
+                Save
+              </button>
+              <button type="button" *ngIf="isEdit" (click)="onEditServiceRegisterForm()" class="btn btn-primary mr-2">
+                <i class="ft-check-square mr-1"></i>
+                Update
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

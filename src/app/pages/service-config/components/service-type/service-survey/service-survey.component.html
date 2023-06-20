@@ -1,0 +1,84 @@
+<form [formGroup]="serviceTypeForm" *ngIf="headerData">
+  <div formArrayName="surveys">
+    <div *ngFor="let d of surveys().controls; let i = index" [formGroupName]="i" class="border-bottom border-primary">
+      <div class="form-row">
+        <div class="offset-md-9 col-md-3">
+          <p class="float-right font-small-3">Que {{ i + 1 }}</p>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-12 col-md-8 form-group mb-2">
+          <label for="priceList">Question</label>
+          <ng-select
+            [items]="questions[i]"
+            bindLabel="question"
+            bindValue="id"
+            [searchable]="true"
+            (search)="OnSearchQuestion($event, i)"
+            formControlName="question"
+            [ngClass]="{
+              'is-invalid':
+                surveys().controls[i].get('question').errors &&
+                ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                  surveys().controls[i].get('question').touched)
+            }"
+          >
+          </ng-select>
+
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              surveys().controls[i].get('question').errors?.required &&
+              ((isValidFormSubmitted != null && !isValidFormSubmitted) || surveys().controls[i].get('question').touched)
+            "
+          >
+            Please Search Your Question
+          </div>
+        </div>
+        <div class="col-md-2 col-4 form-group mb-2">
+          <label for="status">Status</label>
+          <select
+            id="status"
+            name="status"
+            class="form-control square"
+            formControlName="status"
+            [ngClass]="{
+              'is-invalid':
+                surveys().controls[i].get('status').errors &&
+                ((isValidFormSubmitted != null && !isValidFormSubmitted) || surveys().controls[i].get('status').touched)
+            }"
+          >
+            <!-- <option value="">Choose</option> -->
+            <option value="Active">Active</option>
+            <option value="InActive">InActive</option>
+          </select>
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              surveys().controls[i].get('status').errors?.required &&
+              ((isValidFormSubmitted != null && !isValidFormSubmitted) || surveys().controls[i].get('status').touched)
+            "
+          >
+            Please Select Status
+          </div>
+        </div>
+        <div class="form-group col-2 col-md-2 mt-3">
+          <button (click)="add()" type="button" class="btn mt-1 p-0 float-right">
+            <i class="ft-plus-circle" aria-hidden="true" style="font-size: 28px"></i>
+          </button>
+          <button (click)="delete(i)" type="button" class="btn p-0 mx-3 mt-1 float-right">
+            <i class="ft-minus-circle" aria-hidden="true" style="font-size: 28px"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-row mt-2">
+    <div class="offset-md-9 col-md-3 mb-2">
+      <button type="button" (click)="onSubmit()" class="btn btn-primary square mr-2 float-right">
+        <i class="ft-check-square mr-1"></i>
+        Submit
+      </button>
+    </div>
+  </div>
+</form>

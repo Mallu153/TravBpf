@@ -1,0 +1,142 @@
+<section id="basic-hidden-label-form-layouts">
+  <div class="row match-height">
+    <div class="col-lg-12 col-md-12 col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">{{ pageTitle }}</h4>
+            <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!-- <h4 class="card-title"></h4> -->
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <form [formGroup]="questionForm">
+              <div class="form-row">
+                <div class="form-group col-md-6 col-12 mb-2">
+                  <label for="name">Question</label>
+                  <input
+                    type="text"
+                    id="name"
+                    class="form-control square"
+                    name="name"
+                    placeholder="Enter Question"
+                    formControlName="question"
+                    [ngClass]="{
+                      'is-invalid': submitted && f.question.errors
+                    }"
+                  />
+                  <div *ngIf="submitted && f.question.errors" class="invalid-feedback">
+                    <div *ngIf="f.question.errors.required">Please enter your Question</div>
+                  </div>
+                </div>
+                <div class="form-group col-md-2 col-3 mb-2" *ngIf="fromSurvey.from !== 'FAQ'">
+                  <label for="name">Type</label>
+                  <select
+                    id="qtype"
+                    name="status"
+                    (change)="onTypeChange($event.target.value)"
+                    class="form-control square ml-1"
+                    formControlName="type"
+                    [ngClass]="{
+                      'is-invalid': submitted && f.type.errors
+                    }"
+                  >
+                    <option value="">Choose</option>
+                    <option [value]="field.id" *ngFor="let field of fieldTypes">
+                      {{ field.name }}
+                    </option>
+                  </select>
+                  <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
+                    <div *ngIf="f.type.errors.required">Please enter your Type</div>
+                  </div>
+                </div>
+                <!-- <div
+                  class="form-group col-md-4 col-12 mb-2"
+                  *ngIf="
+                    questionForm.value.type === '8' ||
+                    questionForm.value.type === '3'
+                  "
+                >
+                  <label for="name">Options</label>
+                  <input
+                    type="text"
+                    id="name"
+                    class="form-control square"
+                    name="name"
+                    placeholder="Enter options"
+                    formControlName="options"
+                    [ngClass]="{
+                      'is-invalid': submitted && f.options.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && f.options.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f.options.errors.required">
+                      Please enter your options
+                    </div>
+                  </div>
+                </div> -->
+                <div
+                  class="form-group col-md-4 col-12 mb-2"
+                  *ngIf="
+                    questionForm.value.type === '2' ||
+                    questionForm.value.type === '8' ||
+                    questionForm.value.type === '3'
+                  "
+                >
+                  <label for="name">Service</label>
+                  <ng-select
+                    [searchable]="true"
+                    formControlName="service"
+                    [ngClass]="{
+                      'is-invalid': submitted && f.service.errors
+                    }"
+                  >
+                    <ng-option *ngFor="let service of serviceRegisterList" [value]="service.serviceUrl">
+                      {{ service.serviceName }}
+                    </ng-option>
+                  </ng-select>
+                  <div *ngIf="submitted && f.service.errors" class="invalid-feedback">
+                    <div *ngIf="f.service.errors.required">Please select your service api</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-12 col-12 mb-2">
+                  <label for="name">Description</label>
+                  <textarea
+                    type="text"
+                    id="name"
+                    class="form-control square"
+                    name="name"
+                    placeholder="Enter Description"
+                    formControlName="description"
+                    [ngClass]="{
+                      'is-invalid': submitted && f.description.errors
+                    }"
+                  ></textarea>
+                  <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                    <div *ngIf="f.description.errors.required">Please enter your description</div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <button type="button" *ngIf="!isEdit" (click)="onSubmit()" class="btn btn-primary square mr-2">
+              <i class="ft-check-square mr-1"></i>
+              Save
+            </button>
+            <button type="button" (click)="onUpdate()" *ngIf="isEdit" class="btn btn-primary square mr-2">
+              <i class="ft-check-square mr-1"></i>
+              Update
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

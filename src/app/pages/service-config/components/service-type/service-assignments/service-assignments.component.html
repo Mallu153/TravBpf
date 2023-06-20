@@ -1,0 +1,186 @@
+<form [formGroup]="serviceTypeForm" *ngIf="headerData">
+  <div formArrayName="assignments">
+    <div *ngFor="let d of assignments().controls; let i = index" [formGroupName]="i">
+      <div class="form-row">
+        <div class="col-6 col-md-2 form-group mb-2">
+          <label for="defaultStatus">Task Status</label>
+          <select
+            id="defaultStatus"
+            name="defaultStatus"
+            class="form-control square"
+            formControlName="defaultStatus"
+            (change)="onStatusChange($event.target.value)"
+            [ngClass]="{
+              'is-invalid':
+                assignments().controls[i].get('defaultStatus').errors &&
+                ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                  assignments().controls[i].get('defaultStatus').touched)
+            }"
+          >
+            <option value="">Choose</option>
+            <option [value]="price.id" *ngFor="let price of statuses">
+              {{ price.name }}
+            </option>
+          </select>
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              assignments().controls[i].get('defaultStatus').errors?.required &&
+              ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                assignments().controls[i].get('defaultStatus').touched)
+            "
+          >
+            Please select Default Status
+          </div>
+        </div>
+        <div class="col-6 col-md-2 form-group mb-2">
+          <label for="team">Team</label>
+          <select
+            id="team"
+            name="team"
+            class="form-control square"
+            formControlName="team"
+            [ngClass]="{
+              'is-invalid':
+                assignments().controls[i].get('team').errors &&
+                ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                  assignments().controls[i].get('team').touched)
+            }"
+          >
+            <option value="">Choose</option>
+            <option [value]="price.teamId" *ngFor="let price of teams">
+              {{ price.teamName }}
+            </option>
+          </select>
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              assignments().controls[i].get('team').errors?.required &&
+              ((isValidFormSubmitted != null && !isValidFormSubmitted) || assignments().controls[i].get('team').touched)
+            "
+          >
+            Please select Team
+          </div>
+        </div>
+
+        <div class="col-6 col-md-2 form-group mb-2">
+          <label for="startDate">Start Date</label>
+          <input
+            type="date"
+            id="startDate"
+            class="form-control square"
+            name="startDate"
+            placeholder="Enter Start Date"
+            formControlName="startDate"
+            [ngClass]="{
+              'is-invalid':
+                assignments().controls[i].get('startDate').errors &&
+                ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                  assignments().controls[i].get('startDate').touched)
+            }"
+          />
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              assignments().controls[i].get('startDate').errors?.required &&
+              ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                assignments().controls[i].get('startDate').touched)
+            "
+          >
+            Please Select Start Date
+          </div>
+        </div>
+        <div class="col-6 col-md-2 form-group mb-2">
+          <label for="endDate">End Date</label>
+          <input
+            type="date"
+            id="endDate"
+            class="form-control square"
+            name="endDate"
+            placeholder="Enter End Date"
+            formControlName="endDate"
+            [ngClass]="{
+              'is-invalid':
+                assignments().controls[i].get('endDate').errors &&
+                ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                  assignments().controls[i].get('endDate').touched)
+            }"
+          />
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              assignments().controls[i].get('endDate').errors?.required &&
+              ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                assignments().controls[i].get('endDate').touched)
+            "
+          >
+            Please Select End Date
+          </div>
+        </div>
+        <div class="col-md-2 col-4 form-group mb-2">
+          <label for="status">Status</label>
+          <select
+            id="status"
+            name="status"
+            class="form-control square"
+            formControlName="status"
+            [ngClass]="{
+              'is-invalid':
+                assignments().controls[i].get('status').errors &&
+                ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                  assignments().controls[i].get('status').touched)
+            }"
+          >
+            <!-- <option value="">Choose</option> -->
+            <option value="Active">Active</option>
+            <option value="InActive">InActive</option>
+          </select>
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              assignments().controls[i].get('endDate').errors?.required &&
+              ((isValidFormSubmitted != null && !isValidFormSubmitted) ||
+                assignments().controls[i].get('endDate').touched)
+            "
+          >
+            Please Select Status
+          </div>
+        </div>
+        <!--  <div class="form-group col-2 col-md-2 mt-3">
+          <button
+            (click)="add()"
+
+            type="button"
+            class="btn mt-1 p-0 float-right"
+          >
+            <i
+              class="ft-plus-circle"
+              aria-hidden="true"
+              style="font-size: 28px"
+            ></i>
+          </button>
+          <button
+            (click)="delete(i)"
+
+            type="button"
+            class="btn p-0 mx-3 mt-1 float-right"
+          >
+            <i
+              class="ft-minus-circle"
+              aria-hidden="true"
+              style="font-size: 28px"
+            ></i>
+          </button>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="form-row mt-2">
+    <div class="offset-md-9 col-md-3 mb-2">
+      <button type="button" (click)="onSubmit()" class="btn btn-primary square mr-2 float-right">
+        <i class="ft-check-square mr-1"></i>
+        Submit
+      </button>
+    </div>
+  </div>
+</form>

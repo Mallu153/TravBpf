@@ -1,0 +1,83 @@
+<section id="simple-table">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Resources Assignment List</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <fieldset class="form-group" *ngIf="resourcesAssigentList && resourcesAssigentList.length >0">
+              <label>Show
+                <select name="users-list-select"[(ngModel)]="pageSize"(ngModelChange)="getList()" class="form-control form-control-sm d-inline-block width-100 p-right-25 ">
+                  <option [ngValue]="10">10</option>
+                  <option [ngValue]="15">15</option>
+                  <option [ngValue]="25">25</option>
+                  <option [ngValue]="50">50</option>
+                  <option [ngValue]="100">100</option>
+                </select>
+                entries</label>
+              <label for="ngx-filter-ref" class="float-right">Search:
+                <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200 "type="text" [(ngModel)]="searchText" id="search" placeholder="Search"/>
+              </label>
+            </fieldset>
+            <div class="table-responsive">
+              <table class="table m-0">
+                <thead>
+                  <tr class="refresh pointer">
+                    <th>S.No</th>
+                    <th [appSort]="resourcesAssigentList" data-order="desc"data-name="resourceId">Resource ID</th>
+                    <th [appSort]="resourcesAssigentList" data-order="desc"data-name="templateName">Template Name</th>
+                    <th [appSort]="resourcesAssigentList" data-order="desc"data-name="teamId">Team</th>
+                    <th [appSort]="resourcesAssigentList" data-order="desc"data-name="productId">Product</th>
+                    <th [appSort]="resourcesAssigentList" data-order="desc"data-name="effectFromDate">EffectFrom Date</th>
+                    <th [appSort]="resourcesAssigentList" data-order="desc"data-name="effectToDate">EffectTo Date</th>
+                    <th [appSort]="resourcesAssigentList" data-order="desc"data-name="recordStatus">Status</th>
+                    <th [appSort]="resourcesAssigentList" data-order="desc"data-name="approvedStatus">Approved Status</th>
+                    <th scope="col" class="pointer " (click)="gotoform()">
+                      <i class="ft-plus font-medium-3 mr-2"></i>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                  *ngFor="let j of resourcesAssigentList | filter:searchText | slice: (page-1) * pageSize : page * pageSize; index as i;">
+                  <td scope="row">{{ (page -1) * pageSize + i + 1 }}</td>
+                  <td >{{j.resourceId}}</td>
+                  <td >{{j.templateName}}</td>
+                  <td >{{j.team}}</td>
+                  <td >{{j.product }}</td>
+                  <td >{{j.effectFromDate}}</td>
+                  <td >{{j.effectToDate}}</td>
+
+                  <td>
+                    <div class="badge badge-pill"
+                      [ngClass]="{ 'bg-light-success':j.recordStatus == 'active', 'bg-light-danger':j.recordStatus == 'inactive' }">
+                      {{ j.recordStatus}}
+                    </div>
+                  </td>
+                  <td >{{j.approvedStatus}}</td>
+                  <td class="pointer"><i class="ft-edit-2 font-medium-3 mr-2" (click)="findById(j.resourceId)"></i></td>
+
+                </tr>
+                <tr *ngIf="show">
+                  <td class="pt-3 wrap-text col1">
+                    No data found
+                  </td>
+                </tr>
+
+                </tbody>
+              </table>
+              <div class="d-flex justify-content-between p-2" *ngIf="resourcesAssigentList?.length >0">
+                <p>Showing 1 to {{pageSize}} of {{resourcesAssigentList?.length}} entries</p>
+                <ngb-pagination [collectionSize]="resourcesAssigentList?.length" [(page)]="page" [maxSize]="10"
+                  [boundaryLinks]="true" [pageSize]="pageSize" class="d-flex justify-content-center">
+                </ngb-pagination>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

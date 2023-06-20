@@ -1,0 +1,110 @@
+<section id="basic-hidden-label-form-layouts">
+  <div class="row match-height">
+    <div class="col-lg-12 col-md-12 col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{{pageTitle}}</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <form [formGroup]="mailTemplateForm">
+              <div class="form-row">
+                <div class="col-md-6 col-12">
+                  <div class="form-group mb-2">
+                    <label for="templateName">Template Name</label>
+                    <input type="text" id="templateName" placeholder="Template Name" class="form-control square"
+                      name="templateName" formControlName="templateName"
+                      [ngClass]="{ 'is-invalid': (submitted || f.templateName.touched) && f.templateName.errors }">
+                    <div *ngIf="(submitted || f.templateName.touched) && f.templateName.errors"
+                      class="invalid-feedback">
+                      <div *ngIf="f.templateName.errors.required"> please enter your template name</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <div class="form-group mb-2">
+                    <label for="viewName">View Name</label>
+                    <input type="text" id="viewName" placeholder="View Name" class="form-control square" name="viewName"
+                      formControlName="viewName"
+                      [ngClass]="{ 'is-invalid': (submitted || f.viewName.touched) && f.viewName.errors }">
+                    <div *ngIf="(submitted || f.viewName.touched) && f.viewName.errors" class="invalid-feedback">
+                      <div *ngIf="f.viewName.errors.required"> please enter your view name</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-md-12 col-12">
+                  <div class="form-group mb-2">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" placeholder="Subject" class="form-control square" name="subject"
+                      formControlName="subject"
+                      [ngClass]="{ 'is-invalid': (submitted || f.subject.touched) && f.subject.errors }">
+                    <div *ngIf="(submitted || f.subject.touched) && f.subject.errors" class="invalid-feedback">
+                      <div *ngIf="f.subject.errors.required"> please enter your subject</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-12 col-md-12 mb-2">
+                  <label for="Body">Body</label>
+                  <angular-editor id="Body" formControlName="body" [config]="editorConfig"
+                    [ngClass]="{ 'is-invalid': (submitted || f.body.touched) && f.body.errors }"
+                    imageEndPoint="url/altx-tms/api/fileUpload.php"></angular-editor>
+                  <div *ngIf="(submitted || f.body.touched) && f.body.errors" class="invalid-feedback">
+                    <div *ngIf="f.body.errors.required"> please enter body</div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="form-row">
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="startDate">Start Date</label>
+                    <input type="date" id="startDate" class="form-control square" name="startDate"
+                      formControlName="startDate"
+                      [ngClass]="{ 'is-invalid': (submitted || f.startDate.touched) && f.startDate.errors }">
+                    <div *ngIf="(submitted || f.startDate.touched) && f.startDate.errors" class="invalid-feedback">
+                      <div *ngIf="f.startDate.errors.required"> please select start date</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="endDate">End Date</label>
+                    <input type="date" id="endDate" class="form-control square" name="endDate"
+                      formControlName="endDate">
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Status">Status</label>
+                    <select id="Status" name="Status" class="form-control square" formControlName="status"
+                      [ngClass]="{ 'is-invalid': (submitted || f.status.touched) && f.status.errors }">
+                      <option value="">Choose</option>
+                      <option value="Active">Active</option>
+                      <option value="InActive">InActive</option>
+                    </select>
+                    <div *ngIf="(submitted || f.status.touched) && f.status.errors" class="invalid-feedback">
+                      <div *ngIf="f.status.errors.required"> please select status</div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <button type="button" *ngIf="!isEdit" (click)="onSubmitMailTemplateForm()" class="btn btn-primary mr-2">
+                <i class="ft-check-square mr-1"></i>
+                Save
+              </button>
+              <button type="button" *ngIf="isEdit" (click)="onEditMailTemplateForm()" class="btn btn-primary mr-2">
+                <i class="ft-check-square mr-1"></i>
+                Update
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

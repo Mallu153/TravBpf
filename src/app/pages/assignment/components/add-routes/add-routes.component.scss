@@ -1,0 +1,13 @@
+.manadatoryfield {
+  color: red;
+  font-weight: bold;
+  margin-left: 3px;
+  font-size: 1.2em;
+}
+
+:host ::ng-deep .ng-select .ng-select-container {
+  border-radius: 20px;
+}
+.flight--back-button{
+  cursor: pointer;
+}

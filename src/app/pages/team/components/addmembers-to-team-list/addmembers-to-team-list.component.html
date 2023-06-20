@@ -1,0 +1,109 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title text-center">Team Members List</h4>
+    </div>
+    <div class="card-body">
+      <!-- <form>
+        <div class="form-group form-inline col-3 col-12">
+          <label>Search:
+            <input class="form-control square" placeholder="Search" type="text" name="searchTerm"
+              [(ngModel)]="searchText" /></label>
+        </div>
+      </form> -->
+      <fieldset class="form-group" *ngIf="addMembersToteamList && addMembersToteamList.length > 0">
+        <label
+          >Show
+          <select
+            name="users-list-select"
+            [(ngModel)]="pageSize"
+            (ngModelChange)="getAddMembersToTeamList()"
+            class="form-control form-control-sm d-inline-block width-100 p-right-25"
+          >
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="15">15</option>
+            <option [ngValue]="25">25</option>
+            <option [ngValue]="50">50</option>
+            <option [ngValue]="100">100</option>
+          </select>
+          entries</label
+        >
+        <label for="ngx-filter-ref" class="float-right"
+          >Search:
+          <input
+            id="ngx-filter-ref"
+            class="form-control form-control-sm d-inline-block width-200"
+            type="text"
+            [(ngModel)]="searchText"
+            id="search"
+            placeholder="Search"
+          />
+        </label>
+      </fieldset>
+      <div class="table-responsive table">
+        <div class="outer">
+          <div class="inner">
+            <table class="table m-0">
+              <thead>
+                <tr class="refresh pointer">
+                  <th scope="col">S.No</th>
+                  <th scope="col" [appSort]="addMembersToteamList" data-order="desc" data-name="teamName">Team Name</th>
+                  <th scope="col" [appSort]="addMembersToteamList" data-order="desc" data-name="userNames">
+                    User Name
+                  </th>
+                  <th scope="col" [appSort]="addMembersToteamList" data-order="desc" data-name="startDate">
+                    Start Date
+                  </th>
+                  <th scope="col" [appSort]="addMembersToteamList" data-order="desc" data-name="status">Status</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="
+                    let j of addMembersToteamList | filter: searchText | slice: (page - 1) * pageSize:page * pageSize;
+                    index as i
+                  "
+                >
+                  <td scope="row" class="pt-3 wrap-text">{{ (page - 1) * pageSize + i + 1 }}</td>
+                  <td class="pt-3 wrap-text">{{ j.teamName }}</td>
+                  <td class="pt-3 wrap-text">{{ j.userNames }}</td>
+                  <td class="pt-3 wrap-text">{{ j.startDate | date: 'dd-MMM-yyyy' }}</td>
+                  <td class="pt-3 wrap-text">
+                    <div
+                      class="badge badge-pill"
+                      [ngClass]="{
+                        'bg-light-success': j.status == 'Active',
+                        'bg-light-danger': j.status == 'InActive'
+                      }"
+                    >
+                      {{ j.status }}
+                    </div>
+                  </td>
+                  <td class="pointer">
+                    <i class="ft-edit-2 font-medium-3 mr-2" (click)="findByid(j.mtoTid, j.teamId, j.teamName)"></i>
+                  </td>
+                </tr>
+                <tr *ngIf="show">
+                  <td class="pt-3 wrap-text col1">No data found</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="d-flex justify-content-between p-2" *ngIf="addMembersToteamList?.length > 0">
+              <p>Showing 1 to {{ pageSize }} of {{ addMembersToteamList?.length }} entries</p>
+              <ngb-pagination
+                [collectionSize]="addMembersToteamList?.length"
+                [(page)]="page"
+                [maxSize]="10"
+                [boundaryLinks]="true"
+                [pageSize]="pageSize"
+                class="d-flex justify-content-center"
+              >
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

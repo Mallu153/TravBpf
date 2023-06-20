@@ -1,0 +1,234 @@
+<section id="basic-hidden-label-form-layouts">
+  <div class="row match-height">
+    <div class="col-lg-12 col-12">
+      <div class="card mb-2">
+        <div class="card-header">
+          <h4 class="card-title">{{ pageTitle }}</h4>
+        </div>
+        <div class="card-content">
+          <div id="crontabs" class="card-body">
+            <form [formGroup]="quartzForm">
+              <div class="form-row p-2 border">
+                <div class="col-md-4 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Status">Job Title</label>
+                    <input
+                      type="text"
+                      id="jobTitle"
+                      class="form-control square"
+                      formControlName="jobTitle"
+                      name="jobTitle"
+                      placeholder="title"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-4 col-12">
+                  <div class="form-group mb-2">
+                    <label for="org">Api Name</label>
+                    <select
+                      id="apiName"
+                      class="form-control square"
+                      formControlName="apiRegister"
+                      [ngClass]="{ 'is-invalid': submitted && f.apiRegister.errors }"
+                    >
+                      <option value="">Choose</option>
+                      <option [value]="api.id" *ngFor="let api of getRegisterList">
+                        {{ api.serviceName }}
+                      </option>
+                    </select>
+                    <div *ngIf="submitted && f.apiRegister.errors" class="invalid-feedback">
+                      <div *ngIf="f.apiRegister.errors.required">apiRegister is required</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="col-md-3 col-3">
+                  <div class="form-group mb-2">
+                    <label for="org">ApiName</label>
+                    <select
+                      id="apiName"
+                      class="form-control square"
+                      formControlName="apiRegister"
+                      [ngClass]="{ 'is-invalid': submitted && f.apiRegister.errors }"
+                    >
+                      <option value="">Choose</option>
+                      <option [value]="api.id" *ngFor="let api of getRegisterList">
+                        {{ api.serviceName }}
+                      </option>
+                    </select>
+                    <div *ngIf="submitted && f.apiRegister.errors" class="invalid-feedback">
+                      <div *ngIf="f.apiRegister.errors.required">apiRegister is required</div>
+                    </div>
+                  </div>
+                </div> -->
+                <!--   <div class="col-md-3">
+                  <label>Flavour</label>
+                  <select formControlName="flavour" class="form-control square">
+                    <option [value]="'quartz'">Quartz</option>
+                     <option [value]="'standard'">Standard</option>
+                  </select>
+                </div> -->
+                <div class="col-md-2 col-12">
+                  <label>Interval</label>
+                  <select
+                    id="apiName"
+                    name="interested"
+                    formControlName="flavourTypes"
+                    class="form-control square"
+                    [ngClass]="{ 'is-invalid': submitted && f.flavourTypes.errors }"
+                  >
+                    <option value="" selected disabled>Choose</option>
+                    <option *ngFor="let flavours of flavourTypes" [value]="flavours.value">
+                      {{ flavours.name }}
+                    </option>
+                  </select>
+                  <div *ngIf="submitted && f.flavourTypes.errors" class="invalid-feedback">
+                    <div *ngIf="f.flavourTypes.errors.required">flavourTypes is required</div>
+                  </div>
+                </div>
+                <div class="col-md-2 col-12">
+                  <div class="form-group mb-2">
+                    <label for="org">Job Category</label>
+                    <select
+                      id="categoryId"
+                      class="form-control square"
+                      formControlName="categoryId"
+                      [ngClass]="{ 'is-invalid': submitted && f.categoryId.errors }"
+                    >
+                      <option value="">Choose</option>
+                      <option [value]="api.id" *ngFor="let api of getCategoryList">
+                        {{ api.name }}
+                      </option>
+                    </select>
+                    <div *ngIf="submitted && f.categoryId.errors" class="invalid-feedback">
+                      <div *ngIf="f.categoryId.errors.required">Category is required</div>
+                    </div>
+                  </div>
+                </div>
+                <!--   <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Status">Job Title</label>
+                    <input
+                      type="text"
+                      id="jobTitle"
+                      class="form-control square"
+                      formControlName="jobTitle"
+                      name="jobTitle"
+                      placeholder="title"
+                    />
+                  </div>
+                </div> -->
+              </div>
+              <div class="form-row">
+                <div class="col-md-12 col-12 form-group mb-2">
+                  <label for="description">Description</label>
+                  <textarea
+                    type="text"
+                    id="description"
+                    class="form-control square"
+                    placeholder="description"
+                    name="description"
+                    formControlName="description"
+                    [ngClass]="{
+                      'is-invalid': submitted && f.description.errors
+                    }"
+                  ></textarea>
+                  <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                    <div *ngIf="f.description.errors.required">Please enter description</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <!--   <div class="col-md-3 col-12 border">
+                  <label>Expression</label>
+                  <input
+                    type="text"
+                    readonly
+                    id="expression"
+                    class="form-control square"
+                    formControlName="expression"
+                    name="expression"
+                  />
+                </div> -->
+                <div class="col-md-4 col-12">
+                  <div class="form-group mb-2">
+                    <label for="sdate">Start Date</label>
+                    <input
+                      type="date"
+                      id="sdate"
+                      class="form-control square"
+                      name="startDate"
+                      formControlName="startDate"
+                      [ngClass]="{ 'is-invalid': submitted && f.startDate.errors }"
+                    />
+                    <div *ngIf="submitted && f.startDate.errors" class="invalid-feedback">
+                      <div *ngIf="f.startDate.errors.required">Please select startDate</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-12">
+                  <div class="form-group mb-2">
+                    <label for="enddate">End Date</label>
+                    <input
+                      type="date"
+                      id="enddate"
+                      class="form-control square"
+                      name="endDate"
+                      formControlName="endDate"
+                      [ngClass]="{ 'is-invalid': submitted && f.endDate.errors }"
+                    />
+                    <div *ngIf="submitted && f.endDate.errors" class="invalid-feedback">
+                      <div *ngIf="f.endDate.errors.required">Please select endDate</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Status">Status</label>
+                    <select
+                      id="Status"
+                      name="Status"
+                      class="form-control square"
+                      formControlName="status"
+                      [ngClass]="{ 'is-invalid': submitted && f.status.errors }"
+                    >
+                      <option value="">Choose</option>
+                      <option value="Active">Active</option>
+                      <option value="InActive">InActive</option>
+                    </select>
+                    <div *ngIf="submitted && f.status.errors" class="invalid-feedback">
+                      <div *ngIf="f.status.errors.required">Please select status</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--   (minutesEvent)="receiveminutes($event)" -->
+              <div class="mt-4">
+                <app-cron-editor [quartzForm]="quartzForm" [options]="cronOptions"></app-cron-editor>
+              </div>
+            </form>
+          </div>
+          <!--   {{ quartzForm?.value | json }} -->
+          <div class="demo-card-footer">
+            <h5>
+              <b class="ml-4">Expression: {{ quartzForm?.value?.expression }}</b>
+            </h5>
+          </div>
+          <div class="row justify-content-end mb-2 mr-2">
+            <div class="col-md-3" *ngIf="!isEdit">
+              <button type="button" (click)="onSubmit()" class="btn btn-primary mr-2 float-right">
+                <i class="ft-check-square mr-1"></i>
+                Save
+              </button>
+            </div>
+            <div class="col-md-3" *ngIf="isEdit">
+              <button type="button" (click)="onUpdate()" class="btn btn-primary float-right">
+                <i class="ft-check-square mr-1"></i>
+                Update
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

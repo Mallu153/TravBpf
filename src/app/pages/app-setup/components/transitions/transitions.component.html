@@ -1,0 +1,103 @@
+<section id="basic-hidden-label-form-layouts">
+  <div class="row match-height">
+    <div class="col-lg-12 col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{{pageTitle}}</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <form [formGroup]="transitionsForm">
+              <div class="form-row">
+                <div class="col-md-2 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Module">Module</label>
+                    <select id="Module" name="Module" (change)="onChangeModule($event.target.value)" class="form-control square" formControlName="moduleName"
+                      [ngClass]="{ 'is-invalid': (submitted || f.moduleName.touched) && f.moduleName.errors }">
+                      <option value="">Choose</option>
+                      <option [value]="module.moduleId" *ngFor="let module of moduleList">
+                        {{module.moduleName}}
+                      </option>
+                    </select>
+                    <div *ngIf="(submitted || f.moduleName.touched)&&f.moduleName.errors" class="invalid-feedback">
+                      <div *ngIf="f.moduleName.errors.required">
+                        Please select your module
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <ul class="list-unstyled mb-0 m-4">
+                  <li class="d-inline-block mr-2 mb-2">
+                    <div class="checkbox checkbox-primary">
+                      <input type="checkbox" id="color-checkbox-1" formControlName="milestone">
+                      <label for="color-checkbox-1"><span>Milestone</span></label>
+                    </div>
+                  </li>
+                </ul>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="fromStatus">From Status</label>
+                    <select id="fromStatus" name="fromStatus" class="form-control square" formControlName="fromStatus"
+                      [ngClass]="{ 'is-invalid': (submitted || f.fromStatus.touched) && f.fromStatus.errors }">
+                      <option value="">Choose</option>
+                      <option [value]="status.statusId" *ngFor="let status of statusList">
+                        {{status.name}}
+                      </option>
+                    </select>
+                    <div *ngIf="(submitted || f.fromStatus.touched)&&f.fromStatus.errors" class="invalid-feedback">
+                      <div *ngIf="f.fromStatus.errors.required">
+                        Please select your from status
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="toStatus">To Status</label>
+                    <select id="toStatus" name="toStatus" class="form-control square" formControlName="toStatus"
+                      [ngClass]="{ 'is-invalid': (submitted || f.toStatus.touched) && f.toStatus.errors }">
+                      <option value="">Choose</option>
+                      <option [value]="status.statusId" *ngFor="let status of statusList">
+                        {{status.name}}
+                      </option>
+                    </select>
+                    <div *ngIf="(submitted || f.toStatus.touched)&&f.toStatus.errors" class="invalid-feedback">
+                      <div *ngIf="f.toStatus.errors.required">
+                        Please select your to status
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Status"> Status</label>
+                    <select id="Status" name="Status" class="form-control square" formControlName="status"
+                      [ngClass]="{ 'is-invalid': (submitted || f.status.touched) && f.status.errors }">
+                      <option value="">Choose</option>
+                      <option value="Active">Active</option>
+                      <option value="InActive">InActive</option>
+                    </select>
+                    <div *ngIf="(submitted || f.status.touched)&&f.status.errors" class="invalid-feedback">
+                      <div *ngIf="f.status.errors.required">
+                        Please select your status
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button type="button" *ngIf="!isEdit" (click)="onSubmitTransitionsForm()" class="btn btn-primary mr-2">
+                <i class="ft-check-square mr-1"></i>
+                Save
+              </button>
+              <button type="button" *ngIf="isEdit" (click)="onEditTransitionsForm()" class="btn btn-primary mr-2">
+                <i class="ft-check-square mr-1"></i>
+                Update
+              </button>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

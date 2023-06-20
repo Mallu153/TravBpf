@@ -1,0 +1,68 @@
+<section id="basic-hidden-label-form-layouts">
+  <div class="row match-height">
+    <div class="col-lg-12 col-md-12 col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{{pageTitle}}</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <form [formGroup]="roleForm">
+              <div class="form-row">
+                <div class="col-md-4 col-12">
+                  <div class="form-group mb-2">
+                    <label for="roleName">Role Name</label>
+                    <input type="text" id="roleName" placeholder="Role Name" class="form-control square" name="roleName"
+                      formControlName="RoleName"
+                      [ngClass]="{ 'is-invalid': (submitted || f.RoleName.touched) && f.RoleName.errors }">
+                    <div *ngIf="(submitted || f.RoleName.touched)&&f.RoleName.errors" class="invalid-feedback">
+                      <div *ngIf="f.RoleName.errors.required">
+                        Please enter your role name
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-12">
+                  <div class="form-group mb-2">
+                    <label for="rolekey">Role Key</label>
+                    <input type="text" id="rolekey" class="form-control square" placeholder="Role Key" name="rolekey"
+                      formControlName="RoleKey"
+                      [ngClass]="{ 'is-invalid': (submitted || f.RoleKey.touched) && f.RoleKey.errors }">
+                    <div *ngIf="(submitted || f.RoleKey.touched)&&f.RoleKey.errors" class="invalid-feedback">
+                      <div *ngIf="f.RoleKey.errors.required">
+                        Please enter your role key
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Status">Status</label>
+                    <select id="Status" name="Status" class="form-control square" formControlName="Status"
+                      [ngClass]="{ 'is-invalid': (submitted || f.Status.touched) && f.Status.errors }">
+                      <option value="">Choose</option>
+                      <option value="Active">Active</option>
+                      <option value="InActive">InActive</option>
+                      <option value="Block">Block</option>
+                    </select>
+                    <div *ngIf="(submitted || f.Status.touched)&&f.Status.errors" class="invalid-feedback">
+                      <div *ngIf="f.Status.errors.required">
+                        Please select your status
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button type="button" *ngIf="!isEdit" (click)="onSubmitRoleForm() " class="btn btn-primary mr-2">
+                <i class="ft-check-square mr-1"></i>Save
+              </button>
+              <button type="button" *ngIf="isEdit" (click)="onEditRoleForm() " class="btn btn-primary mr-2">
+                <i class="ft-check-square mr-1"></i>Update
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

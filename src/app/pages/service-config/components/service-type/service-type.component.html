@@ -1,0 +1,416 @@
+<section id="basic-hidden-label-form-layouts">
+  <div class="row match-height">
+    <div class="col-lg-12 col-md-12 col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="form-row">
+            <div class="col-4">
+              <p class="card-title text-bold-400">
+                {{ PageTitle }}
+                <span *ngIf="isEdit" style="font-weight: 700" class="text-bold-800">{{
+                  ' : ' + serviceTypeHeaderData?.name
+                }}</span>
+              </p>
+            </div>
+            <div class="col-4"></div>
+            <div class="col-4" *ngIf="isEdit">
+              <div (click)="isToggle = !isToggle">
+                <p class="primary float-right font-small-3">
+                  <!-- <i class="ft-chevron-down" *ngIf="isToggle"></i>  <i class="ft-chevron-up" *ngIf="!isToggle"></i> -->{{
+                    isToggle ? 'less' : 'more'
+                  }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <form [formGroup]="serviceTypeForm">
+              <div class="p-2 border" *ngIf="(isToggle && isEdit) || !isEdit">
+                <div class="form-row border p-2 mb-2">
+                  <div class="col-md-2 col-6">
+                    <div class="form-group mb-2">
+                      <label for="status">Organization</label>
+                      <select
+                        id="status"
+                        name="status"
+                        (change)="OnOrganizationChange($event.target.value)"
+                        class="form-control square"
+                        formControlName="organizationId"
+                        [ngClass]="{
+                          'is-invalid': (submitted || f.organizationId.touched) && f.organizationId.errors
+                        }"
+                      >
+                        <option value="">Choose</option>
+                        <option [value]="org.organizationId" *ngFor="let org of organizationList">
+                          {{ org.name }}
+                        </option>
+                      </select>
+                      <div
+                        *ngIf="(submitted || f.organizationId.touched) && f.organizationId.errors"
+                        class="invalid-feedback"
+                      >
+                        <div *ngIf="f.organizationId.errors.required">Please select your organization</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-6">
+                    <div class="form-group mb-2">
+                      <label for="businessUnitId">Business Unit</label>
+                      <select
+                        id="businessUnitId"
+                        name="businessUnitId"
+                        class="form-control square"
+                        formControlName="businessUnitId"
+                        (change)="getDepartmentList($event.target.value)"
+                        [ngClass]="{
+                          'is-invalid': (submitted || f.businessUnitId.touched) && f.businessUnitId.errors
+                        }"
+                      >
+                        <option value="">Choose</option>
+                        <option [value]="bu.BusinessUnitId" *ngFor="let bu of businessUnits">
+                          {{ bu.Name }}
+                        </option>
+                      </select>
+                      <div
+                        *ngIf="(submitted || f.businessUnitId.touched) && f.businessUnitId.errors"
+                        class="invalid-feedback"
+                      >
+                        <div *ngIf="f.businessUnitId.errors.required">Please select your Business Uni</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-6">
+                    <div class="form-group mb-2">
+                      <label for="status">Department</label>
+                      <select
+                        id="status"
+                        name="status"
+                        class="form-control square"
+                        formControlName="departmentId"
+                        (change)="getServiceTypeGroups($event.target.value)"
+                        [ngClass]="{
+                          'is-invalid': (submitted || f.departmentId.touched) && f.departmentId.errors
+                        }"
+                      >
+                        <option value="">Choose</option>
+                        <option [value]="dept.departmentId" *ngFor="let dept of departmentList">
+                          {{ dept.name }}
+                        </option>
+                      </select>
+                      <div
+                        *ngIf="(submitted || f.departmentId.touched) && f.departmentId.errors"
+                        class="invalid-feedback"
+                      >
+                        <div *ngIf="f.departmentId.errors.required">Please select your Department</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-4">
+                    <div class="form-group mb-2">
+                      <label for="stg" triggers="mouseenter:mouseleave" ngbPopover="Service Type Group">STG</label>
+                      <select id="stg" name="stg" class="form-control square" formControlName="serviceTypeGroup">
+                        <option value="">Choose</option>
+                        <option [value]="parent.id" *ngFor="let parent of serviceTypeGroups">
+                          {{ parent.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-4">
+                    <div class="form-group mb-2">
+                      <label for="name">Name</label>
+                      <input
+                        type="text"
+                        id="name"
+                        class="form-control square"
+                        name="name"
+                        placeholder="Enter Name"
+                        formControlName="name"
+                        [ngClass]="{
+                          'is-invalid': (submitted || f.name.touched) && f.name.errors
+                        }"
+                      />
+                      <div *ngIf="(submitted || f.name.touched) && f.name.errors" class="invalid-feedback">
+                        <div *ngIf="f.name.errors.required">Please enter your name</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-4">
+                    <div class="form-group mb-2">
+                      <label for="status">Status</label>
+                      <select
+                        id="status"
+                        name="status"
+                        class="form-control square"
+                        formControlName="status"
+                        [ngClass]="{
+                          'is-invalid': (submitted || f.status.touched) && f.status.errors
+                        }"
+                      >
+                        <!-- <option value="">Choose</option> -->
+                        <option value="Active">Active</option>
+                        <option value="InActive">InActive</option>
+                      </select>
+                      <div *ngIf="(submitted || f.status.touched) && f.status.errors" class="invalid-feedback">
+                        <div *ngIf="f.status.errors.required">Please select your status</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="col-6 col-md-3 mb-2" [ngClass]="{ 'mt-3': !this.serviceTypeForm.value.isDynamicForm }">
+                    <div class="checkbox checkbox-primary">
+                      <input
+                        type="checkbox"
+                        id="isDynamicForm"
+                        formControlName="isDynamicForm"
+                        (change)="OnChangeIsDynamicForm($event.target.checked)"
+                      />
+                      <label for="isDynamicForm">Is Dynamic</label>
+                    </div>
+                  </div>
+                  <div class="col-6 col-md-3 mb-2" *ngIf="!this.serviceTypeForm.value.isDynamicForm">
+                    <label for="formUrl">Form Url</label>
+                    <input
+                      type="text"
+                      id="formUrl"
+                      class="form-control square"
+                      name="formUrl"
+                      placeholder="Form Url"
+                      formControlName="formUrl"
+                      [ngClass]="{
+                        'is-invalid': (submitted || f.formUrl.touched) && f.formUrl.errors
+                      }"
+                    />
+                    <div *ngIf="(submitted || f.formUrl.touched) && f.formUrl.errors" class="invalid-feedback">
+                      <div *ngIf="f.formUrl.errors.required">Please Enter your Form Url</div>
+                    </div>
+                  </div>
+                  <div class="col-6 col-md-3 mb-2" [ngClass]="{ 'mt-3': !this.serviceTypeForm.value.isDynamicForm }">
+                    <div class="checkbox checkbox-primary">
+                      <input type="checkbox" id="mobileEnabled" formControlName="mobileEnabled" />
+                      <label for="mobileEnabled">Mobile Enabled</label>
+                    </div>
+                  </div>
+                  <div class="col-6 col-md-3 mb-2" [ngClass]="{ 'mt-3': !this.serviceTypeForm.value.isDynamicForm }">
+                    <div class="checkbox checkbox-primary">
+                      <input type="checkbox" id="desktopEnabled" formControlName="desktopEnabled" />
+                      <label for="desktopEnabled">Desktop Enabled</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="col-md-12 form-group mb-2">
+                    <label for="description">Description</label>
+                    <textarea
+                      id="description"
+                      rows="2"
+                      class="form-control square"
+                      name="description"
+                      placeholder="Enter Description"
+                      formControlName="description"
+                      [ngClass]="{
+                        'is-invalid': (submitted || f.description.touched) && f.description.errors
+                      }"
+                    ></textarea>
+                    <div *ngIf="(submitted || f.description.touched) && f.description.errors" class="invalid-feedback">
+                      <div *ngIf="f.description.errors.required">Please enter your description</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="col-md-12 form-group mb-2">
+                    <label for="instructions">Instructions</label>
+
+                    <!--  <textarea
+                    id="instructions"
+                    rows="2"
+                    class="form-control square"
+                    name="instructions"
+                    placeholder="Enter instructions"
+                    formControlName="instructions"
+                    [ngClass]="{
+                      'is-invalid':
+                        (submitted || f.instructions.touched) && f.instructions.errors
+                    }"
+                  ></textarea> -->
+                    <angular-editor
+                      formControlName="instructions"
+                      [config]="editorConfig"
+                      [ngClass]="{
+                        'is-invalid': (submitted || f.instructions.touched) && f.instructions.errors
+                      }"
+                    ></angular-editor>
+                    <div
+                      *ngIf="(submitted || f.instructions.touched) && f.instructions.errors"
+                      class="invalid-feedback"
+                    >
+                      <div *ngIf="f.instructions.errors.required">Please enter your instructions</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="col-md-12 form-group mb-2">
+                    <label for="preValidations">Pre Validation</label>
+
+                    <input
+                      id="preValidations"
+                      type="text"
+                      class="form-control square"
+                      name="preValidations"
+                      placeholder="Enter Pre Validation"
+                      formControlName="preValidations"
+                      [ngClass]="{
+                        'is-invalid': (submitted || f.preValidations.touched) && f.preValidations.errors
+                      }"
+                    />
+                    <div
+                      *ngIf="(submitted || f.preValidations.touched) && f.preValidations.errors"
+                      class="invalid-feedback"
+                    >
+                      <div *ngIf="f.instructions.errors.required">Please enter your Pre Validation</div>
+                    </div>
+                  </div>
+                  <div class="offset-md-9 col-md-3 mb-2">
+                    <button
+                      type="button"
+                      *ngIf="!isEdit"
+                      (click)="onSubmitHeaderCreate()"
+                      class="btn btn-primary square mr-2 float-right"
+                    >
+                      <i class="ft-check-square mr-1"></i>
+                      Save
+                    </button>
+                    <button
+                      type="button"
+                      *ngIf="isEdit"
+                      (click)="onSubmitHeaderUpdate()"
+                      class="btn btn-primary square mr-2 float-right"
+                    >
+                      <i class="ft-check-square mr-1"></i>
+                      Update
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <hr />
+              <ul ngbNav #nav="ngbNav" [(activeId)]="active" (navChange)="onNavChange($event)" class="nav-tabs">
+                <li [ngbNavItem]="1" [disabled]="disabled">
+                  <a ngbNavLink>Fields</a>
+                  <ng-template ngbNavContent>
+                    <app-service-fields
+                      *ngIf="serviceTypeHeaderData"
+                      [headerData]="serviceTypeHeaderData"
+                    ></app-service-fields>
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2" [disabled]="disabled">
+                  <a ngbNavLink>Attachments</a>
+                  <ng-template ngbNavContent>
+                    <app-service-attachments
+                      *ngIf="serviceTypeHeaderData"
+                      [headerData]="serviceTypeHeaderData"
+                    ></app-service-attachments>
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="3" [disabled]="disabled">
+                  <a ngbNavLink>Documents</a>
+                  <ng-template ngbNavContent>
+                    <app-service-documents
+                      *ngIf="serviceTypeHeaderData"
+                      [headerData]="serviceTypeHeaderData"
+                    ></app-service-documents>
+                  </ng-template>
+                </li>
+                <!-- <li [ngbNavItem]="4" [disabled]="disabled">
+                  <a ngbNavLink>Pricing</a>
+                  <ng-template ngbNavContent>
+                    <app-service-pricing
+                      *ngIf="serviceTypeHeaderData"
+                      [headerData]="serviceTypeHeaderData"
+                    ></app-service-pricing>
+                  </ng-template>
+                </li> -->
+                <li [ngbNavItem]="5" [disabled]="disabled">
+                  <a ngbNavLink>Assignment</a>
+                  <ng-template ngbNavContent>
+                    <app-service-assignments
+                      *ngIf="serviceTypeHeaderData"
+                      [headerData]="serviceTypeHeaderData"
+                    ></app-service-assignments>
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="6" [disabled]="disabled">
+                  <a ngbNavLink>Faq's</a>
+                  <ng-template ngbNavContent>
+                    <app-service-faq
+                      *ngIf="serviceTypeHeaderData"
+                      [headerData]="serviceTypeHeaderData"
+                    ></app-service-faq>
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="7" [disabled]="disabled">
+                  <a ngbNavLink>Survey</a>
+                  <ng-template ngbNavContent>
+                    <app-service-survey
+                      *ngIf="serviceTypeHeaderData"
+                      [headerData]="serviceTypeHeaderData"
+                    ></app-service-survey>
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div [ngbNavOutlet]="nav" class="mt-2"></div>
+
+              <!--  <div class="mb-3">
+                <button class="btn btn-sm btn-outline-primary" [disabled]="active === 2" (click)="nav.select(2)">Select second tab</button>
+                <button class="btn btn-sm btn-outline-primary ms-2" (click)="toggleDisabled()">Toggle last disabled</button>
+              </div>
+
+              <pre>Active: {{ active }}</pre> -->
+
+              <!--  <button
+                type="button"
+                *ngIf="!isEdit"
+                (click)="OnSubmitServiceTypeForm()"
+                class="btn btn-primary square mr-2"
+              >
+                <i class="ft-check-square mr-1"></i>
+                Save
+              </button>
+              <button
+                type="button"
+                *ngIf="isEdit"
+                (click)="OnEditServiceTypeForm()"
+                class="btn btn-primary square mr-2"
+              >
+                <i class="ft-check-square mr-1"></i>
+                Update
+              </button>
+              <button
+                type="button"
+                *ngIf="!isEdit"
+                (click)="reset()"
+                class="btn btn-secondary square"
+              >
+                <i class="ft-x mr-1"></i>
+                Reset
+              </button>
+              <button
+                type="button"
+                *ngIf="!isEdit"
+                (click)="previewDynamicForm()"
+                class="btn btn-secondary square ml-2"
+              >
+                <i class="ft-y mr-1"></i>
+                Preview
+              </button> -->
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,214 @@
+<section id="basic-hidden-label-form-layouts">
+  <div class="row match-height">
+    <div class="col-lg-12 col-md-12 col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{{ pageTitle }}</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <form [formGroup]="teamForm">
+              <div class="form-row">
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Organization">Organization</label>
+                    <select
+                      id="Organization"
+                      (change)="changeOrg($event.target.value)"
+                      name="Organization"
+                      class="form-control square"
+                      formControlName="organizationId"
+                      [ngClass]="{ 'is-invalid': (submitted || f.organizationId.touched) && f.organizationId.errors }"
+                    >
+                      <option value="">Choose</option>
+                      <option [value]="orgs.organizationId" *ngFor="let orgs of orgListLov">
+                        {{ orgs.name }}
+                      </option>
+                    </select>
+                    <div
+                      *ngIf="(submitted || f.organizationId.touched) && f.organizationId.errors"
+                      class="invalid-feedback"
+                    >
+                      <div *ngIf="f.organizationId.errors.required">Please select your organization</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="BusinessUnit">BusinessUnit</label>
+                    <select
+                      id="BusinessUnit"
+                      name="BusinessUnit"
+                      (change)="changeBuisnessUnit($event.target.value)"
+                      class="form-control square"
+                      formControlName="businessUnit"
+                    >
+                      <option value="">Choose</option>
+                      <option [value]="businessunit.BusinessUnitId" *ngFor="let businessunit of buisnessUnitListLov">
+                        {{ businessunit.Name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Departments">Departments</label>
+                    <select
+                      id="Departments"
+                      name="Departments"
+                      class="form-control square"
+                      formControlName="departmentId"
+                    >
+                      <option value="">Choose</option>
+                      <option [value]="dept.departmentId" *ngFor="let dept of departmentsListlov">
+                        {{ dept.name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Module">Module</label>
+                    <select id="Module" name="Module" class="form-control square" formControlName="moduleId">
+                      <option value="">Choose</option>
+                      <option [value]="module.moduleId" *ngFor="let module of moduleList">
+                        {{ module.moduleName }}
+                      </option>
+                    </select>
+                    <!--   [ngClass]="{ 'is-invalid': (submitted || f.moduleId.touched) && f.moduleId.errors }"
+                     <div *ngIf="(submitted || f.moduleId.touched)&&f.moduleId.errors" class="invalid-feedback">
+                      <div *ngIf="f.moduleId.errors.required">
+                        Please select your module
+                      </div>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="teamname">Team Name</label>
+                    <input
+                      type="text"
+                      id="teamname"
+                      placeholder="Team Name"
+                      class="form-control square"
+                      name="teamname"
+                      formControlName="teamName"
+                      [ngClass]="{ 'is-invalid': (submitted || f.teamName.touched) && f.teamName.errors }"
+                    />
+                    <div *ngIf="(submitted || f.teamName.touched) && f.teamName.errors" class="invalid-feedback">
+                      <div *ngIf="f.teamName.errors.required">Please enter your team name</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 col-12">
+                  <div class="form-group mb-2">
+                    <label for="StartDate">StartDate</label>
+                    <input
+                      type="date"
+                      id="StartDate"
+                      class="form-control square"
+                      name="sdate"
+                      formControlName="startDate"
+                      [ngClass]="{ 'is-invalid': (submitted || f.startDate.touched) && f.startDate.errors }"
+                    />
+                    <div *ngIf="(submitted || f.startDate.touched) && f.startDate.errors" class="invalid-feedback">
+                      <div *ngIf="f.startDate.errors.required">Please enter your start date</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 col-12">
+                  <div class="form-group mb-2">
+                    <label for="EndDate">EndDate</label>
+                    <input
+                      type="date"
+                      id="EndDate"
+                      class="form-control square"
+                      name="edate"
+                      formControlName="endDate"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-2 col-12">
+                  <div class="form-group mb-2">
+                    <label for="Status">Status</label>
+                    <select
+                      id="Status"
+                      name="Status"
+                      class="form-control square"
+                      formControlName="status"
+                      [ngClass]="{ 'is-invalid': (submitted || f.status.touched) && f.status.errors }"
+                    >
+                      <option value="">Choose</option>
+                      <option value="Active">Active</option>
+                      <option value="InActive">InActive</option>
+                    </select>
+                    <div *ngIf="(submitted || f.status.touched) && f.status.errors" class="invalid-feedback">
+                      <div *ngIf="f.status.errors.required">Please select your status</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label for="teamEmail">Team Email</label>
+                    <input
+                      type="email"
+                      id="teamEmail"
+                      placeholder="Team Email"
+                      class="form-control square"
+                      name="teamEmail"
+                      formControlName="teamEmail"
+                      [ngClass]="{ 'is-invalid': (submitted || f.teamEmail.touched) && f.teamEmail.errors }"
+                    />
+                    <div *ngIf="(submitted || f.teamEmail.touched) && f.teamEmail.errors" class="invalid-feedback">
+                      <div *ngIf="f.teamEmail.errors.email">Email must be a valid email address</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-12 col-md-2 mb-2 mt-3">
+                  <div class="checkbox checkbox-primary">
+                    <input
+                      type="checkbox"
+                      id="isWaticketTeam"
+                      formControlName="isWaticketTeam"
+                      data-md-icheck
+                      (change)="isWatsAppChange($event)"
+                      [ngClass]="{
+                        'is-invalid': submitted && f.isWaticketTeam.errors
+                      }"
+                    />
+                    <div *ngIf="submitted && f.isWaticketTeam.errors" class="invalid-feedback"></div>
+                    <label for="isWaticketTeam">WhatsApp</label>
+                  </div>
+                </div>
+                <div class="col-md-3 col-12" *ngIf="teamForm.value.isWaticketTeam">
+                  <div class="form-group mb-2">
+                    <label for="colorCode">Color Code</label>
+                    <input
+                      type="color"
+                      id="colorCode"
+                      class="form-control square"
+                      name="colorCode"
+                      formControlName="colorCode"
+                    />
+                  </div>
+                </div>
+              </div>
+            </form>
+            <button type="button" *ngIf="!isEdit" class="btn btn-primary mr-2" (click)="onSubmitTeamForm()">
+              <i class="ft-check-square mr-1"></i>
+              Save
+            </button>
+            <button type="button" *ngIf="isEdit" class="btn btn-primary mr-2" (click)="onEditTeamForm()">
+              <i class="ft-check-square mr-1"></i>
+              Update
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

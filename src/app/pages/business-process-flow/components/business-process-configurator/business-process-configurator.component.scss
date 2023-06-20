@@ -1,0 +1,33 @@
+:host ::ng-deep .ng-select .ng-select-container {
+  border-radius: 1px;
+}
+.form-row-city {
+  width: 100%;
+  margin: 0 auto 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  border: solid 1px#e7e7e7;
+}
+.header-border {
+  width: 100%;
+  margin: 0 auto 20px;
+  border-radius: 0px;
+  display: flex;
+  border: solid 1px#616D89;
+}
+.checkbox-top {
+  margin-top: auto;
+}
+/* Border Color */
+:host ::ng-deep .ng-select.ng-invalid.ng-touched .ng-select-container {
+  border-color: red;
+}
+/* Arrow Color */
+:host ::ng-deep .ng-select.ng-invalid.ng-touched .ng-arrow-wrapper .ng-arrow {
+  border-color: red transparent transparent;
+}
+/* .header-bg-color {
+  background-color: #975aff;
+  color: #fff;
+} */

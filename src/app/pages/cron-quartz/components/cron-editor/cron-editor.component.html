@@ -1,0 +1,454 @@
+<section class="cron-editor-main" *ngIf="quartzForm?.value?.flavourTypes">
+  <ul ngbNav #nav="ngbNav" [(activeId)]="activeId" class="nav-tabs d-flex justify-content-around">
+    <!-- Minute -->
+    <li [ngbNavItem]="1" [disabled]="!tabDisables[0].value">
+      <a ngbNavLink>Minutes</a>
+      <ng-template ngbNavContent>
+        <div class="row">
+          <div class="col-md-1">
+            <label class="mt-3">Every</label>
+          </div>
+          <div class="col-md-3 mt-2">
+            <app-cron-time-picker
+              [formGroup]="minutesForm"
+              [use24HourTime]="options.use24HourTime"
+              [hideHours]="true"
+              [hideSeconds]="options.hideSeconds || !isCronFlavorQuartz"
+            >
+            </app-cron-time-picker>
+          </div>
+        </div>
+      </ng-template>
+    </li>
+    <!-- Hourly -->
+    <li [ngbNavItem]="2" [disabled]="!tabDisables[1].value">
+      <a ngbNavLink>Hours</a>
+      <ng-template ngbNavContent>
+        <div class="row">
+          <div class="col-md-1">
+            <label class="mt-3">Every</label>
+          </div>
+          <div class="form-group col-md-3 mt-2">
+            <app-cron-time-picker
+              [formGroup]="hourlyForm"
+              [use24HourTime]="options.use24HourTime"
+              [hideSeconds]="options.hideSeconds || !isCronFlavorQuartz"
+            >
+            </app-cron-time-picker>
+          </div>
+        </div>
+      </ng-template>
+    </li>
+    <!-- Daily-->
+    <li [ngbNavItem]="3" [disabled]="!tabDisables[2].value">
+      <a ngbNavLink>Days</a>
+      <ng-template ngbNavContent>
+        <form [formGroup]="dailyForm">
+          <div class="row">
+            <div class="col-md-1">
+              <div class="radio mt-4 monthlyWidth">
+                <input
+                  type="radio"
+                  name="subTab"
+                  formControlName="subTab"
+                  [ngClass]="state.formRadioClass"
+                  value="everyDays"
+                  id="radio10"
+                />
+                <label for="radio10">Every</label>
+              </div>
+            </div>
+            <div class="col-md-2 form-group" formGroupName="everyDays">
+              <label for="">Day(s)</label>
+              <select formControlName="days" aria-label="Default select example" class="form-control square">
+                <option *ngFor="let monthDay of selectOptions.monthDays" [value]="monthDay">
+                  {{ monthDay }}
+                </option>
+              </select>
+            </div>
+            <span class="mt-4">at</span>
+            <div class="col-md-3 mt-3">
+              <app-cron-time-picker
+                formGroupName="everyDays"
+                [use24HourTime]="options.use24HourTime"
+                [hideSeconds]="options.hideSeconds || !isCronFlavorQuartz"
+              >
+              </app-cron-time-picker>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="radio mt-4">
+                <input
+                  type="radio"
+                  name="subTab"
+                  formControlName="subTab"
+                  [ngClass]="state.formRadioClass"
+                  value="everyWeekDay"
+                  id="radio11"
+                />
+                <label for="radio11">Week Day(MON-FRI)at</label>
+              </div>
+            </div>
+            <div class="col-md-3 mt-3">
+              <app-cron-time-picker
+                formGroupName="everyWeekDay"
+                [use24HourTime]="options.use24HourTime"
+                [hideSeconds]="options.hideSeconds || !isCronFlavorQuartz"
+              >
+              </app-cron-time-picker>
+            </div>
+          </div>
+        </form>
+      </ng-template>
+    </li>
+    <!-- Weekly-->
+    <li [ngbNavItem]="4" [disabled]="!tabDisables[3].value">
+      <a ngbNavLink>Weeks</a>
+      <ng-template ngbNavContent>
+        <div class="cron-editor-tab-content">
+          <div class="row">
+            <div [formGroup]="weeklyForm">
+              <div class="input-group col-12 col-md-11">
+                <span class="cron-form-label">Every </span>
+                <div class="checkbox checkbox-primary ml-2">
+                  <input type="checkbox" id="color-checkbox-1" formControlName="MON" />
+                  <label for="color-checkbox-1"><span>Monday</span></label>
+                </div>
+                <div class="checkbox checkbox-primary ml-1">
+                  <input type="checkbox" id="color-checkbox-2" formControlName="TUE" />
+                  <label for="color-checkbox-2"><span>Tuesday</span></label>
+                </div>
+                <div class="checkbox checkbox-primary ml-1">
+                  <input type="checkbox" id="color-checkbox-3" formControlName="WED" />
+                  <label for="color-checkbox-3"><span>Wednesday</span></label>
+                </div>
+                <div class="checkbox checkbox-primary ml-1">
+                  <input type="checkbox" id="color-checkbox-4" formControlName="THU" />
+                  <label for="color-checkbox-4"><span>Thursday</span></label>
+                </div>
+                <div class="checkbox checkbox-primary ml-1">
+                  <input type="checkbox" id="color-checkbox-5" formControlName="FRI" />
+                  <label for="color-checkbox-5"><span>Friday</span></label>
+                </div>
+                <div class="checkbox checkbox-primary ml-1">
+                  <input type="checkbox" id="color-checkbox-6" formControlName="SAT" />
+                  <label for="color-checkbox-6"><span>Saturday</span></label>
+                </div>
+                <div class="checkbox checkbox-primary ml-1">
+                  <input type="checkbox" id="color-checkbox-7" formControlName="SUN" />
+                  <label for="color-checkbox-7"><span>Sunday</span></label>
+                </div>
+              </div>
+              <div class="row">
+                <span class="cron-form-label mt-4 ml-3">at time </span>
+                <div class="col-md-4 mt-3">
+                  <app-cron-time-picker
+                    [formGroup]="weeklyForm"
+                    [use24HourTime]="options.use24HourTime"
+                    [hideSeconds]="options.hideSeconds || !isCronFlavorQuartz"
+                  >
+                  </app-cron-time-picker>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </li>
+    <!-- Monthly-->
+    <li [ngbNavItem]="5" [disabled]="!tabDisables[4].value">
+      <a ngbNavLink>Months</a>
+      <ng-template ngbNavContent>
+        <form [formGroup]="monthlyForm">
+          <div class="row">
+            <div class="col-md-1">
+              <div class="radio mt-4 monthlyWidth">
+                <input
+                  type="radio"
+                  name="subTab"
+                  formControlName="subTab"
+                  [ngClass]="state.formRadioClass"
+                  value="specificDay"
+                  id="radio1"
+                />
+                <label for="radio1">On the</label>
+              </div>
+            </div>
+            <!-- Spesific day -->
+            <ng-container formGroupName="specificDay">
+              <ng-container *ngIf="options.cronFlavor === 'quartz'">
+                <div class="col-md-1 form-group">
+                  <label for="">Day</label>
+                  <select
+                    formControlName="day"
+                    aria-label="Default select example"
+                    class="form-control square normalWidth"
+                  >
+                    <option
+                      *ngFor="let monthDaysWithLast of selectOptions.monthDaysWithLasts"
+                      [value]="monthDaysWithLast"
+                    >
+                      {{ monthDayDisplay(monthDaysWithLast) }}
+                    </option>
+                  </select>
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="options.cronFlavor === 'standard'">
+                <div class="col-md-1 form-group">
+                  <label for="">Day</label>
+                  <select
+                    formControlName="day"
+                    aria-label="Default select example"
+                    class="form-control square normalWidth"
+                  >
+                    >
+                    <option
+                      *ngFor="let monthDaysWithLast of selectOptions.monthDaysWithLasts"
+                      [value]="monthDaysWithLast"
+                    >
+                      {{ monthDayDisplay(monthDaysWithLast) }}
+                    </option>
+                  </select>
+                </div>
+              </ng-container>
+
+              <span class="mt-4"> of every</span>
+
+              <ng-container>
+                <div class="col-md-1 form-group">
+                  <label for="">Month</label>
+                  <select formControlName="months" aria-label="Default select example" class="form-control square">
+                    >
+                    <option *ngFor="let month of selectOptions.months" [value]="month">
+                      {{ month }}
+                    </option>
+                  </select>
+                </div>
+              </ng-container>
+
+              <span class="mt-4">at time</span>
+              <div class="col-md-2 mt-3">
+                <app-cron-time-picker
+                  [disabled]="disabled"
+                  [formGroup]="monthlyForm.controls.specificDay"
+                  [use24HourTime]="options.use24HourTime"
+                  [hideSeconds]="options.hideSeconds || !isCronFlavorQuartz"
+                >
+                </app-cron-time-picker>
+              </div>
+            </ng-container>
+          </div>
+          <!-- Spesific Week day -->
+          <div class="row">
+            <div class="col-md-1">
+              <div class="radio mt-4 monthlyWidth">
+                <input
+                  type="radio"
+                  name="subTab"
+                  formControlName="subTab"
+                  [ngClass]="state.formRadioClass"
+                  value="specificWeekDay"
+                  id="radio12"
+                />
+                <label for="radio12">On the</label>
+              </div>
+            </div>
+            <ng-container formGroupName="specificWeekDay">
+              <div class="col-md-1 form-group">
+                <label for="">Week</label>
+                <select
+                  class="form-control square monthlyWidth"
+                  formControlName="monthWeek"
+                  [ngClass]="options.formSelectClass"
+                >
+                  >
+                  <option *ngFor="let monthWeek of selectOptions.monthWeeks" [value]="monthWeek">
+                    {{ monthWeekDisplay(monthWeek) }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-2 form-group ml-1">
+                <label for="">Day</label>
+                <!--  {{selectOptions.days | json}} -->
+                <select class="form-control square" formControlName="day" [ngClass]="options.formSelectClass">
+                  <option *ngFor="let day of selectOptions.days" [value]="day">
+                    {{ day }}
+                  </option>
+                </select>
+              </div>
+              <span class="mt-4">of every</span>
+              <div class="col-md-1 form-group">
+                <label for="">Month</label>
+                <select class="form-control square" formControlName="months">
+                  <option *ngFor="let month of selectOptions.months" [value]="month">
+                    {{ month }}
+                  </option>
+                </select>
+              </div>
+              <span class="mt-4">at time</span>
+              <div class="col-md-1 mt-3">
+                <app-cron-time-picker
+                  [formGroup]="monthlyForm.controls.specificWeekDay"
+                  [use24HourTime]="options.use24HourTime"
+                  [hideSeconds]="options.hideSeconds || !isCronFlavorQuartz"
+                >
+                </app-cron-time-picker>
+              </div>
+            </ng-container>
+          </div>
+        </form>
+      </ng-template>
+    </li>
+    <!-- Yearly-->
+    <li [ngbNavItem]="6" [disabled]="!tabDisables[5].value">
+      <a ngbNavLink>Years</a>
+      <ng-template ngbNavContent>
+        <form [formGroup]="yearlyForm">
+          <div class="row">
+            <div class="col-md-1">
+              <div class="radio mt-4 monthlyWidth">
+                <input
+                  type="radio"
+                  name="subTab"
+                  formControlName="subTab"
+                  [ngClass]="state.formRadioClass"
+                  value="specificMonthDay"
+                  id="radio19"
+                />
+                <label for="radio19">On the</label>
+              </div>
+            </div>
+            <ng-container formGroupName="specificMonthDay" *ngIf="options.cronFlavor === 'quartz'">
+              <div class="col-md-1 form-group">
+                <label for="">Day</label>
+                <select
+                  formControlName="day"
+                  aria-label="Default select example"
+                  class="form-control square monthlyWidth"
+                >
+                  <option
+                    *ngFor="let monthDaysWithLast of selectOptions.monthDaysWithLasts"
+                    [value]="monthDaysWithLast"
+                  >
+                    [value]="monthDaysWithLast">
+                    {{ monthDayDisplay(monthDaysWithLast) }}
+                  </option>
+                </select>
+              </div>
+            </ng-container>
+            <ng-container formGroupName="specificMonthDay" *ngIf="options.cronFlavor === 'standard'">
+              <div class="col-md-2 form-group">
+                <label for="">Day</label>
+                <select class="form-control square" formControlName="day">
+                  <option
+                    *ngFor="let monthDaysWithOutLast of selectOptions.monthDaysWithOutLasts"
+                    [value]="monthDaysWithOutLast"
+                  >
+                    {{ monthDayDisplay(monthDaysWithOutLast) }}
+                  </option>
+                </select>
+              </div>
+            </ng-container>
+            <span class="mt-4">of</span>
+            <ng-container formGroupName="specificMonthDay">
+              <div class="col-md-2 form-group">
+                <label for="">Month</label>
+                <select
+                  formControlName="month"
+                  aria-label="Default select example
+                  "
+                  class="form-control square"
+                >
+                  <option *ngFor="let month of selectOptions.months" [value]="month">
+                    {{ monthDisplay(month) }}
+                  </option>
+                </select>
+              </div>
+            </ng-container>
+            <span class="mt-4">at time</span>
+            <div class="col-md-2 mt-3">
+              <app-cron-time-picker
+                [disabled]="disabled"
+                [formGroup]="yearlyForm.controls.specificMonthDay"
+                [use24HourTime]="options.use24HourTime"
+                [hideSeconds]="options.hideSeconds || !isCronFlavorQuartz"
+              >
+              </app-cron-time-picker>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-md-1">
+              <div class="radio mt-4 monthlyWidth">
+                <input
+                  type="radio"
+                  name="subTab"
+                  value="specificMonthWeek"
+                  formControlName="subTab"
+                  [ngClass]="state.formRadioClass"
+                  id="radio15"
+                />
+                <label for="radio15">On the</label>
+              </div>
+            </div>
+            <ng-container formGroupName="specificMonthWeek">
+              <div class="col-md-1 form-group">
+                <label for="">Week</label>
+                <select class="form-control square monthlyWidth" formControlName="monthWeek">
+                  <option *ngFor="let monthWeek of selectOptions.monthWeeks" [value]="monthWeek">
+                    {{ monthWeekDisplay(monthWeek) }}
+                  </option>
+                </select>
+              </div>
+            </ng-container>
+            <ng-container formGroupName="specificMonthWeek">
+              <div class="col-md-1 form-group ml-1">
+                <label for="">Day</label>
+                <select class="form-control square monthlyWidth" formControlName="day">
+                  <option *ngFor="let day of selectOptions.days" [value]="day">
+                    {{ day }}
+                  </option>
+                </select>
+              </div>
+            </ng-container>
+            <span class="mt-4"></span>
+            <ng-container formGroupName="specificMonthWeek">
+              <div class="col-md-2 form-group ml-1">
+                <label for="">Month</label>
+                <select class="form-control square" formControlName="month">
+                  <option *ngFor="let month of selectOptions.months" [value]="month">
+                    {{ monthDisplay(month) }}
+                  </option>
+                </select>
+              </div>
+            </ng-container>
+            <span class="mt-4">at time</span>
+            <div class="col-md-2 mt-3">
+              <app-cron-time-picker
+                [disabled]="disabled"
+                [formGroup]="yearlyForm.controls.specificMonthWeek"
+                [use24HourTime]="options.use24HourTime"
+                [hideSeconds]="options.hideSeconds || !isCronFlavorQuartz"
+              >
+              </app-cron-time-picker>
+            </div>
+          </div>
+        </form>
+      </ng-template>
+    </li>
+    <!--  <li [ngbNavItem]="7" [disabled]="!tabDisables[6].value">
+      <a ngbNavLink>Advanced</a>
+      <ng-template ngbNavContent>
+        <form [formGroup]="advancedForm">
+          <div class="row">
+            <div class="col-md-2 form-group">
+              <input type="text" class="form-control square" formControlName="expression" />
+            </div>
+          </div>
+        </form>
+      </ng-template>
+    </li> -->
+  </ul>
+  <div [ngbNavOutlet]="nav" class="mt-2"></div>
+</section>
